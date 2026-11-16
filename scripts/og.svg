@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="sky" cx="0.55" cy="0" r="0.9"><stop offset="0" stop-color="#1e3f86"/><stop offset="0.45" stop-color="#14275a"/><stop offset="1" stop-color="#0b0b0f"/></radialGradient>
+    <linearGradient id="teal" x1="0" x2="1"><stop offset="0" stop-color="#2bb3b1" stop-opacity="0"/><stop offset=".5" stop-color="#8fe3e6"/><stop offset="1" stop-color="#3a7fd0" stop-opacity=".2"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9e36a"/><stop offset=".5" stop-color="#7fa23a"/><stop offset="1" stop-color="#3f6a24" stop-opacity="0"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d36b" stop-opacity="0"/><stop offset=".4" stop-color="#f0c64e"/><stop offset="1" stop-color="#7a5216" stop-opacity="0"/></linearGradient>
+    <filter id="b"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <path d="M0 200 C 300 80, 600 230, 900 110 S 1200 60, 1200 60 L1200 0 L0 0Z" fill="url(#teal)" opacity=".5" filter="url(#b)"/>
+  <path d="M120 230 C 380 120, 640 230, 900 130 S 1150 80, 1200 100" stroke="url(#teal)" stroke-width="5" fill="none"/>
+  <path d="M260 160 C 120 230, 80 380, 120 630 C 60 420, 70 260, 260 160Z" fill="url(#green)"/>
+  <path d="M940 170 C 1110 230, 1140 400, 1080 630 C 1170 420, 1160 250, 940 170Z" fill="url(#gold)"/>
+  <rect x="250" y="250" width="700" height="240" rx="14" fill="#d8d0bd" stroke="#8f8770" stroke-width="2"/>
+  <g transform="translate(600 360)" text-anchor="middle" font-family="Verdana,Arial,sans-serif" font-weight="bold">
+    <text font-size="92" x="0" y="20"><tspan fill="#6b6754">leaf</tspan><tspan fill="#5b7a1e">press</tspan></text>
+    <text font-size="30" y="88" fill="#3d3b28" font-weight="normal">Digital files, grown with care.</text>
+  </g>
+  <g transform="translate(518 226)">
+    <path d="M20 60 C 20 44, 19 34, 20 22" stroke="#8fb43f" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M20 27 C 8 27, -3 19, -6 5 C 9 5, 19 12, 20 27Z" fill="#9cc24a"/>
+    <path d="M20 22 C 31 20, 42 10, 47 0 C 32 0, 21 9, 20 22Z" fill="#c5dc63"/>
+  </g>
+</svg>

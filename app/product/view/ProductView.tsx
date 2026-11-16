@@ -1,0 +1,66 @@
+'use client';
+
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import EmptyState from '@/components/EmptyState';
+import { Container } from '@/components/Layout';
+import ProductDetail from '@/components/ProductDetail';
+import { getProduct, relatedProducts } from '@/lib/catalog';
+import { useAdminCatalog } from '@/store/admin-catalog';
+import { useIsAdmin } from '@/store/auth';
+import { useHydrated } from '@/store/hydration';
+
+export default function ProductView() {
+  const id = useSearchParams().get('id') ?? '';
+  const hydrated = useHydrated();
+  const isAdmin = useIsAdmin();
+  const record = useAdminCatalog((s) => s.records.find((r) => r.product.id === id));
+  const product = record?.product ?? (hydrated ? getProduct(id) : undefined);
+  // Unpublished files are only visible to the admin (as a preview).
+  const visible = product && (!record || record.published || isAdmin);
+
+  useEffect(() => {
+    if (visible && product) document.title = `${product.title} · leafpress`;
+  }, [visible, product]);
+
+  if (!hydrated) {
+    return (
+      <Container className="mt-3">
+        <div className="frame h-72 p-4">
+          <div className="skeleton h-full w-full" aria-busy="true" />
+        </div>
+      </Container>
+    );
+  }
+  if (!visible || !product) {
+    return (
+      <Container className="mt-3 md:mt-[14px]">
+        <section className="frame on-paper p-5">
+          <EmptyState title="File not found">
+            This file is not available in this browser.{' '}
+            <Link href="/shop/" className="link">
+              Browse the shop
+            </Link>
+            .
+          </EmptyState>
+        </section>
+      </Container>
+    );
+  }
+  return (
+    <>
+      {record && !record.published && (
+        <Container className="mt-3">
+          <p
+            role="status"
+            className="rounded-md border border-[#c9a54a] bg-[#f3e6b8] p-2 text-[12px] text-ink"
+          >
+            Preview: this file is unpublished and only visible to admins.
+          </p>
+        </Container>
+      )}
+      <ProductDetail product={product} related={relatedProducts(product, 4)} />
+    </>
+  );
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "templates",
+    "name": "Website Templates",
+    "icon": "browser",
+    "art": "browser"
+  },
+  {
+    "id": "ui-kits",
+    "name": "UI Kits",
+    "icon": "layers",
+    "art": "uikit"
+  },
+  {
+    "id": "fonts",
+    "name": "Fonts",
+    "icon": "type",
+    "art": "type"
+  },
+  {
+    "id": "icons",
+    "name": "Icon Packs",
+    "icon": "grid",
+    "art": "icons"
+  },
+  {
+    "id": "mockups",
+    "name": "Mockups",
+    "icon": "device",
+    "art": "device"
+  },
+  {
+    "id": "3d",
+    "name": "3D Assets",
+    "icon": "cube",
+    "art": "shape3d"
+  },
+  {
+    "id": "presets",
+    "name": "Presets",
+    "icon": "sliders",
+    "art": "gradient"
+  },
+  {
+    "id": "ebooks",
+    "name": "Ebooks",
+    "icon": "book",
+    "art": "book"
+  },
+  {
+    "id": "code",
+    "name": "Source Code",
+    "icon": "code",
+    "art": "code"
+  },
+  {
+    "id": "illustrations",
+    "name": "Illustrations",
+    "icon": "brush",
+    "art": "illustration"
+  },
+  {
+    "id": "textures",
+    "name": "Textures",
+    "icon": "texture",
+    "art": "texture"
+  },
+  {
+    "id": "motion",
+    "name": "Motion",
+    "icon": "play",
+    "art": "motion"
+  }
+]

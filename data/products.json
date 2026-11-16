@@ -1,0 +1,1812 @@
+[
+  {
+    "id": "p01",
+    "slug": "canopy-agency-landing-template",
+    "title": "Canopy — Agency Landing Template",
+    "description": "A bold, airy one-page site for small studios, with case-study grids and a smooth contact flow. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 14,
+    "category": "templates",
+    "tags": [
+      "landing",
+      "responsive",
+      "html"
+    ],
+    "fileTypes": [
+      "HTML",
+      "CSS",
+      "ZIP"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "1.6.4",
+    "compatibility": [
+      "Any browser",
+      "Vanilla JS"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 14
+      },
+      {
+        "type": "Commercial",
+        "price": 35
+      },
+      {
+        "type": "Extended",
+        "price": 140
+      }
+    ],
+    "images": [
+      "browser:3",
+      "browser:4",
+      "browser:5"
+    ],
+    "authorId": "fernhollow",
+    "rating": 3.1,
+    "votes": 154,
+    "sales": 4018,
+    "badges": [
+      "NEW",
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-11-06",
+    "updatedAt": "2026-11-17"
+  },
+  {
+    "id": "p02",
+    "slug": "seedling-startup-launch-template",
+    "title": "Seedling — Startup Launch Template",
+    "description": "Pre-launch page with waitlist form, pricing table and changelog section. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 29,
+    "salePrice": 20,
+    "category": "templates",
+    "tags": [
+      "responsive",
+      "landing",
+      "html"
+    ],
+    "fileTypes": [
+      "HTML",
+      "FIG",
+      "ZIP"
+    ],
+    "fileSize": "2.1 MB",
+    "version": "3.0.0",
+    "compatibility": [
+      "Any browser",
+      "Vanilla JS"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 29
+      },
+      {
+        "type": "Commercial",
+        "price": 73
+      },
+      {
+        "type": "Extended",
+        "price": 290
+      }
+    ],
+    "images": [
+      "browser:6",
+      "browser:7",
+      "browser:8"
+    ],
+    "authorId": "sorrel-works",
+    "rating": 4.5,
+    "votes": 228,
+    "sales": 454,
+    "badges": [
+      "NEW",
+      "SALE"
+    ],
+    "createdAt": "2026-11-01",
+    "updatedAt": "2026-12-02"
+  },
+  {
+    "id": "p03",
+    "slug": "riverbank-portfolio-template",
+    "title": "Riverbank — Portfolio Template",
+    "description": "A photographer-friendly portfolio with full-bleed galleries and a print shop page. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 29,
+    "category": "templates",
+    "tags": [
+      "landing",
+      "portfolio",
+      "agency"
+    ],
+    "fileTypes": [
+      "HTML",
+      "PSD",
+      "ZIP"
+    ],
+    "fileSize": "58 MB",
+    "version": "1.9.4",
+    "compatibility": [
+      "Any browser",
+      "Vanilla JS"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 29
+      },
+      {
+        "type": "Commercial",
+        "price": 73
+      },
+      {
+        "type": "Extended",
+        "price": 290
+      }
+    ],
+    "images": [
+      "browser:9",
+      "browser:10",
+      "browser:11"
+    ],
+    "authorId": "fernhollow",
+    "rating": 3.4,
+    "votes": 29,
+    "sales": 4789,
+    "badges": [
+      "NEW",
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-10-28",
+    "updatedAt": "2026-11-27"
+  },
+  {
+    "id": "p04",
+    "slug": "petal-dashboard-ui-kit",
+    "title": "Petal — Dashboard UI Kit",
+    "description": "420 components and 60 screens for analytics dashboards, light and dark. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 49,
+    "category": "ui-kits",
+    "tags": [
+      "figma",
+      "dark mode",
+      "dashboard"
+    ],
+    "fileTypes": [
+      "FIG",
+      "SKETCH"
+    ],
+    "fileSize": "58 MB",
+    "version": "1.3.3",
+    "compatibility": [
+      "Figma",
+      "Sketch"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 49
+      },
+      {
+        "type": "Commercial",
+        "price": 123
+      },
+      {
+        "type": "Extended",
+        "price": 490
+      }
+    ],
+    "images": [
+      "uikit:0",
+      "uikit:1",
+      "uikit:2"
+    ],
+    "authorId": "mossy-pixel",
+    "rating": 4.8,
+    "votes": 198,
+    "sales": 1134,
+    "badges": [
+      "NEW"
+    ],
+    "createdAt": "2026-10-24",
+    "updatedAt": "2026-11-24"
+  },
+  {
+    "id": "p05",
+    "slug": "grove-mobile-app-ui-kit",
+    "title": "Grove — Mobile App UI Kit",
+    "description": "Onboarding, feeds, chat and checkout screens built on an 8pt grid. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 0,
+    "category": "ui-kits",
+    "tags": [
+      "dashboard",
+      "dark mode",
+      "figma"
+    ],
+    "fileTypes": [
+      "FIG",
+      "XD"
+    ],
+    "fileSize": "640 MB",
+    "version": "3.7.0",
+    "compatibility": [
+      "Figma",
+      "Sketch"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 0
+      },
+      {
+        "type": "Commercial",
+        "price": 9
+      }
+    ],
+    "images": [
+      "uikit:3",
+      "uikit:4",
+      "uikit:5"
+    ],
+    "authorId": "fernhollow",
+    "rating": 3.7,
+    "votes": 58,
+    "sales": 2922,
+    "badges": [
+      "NEW",
+      "FREE"
+    ],
+    "createdAt": "2026-10-21",
+    "updatedAt": "2026-11-06"
+  },
+  {
+    "id": "p06",
+    "slug": "nettle-e-commerce-ui-kit",
+    "title": "Nettle — E-commerce UI Kit",
+    "description": "Product pages, carts and checkout flows with auto-layout everywhere. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 19,
+    "category": "ui-kits",
+    "tags": [
+      "figma",
+      "mobile",
+      "dark mode"
+    ],
+    "fileTypes": [
+      "FIG",
+      "PSD"
+    ],
+    "fileSize": "640 MB",
+    "version": "2.6.3",
+    "compatibility": [
+      "Figma",
+      "Sketch"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 19
+      },
+      {
+        "type": "Commercial",
+        "price": 48
+      },
+      {
+        "type": "Extended",
+        "price": 190
+      }
+    ],
+    "images": [
+      "uikit:6",
+      "uikit:7",
+      "uikit:8"
+    ],
+    "authorId": "mossy-pixel",
+    "rating": 3.4,
+    "votes": 131,
+    "sales": 885,
+    "badges": [
+      "NEW"
+    ],
+    "createdAt": "2026-10-17",
+    "updatedAt": "2026-11-18"
+  },
+  {
+    "id": "p07",
+    "slug": "bramble-sans-humanist-font-family",
+    "title": "Bramble Sans — Humanist Font Family",
+    "description": "A friendly humanist sans in 9 weights with italics and 600+ glyphs. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 49,
+    "salePrice": 34,
+    "category": "fonts",
+    "tags": [
+      "sans",
+      "branding",
+      "serif"
+    ],
+    "fileTypes": [
+      "OTF",
+      "TTF",
+      "WOFF2"
+    ],
+    "fileSize": "2.1 MB",
+    "version": "1.0.1",
+    "compatibility": [
+      "macOS",
+      "Windows",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 49
+      },
+      {
+        "type": "Commercial",
+        "price": 123
+      },
+      {
+        "type": "Extended",
+        "price": 490
+      }
+    ],
+    "images": [
+      "type:9",
+      "type:10",
+      "type:11"
+    ],
+    "authorId": "juniper-ash",
+    "rating": 4.4,
+    "votes": 129,
+    "sales": 4222,
+    "badges": [
+      "BESTSELLER",
+      "SALE"
+    ],
+    "createdAt": "2026-10-10",
+    "updatedAt": "2026-10-15"
+  },
+  {
+    "id": "p08",
+    "slug": "wren-serif-display-serif",
+    "title": "Wren Serif — Display Serif",
+    "description": "High-contrast display serif with ligatures and swash capitals. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 59,
+    "category": "fonts",
+    "tags": [
+      "variable",
+      "sans",
+      "serif"
+    ],
+    "fileTypes": [
+      "OTF",
+      "WOFF2"
+    ],
+    "fileSize": "24.6 MB",
+    "version": "1.1.0",
+    "compatibility": [
+      "macOS",
+      "Windows",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 59
+      },
+      {
+        "type": "Commercial",
+        "price": 148
+      },
+      {
+        "type": "Extended",
+        "price": 590
+      }
+    ],
+    "images": [
+      "type:0",
+      "type:1",
+      "type:2"
+    ],
+    "authorId": "juniper-ash",
+    "rating": 4.3,
+    "votes": 113,
+    "sales": 3249,
+    "badges": [],
+    "createdAt": "2026-10-08",
+    "updatedAt": "2026-11-03"
+  },
+  {
+    "id": "p09",
+    "slug": "pebble-round-rounded-font",
+    "title": "Pebble Round — Rounded Font",
+    "description": "Soft rounded geometric for playful brands and children’s books. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 32,
+    "category": "fonts",
+    "tags": [
+      "branding",
+      "serif",
+      "display"
+    ],
+    "fileTypes": [
+      "OTF",
+      "TTF"
+    ],
+    "fileSize": "320 KB",
+    "version": "3.3.0",
+    "compatibility": [
+      "macOS",
+      "Windows",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 32
+      },
+      {
+        "type": "Commercial",
+        "price": 80
+      },
+      {
+        "type": "Extended",
+        "price": 320
+      }
+    ],
+    "images": [
+      "type:3",
+      "type:4",
+      "type:5"
+    ],
+    "authorId": "juniper-ash",
+    "rating": 3.5,
+    "votes": 46,
+    "sales": 390,
+    "badges": [],
+    "createdAt": "2026-10-02",
+    "updatedAt": "2026-10-16"
+  },
+  {
+    "id": "p10",
+    "slug": "leaflet-1200-line-icons",
+    "title": "Leaflet — 1,200 Line Icons",
+    "description": "Consistent 1.5px stroke icons on a 24px grid, in SVG, icon font and Figma. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 39,
+    "category": "icons",
+    "tags": [
+      "ui",
+      "nature",
+      "svg"
+    ],
+    "fileTypes": [
+      "SVG",
+      "FIG",
+      "PNG"
+    ],
+    "fileSize": "640 MB",
+    "version": "1.0.2",
+    "compatibility": [
+      "Figma",
+      "Illustrator",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 39
+      },
+      {
+        "type": "Commercial",
+        "price": 98
+      },
+      {
+        "type": "Extended",
+        "price": 390
+      }
+    ],
+    "images": [
+      "icons:6",
+      "icons:7",
+      "icons:8"
+    ],
+    "authorId": "mossy-pixel",
+    "rating": 4.9,
+    "votes": 167,
+    "sales": 1532,
+    "badges": [],
+    "createdAt": "2026-09-30",
+    "updatedAt": "2026-10-10"
+  },
+  {
+    "id": "p11",
+    "slug": "acorn-duotone-icon-set",
+    "title": "Acorn — Duotone Icon Set",
+    "description": "Two-tone icons with editable colours for apps and marketing sites. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 16,
+    "category": "icons",
+    "tags": [
+      "line",
+      "duotone",
+      "ui"
+    ],
+    "fileTypes": [
+      "SVG",
+      "AI"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "2.6.0",
+    "compatibility": [
+      "Figma",
+      "Illustrator",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 16
+      },
+      {
+        "type": "Commercial",
+        "price": 40
+      },
+      {
+        "type": "Extended",
+        "price": 160
+      }
+    ],
+    "images": [
+      "icons:9",
+      "icons:10",
+      "icons:11"
+    ],
+    "authorId": "mossy-pixel",
+    "rating": 4.8,
+    "votes": 97,
+    "sales": 4696,
+    "badges": [
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-09-25",
+    "updatedAt": "2026-10-28"
+  },
+  {
+    "id": "p12",
+    "slug": "hedgerow-nature-icon-pack",
+    "title": "Hedgerow — Nature Icon Pack",
+    "description": "Plants, weather and outdoor icons drawn with a hand-made wobble. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 49,
+    "salePrice": 34,
+    "category": "icons",
+    "tags": [
+      "nature",
+      "duotone",
+      "line"
+    ],
+    "fileTypes": [
+      "SVG",
+      "PNG",
+      "ZIP"
+    ],
+    "fileSize": "58 MB",
+    "version": "3.5.1",
+    "compatibility": [
+      "Figma",
+      "Illustrator",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 49
+      },
+      {
+        "type": "Commercial",
+        "price": 123
+      },
+      {
+        "type": "Extended",
+        "price": 490
+      }
+    ],
+    "images": [
+      "icons:0",
+      "icons:1",
+      "icons:2"
+    ],
+    "authorId": "mossy-pixel",
+    "rating": 3.2,
+    "votes": 119,
+    "sales": 2655,
+    "badges": [
+      "SALE"
+    ],
+    "createdAt": "2026-09-20",
+    "updatedAt": "2026-10-09"
+  },
+  {
+    "id": "p13",
+    "slug": "driftwood-device-mockup-scenes",
+    "title": "Driftwood — Device Mockup Scenes",
+    "description": "Laptop and phone scenes on natural wood, with smart-object screens. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 45,
+    "category": "mockups",
+    "tags": [
+      "device",
+      "stationery",
+      "packaging"
+    ],
+    "fileTypes": [
+      "PSD",
+      "ZIP"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "3.8.4",
+    "compatibility": [
+      "Photoshop",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 45
+      },
+      {
+        "type": "Commercial",
+        "price": 113
+      },
+      {
+        "type": "Extended",
+        "price": 450
+      }
+    ],
+    "images": [
+      "device:3",
+      "device:4",
+      "device:5"
+    ],
+    "authorId": "quiet-oak",
+    "rating": 3.5,
+    "votes": 82,
+    "sales": 24,
+    "badges": [],
+    "createdAt": "2026-09-14",
+    "updatedAt": "2026-09-30"
+  },
+  {
+    "id": "p14",
+    "slug": "linen-stationery-mockups",
+    "title": "Linen — Stationery Mockups",
+    "description": "Business cards, letterheads and envelopes on soft linen. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 0,
+    "category": "mockups",
+    "tags": [
+      "scene",
+      "branding",
+      "packaging"
+    ],
+    "fileTypes": [
+      "PSD",
+      "FIG"
+    ],
+    "fileSize": "640 MB",
+    "version": "1.0.1",
+    "compatibility": [
+      "Photoshop",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 0
+      },
+      {
+        "type": "Commercial",
+        "price": 9
+      }
+    ],
+    "images": [
+      "device:6",
+      "device:7",
+      "device:8"
+    ],
+    "authorId": "quiet-oak",
+    "rating": 4.2,
+    "votes": 5,
+    "sales": 3902,
+    "badges": [
+      "BESTSELLER",
+      "FREE"
+    ],
+    "createdAt": "2026-09-09",
+    "updatedAt": "2026-10-08"
+  },
+  {
+    "id": "p15",
+    "slug": "clearwater-packaging-mockups",
+    "title": "Clearwater — Packaging Mockups",
+    "description": "Boxes, pouches and jars with realistic shadows and labels. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 39,
+    "category": "mockups",
+    "tags": [
+      "packaging",
+      "branding",
+      "stationery"
+    ],
+    "fileTypes": [
+      "PSD",
+      "PNG"
+    ],
+    "fileSize": "320 KB",
+    "version": "3.6.4",
+    "compatibility": [
+      "Photoshop",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 39
+      },
+      {
+        "type": "Commercial",
+        "price": 98
+      },
+      {
+        "type": "Extended",
+        "price": 390
+      }
+    ],
+    "images": [
+      "device:9",
+      "device:10",
+      "device:11"
+    ],
+    "authorId": "quiet-oak",
+    "rating": 4,
+    "votes": 42,
+    "sales": 775,
+    "badges": [],
+    "createdAt": "2026-09-08",
+    "updatedAt": "2026-10-06"
+  },
+  {
+    "id": "p16",
+    "slug": "pinecone-3d-shape-pack",
+    "title": "Pinecone — 3D Shape Pack",
+    "description": "80 soft-clay abstract shapes ready for hero sections. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 49,
+    "category": "3d",
+    "tags": [
+      "3d",
+      "isometric",
+      "low poly"
+    ],
+    "fileTypes": [
+      "BLEND",
+      "OBJ",
+      "PNG"
+    ],
+    "fileSize": "1.4 GB",
+    "version": "1.5.3",
+    "compatibility": [
+      "Blender",
+      "Cinema 4D"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 49
+      },
+      {
+        "type": "Commercial",
+        "price": 123
+      },
+      {
+        "type": "Extended",
+        "price": 490
+      }
+    ],
+    "images": [
+      "shape3d:0",
+      "shape3d:1",
+      "shape3d:2"
+    ],
+    "authorId": "larch-lane",
+    "rating": 3.9,
+    "votes": 94,
+    "sales": 1469,
+    "badges": [],
+    "createdAt": "2026-09-04",
+    "updatedAt": "2026-10-13"
+  },
+  {
+    "id": "p17",
+    "slug": "burrow-isometric-room-kit",
+    "title": "Burrow — Isometric Room Kit",
+    "description": "Furniture and props to build cosy isometric scenes. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 16,
+    "salePrice": 11,
+    "category": "3d",
+    "tags": [
+      "3d",
+      "isometric",
+      "low poly"
+    ],
+    "fileTypes": [
+      "BLEND",
+      "FBX"
+    ],
+    "fileSize": "1.4 GB",
+    "version": "1.2.4",
+    "compatibility": [
+      "Blender",
+      "Cinema 4D"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 16
+      },
+      {
+        "type": "Commercial",
+        "price": 40
+      },
+      {
+        "type": "Extended",
+        "price": 160
+      }
+    ],
+    "images": [
+      "shape3d:3",
+      "shape3d:4",
+      "shape3d:5"
+    ],
+    "authorId": "larch-lane",
+    "rating": 3.2,
+    "votes": 10,
+    "sales": 1960,
+    "badges": [
+      "SALE"
+    ],
+    "createdAt": "2026-08-29",
+    "updatedAt": "2026-09-27"
+  },
+  {
+    "id": "p18",
+    "slug": "saplings-low-poly-trees",
+    "title": "Saplings — Low-poly Trees",
+    "description": "40 low-poly trees and rocks with four seasonal palettes. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 39,
+    "category": "3d",
+    "tags": [
+      "3d",
+      "hero",
+      "clay"
+    ],
+    "fileTypes": [
+      "OBJ",
+      "GLB"
+    ],
+    "fileSize": "58 MB",
+    "version": "2.4.2",
+    "compatibility": [
+      "Blender",
+      "Cinema 4D"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 39
+      },
+      {
+        "type": "Commercial",
+        "price": 98
+      },
+      {
+        "type": "Extended",
+        "price": 390
+      }
+    ],
+    "images": [
+      "shape3d:6",
+      "shape3d:7",
+      "shape3d:8"
+    ],
+    "authorId": "larch-lane",
+    "rating": 3.5,
+    "votes": 8,
+    "sales": 2208,
+    "badges": [],
+    "createdAt": "2026-08-26",
+    "updatedAt": "2026-10-05"
+  },
+  {
+    "id": "p19",
+    "slug": "golden-hour-photo-presets",
+    "title": "Golden Hour — Photo Presets",
+    "description": "24 warm film-like presets for desktop and mobile editors. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 45,
+    "category": "presets",
+    "tags": [
+      "color",
+      "gradient",
+      "warm"
+    ],
+    "fileTypes": [
+      "XMP",
+      "DNG"
+    ],
+    "fileSize": "58 MB",
+    "version": "1.7.4",
+    "compatibility": [
+      "Lightroom",
+      "Mobile editors"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 45
+      },
+      {
+        "type": "Commercial",
+        "price": 113
+      },
+      {
+        "type": "Extended",
+        "price": 450
+      }
+    ],
+    "images": [
+      "gradient:9",
+      "gradient:10",
+      "gradient:11"
+    ],
+    "authorId": "brightmeadow",
+    "rating": 3.3,
+    "votes": 236,
+    "sales": 3545,
+    "badges": [],
+    "createdAt": "2026-08-22",
+    "updatedAt": "2026-08-30"
+  },
+  {
+    "id": "p20",
+    "slug": "fern-shade-moody-green-presets",
+    "title": "Fern Shade — Moody Green Presets",
+    "description": "Deep greens and soft blacks for forest and street photography. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 39,
+    "category": "presets",
+    "tags": [
+      "gradient",
+      "warm",
+      "film"
+    ],
+    "fileTypes": [
+      "XMP",
+      "LUT"
+    ],
+    "fileSize": "24.6 MB",
+    "version": "3.0.2",
+    "compatibility": [
+      "Lightroom",
+      "Mobile editors"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 39
+      },
+      {
+        "type": "Commercial",
+        "price": 98
+      },
+      {
+        "type": "Extended",
+        "price": 390
+      }
+    ],
+    "images": [
+      "gradient:0",
+      "gradient:1",
+      "gradient:2"
+    ],
+    "authorId": "brightmeadow",
+    "rating": 4.2,
+    "votes": 91,
+    "sales": 913,
+    "badges": [],
+    "createdAt": "2026-08-17",
+    "updatedAt": "2026-09-06"
+  },
+  {
+    "id": "p21",
+    "slug": "aurora-gradient-collection",
+    "title": "Aurora — Gradient Collection",
+    "description": "120 mesh gradients exported as SVG, PNG and swatches. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 12,
+    "category": "presets",
+    "tags": [
+      "gradient",
+      "warm",
+      "film"
+    ],
+    "fileTypes": [
+      "SVG",
+      "PNG",
+      "ASE"
+    ],
+    "fileSize": "2.1 MB",
+    "version": "1.3.0",
+    "compatibility": [
+      "Lightroom",
+      "Mobile editors"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 12
+      },
+      {
+        "type": "Commercial",
+        "price": 30
+      },
+      {
+        "type": "Extended",
+        "price": 120
+      }
+    ],
+    "images": [
+      "gradient:3",
+      "gradient:4",
+      "gradient:5"
+    ],
+    "authorId": "brightmeadow",
+    "rating": 3.1,
+    "votes": 19,
+    "sales": 3701,
+    "badges": [
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-08-11",
+    "updatedAt": "2026-09-01"
+  },
+  {
+    "id": "p22",
+    "slug": "rooted-design-systems-ebook",
+    "title": "Rooted — Design Systems Ebook",
+    "description": "A practical guide to growing a design system that teams actually use. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 0,
+    "category": "ebooks",
+    "tags": [
+      "design systems",
+      "learning",
+      "guide"
+    ],
+    "fileTypes": [
+      "PDF",
+      "EPUB"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "1.2.1",
+    "compatibility": [
+      "Any reader"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 0
+      },
+      {
+        "type": "Commercial",
+        "price": 9
+      }
+    ],
+    "images": [
+      "book:6",
+      "book:7",
+      "book:8"
+    ],
+    "authorId": "juniper-ash",
+    "rating": 3.6,
+    "votes": 18,
+    "sales": 1870,
+    "badges": [
+      "FREE"
+    ],
+    "createdAt": "2026-08-09",
+    "updatedAt": "2026-09-08"
+  },
+  {
+    "id": "p23",
+    "slug": "the-quiet-grid-layout-handbook",
+    "title": "The Quiet Grid — Layout Handbook",
+    "description": "Grids, rhythm and whitespace explained with 200 diagrams. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 24,
+    "category": "ebooks",
+    "tags": [
+      "guide",
+      "design systems",
+      "learning"
+    ],
+    "fileTypes": [
+      "PDF"
+    ],
+    "fileSize": "1.4 GB",
+    "version": "2.3.3",
+    "compatibility": [
+      "Any reader"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 24
+      },
+      {
+        "type": "Commercial",
+        "price": 60
+      },
+      {
+        "type": "Extended",
+        "price": 240
+      }
+    ],
+    "images": [
+      "book:9",
+      "book:10",
+      "book:11"
+    ],
+    "authorId": "sorrel-works",
+    "rating": 4.8,
+    "votes": 19,
+    "sales": 3323,
+    "badges": [],
+    "createdAt": "2026-08-02",
+    "updatedAt": "2026-09-10"
+  },
+  {
+    "id": "p24",
+    "slug": "plain-words-ux-writing-guide",
+    "title": "Plain Words — UX Writing Guide",
+    "description": "Microcopy patterns, voice charts and 50 before/after examples. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 32,
+    "category": "ebooks",
+    "tags": [
+      "guide",
+      "learning",
+      "ux writing"
+    ],
+    "fileTypes": [
+      "PDF",
+      "EPUB"
+    ],
+    "fileSize": "4.2 MB",
+    "version": "2.5.1",
+    "compatibility": [
+      "Any reader"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 32
+      },
+      {
+        "type": "Commercial",
+        "price": 80
+      },
+      {
+        "type": "Extended",
+        "price": 320
+      }
+    ],
+    "images": [
+      "book:0",
+      "book:1",
+      "book:2"
+    ],
+    "authorId": "juniper-ash",
+    "rating": 3.3,
+    "votes": 52,
+    "sales": 2300,
+    "badges": [],
+    "createdAt": "2026-07-30",
+    "updatedAt": "2026-09-04"
+  },
+  {
+    "id": "p25",
+    "slug": "sprout-react-starter-kit",
+    "title": "Sprout — React Starter Kit",
+    "description": "TypeScript, routing, auth screens, tests and CI, ready to fork. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 14,
+    "category": "code",
+    "tags": [
+      "react",
+      "typescript",
+      "admin"
+    ],
+    "fileTypes": [
+      "ZIP",
+      "TS"
+    ],
+    "fileSize": "86 MB",
+    "version": "1.6.4",
+    "compatibility": [
+      "React",
+      "Node.js"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 14
+      },
+      {
+        "type": "Commercial",
+        "price": 35
+      },
+      {
+        "type": "Extended",
+        "price": 140
+      }
+    ],
+    "images": [
+      "code:3",
+      "code:4",
+      "code:5"
+    ],
+    "authorId": "sorrel-works",
+    "rating": 4.4,
+    "votes": 18,
+    "sales": 2075,
+    "badges": [],
+    "createdAt": "2026-07-24",
+    "updatedAt": "2026-08-24"
+  },
+  {
+    "id": "p26",
+    "slug": "trellis-admin-template-code",
+    "title": "Trellis — Admin Template Code",
+    "description": "Data tables, charts and role-based pages with clean, typed code. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 12,
+    "category": "code",
+    "tags": [
+      "react",
+      "admin",
+      "typescript"
+    ],
+    "fileTypes": [
+      "ZIP",
+      "TS"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "2.5.0",
+    "compatibility": [
+      "React",
+      "Node.js"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 12
+      },
+      {
+        "type": "Commercial",
+        "price": 30
+      },
+      {
+        "type": "Extended",
+        "price": 120
+      }
+    ],
+    "images": [
+      "code:6",
+      "code:7",
+      "code:8"
+    ],
+    "authorId": "sorrel-works",
+    "rating": 4.8,
+    "votes": 74,
+    "sales": 689,
+    "badges": [],
+    "createdAt": "2026-07-22",
+    "updatedAt": "2026-08-25"
+  },
+  {
+    "id": "p27",
+    "slug": "compost-css-utility-library",
+    "title": "Compost — CSS Utility Library",
+    "description": "A tiny utility layer with design tokens and dark-mode helpers. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 16,
+    "salePrice": 11,
+    "category": "code",
+    "tags": [
+      "react",
+      "typescript",
+      "starter"
+    ],
+    "fileTypes": [
+      "ZIP",
+      "CSS"
+    ],
+    "fileSize": "1.4 GB",
+    "version": "3.0.2",
+    "compatibility": [
+      "React",
+      "Node.js"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 16
+      },
+      {
+        "type": "Commercial",
+        "price": 40
+      },
+      {
+        "type": "Extended",
+        "price": 160
+      }
+    ],
+    "images": [
+      "code:9",
+      "code:10",
+      "code:11"
+    ],
+    "authorId": "sorrel-works",
+    "rating": 4.8,
+    "votes": 20,
+    "sales": 3657,
+    "badges": [
+      "SALE"
+    ],
+    "createdAt": "2026-07-17",
+    "updatedAt": "2026-07-25"
+  },
+  {
+    "id": "p28",
+    "slug": "wildflower-illustration-set",
+    "title": "Wildflower — Illustration Set",
+    "description": "60 people-and-plants illustrations with swappable colours. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 19,
+    "category": "illustrations",
+    "tags": [
+      "onboarding",
+      "people",
+      "spot"
+    ],
+    "fileTypes": [
+      "SVG",
+      "AI",
+      "PNG"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "1.2.1",
+    "compatibility": [
+      "Illustrator",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 19
+      },
+      {
+        "type": "Commercial",
+        "price": 48
+      },
+      {
+        "type": "Extended",
+        "price": 190
+      }
+    ],
+    "images": [
+      "illustration:0",
+      "illustration:1",
+      "illustration:2"
+    ],
+    "authorId": "thistle-co",
+    "rating": 4.4,
+    "votes": 202,
+    "sales": 2110,
+    "badges": [],
+    "createdAt": "2026-07-12",
+    "updatedAt": "2026-07-31"
+  },
+  {
+    "id": "p29",
+    "slug": "little-field-spot-illustrations",
+    "title": "Little Field — Spot Illustrations",
+    "description": "Tiny spot art for empty states, errors and onboarding. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 9,
+    "category": "illustrations",
+    "tags": [
+      "doodle",
+      "spot",
+      "onboarding"
+    ],
+    "fileTypes": [
+      "SVG",
+      "PNG"
+    ],
+    "fileSize": "320 KB",
+    "version": "2.2.4",
+    "compatibility": [
+      "Illustrator",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 9
+      },
+      {
+        "type": "Commercial",
+        "price": 23
+      },
+      {
+        "type": "Extended",
+        "price": 90
+      }
+    ],
+    "images": [
+      "illustration:3",
+      "illustration:4",
+      "illustration:5"
+    ],
+    "authorId": "thistle-co",
+    "rating": 3.8,
+    "votes": 200,
+    "sales": 4601,
+    "badges": [
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-07-09",
+    "updatedAt": "2026-08-01"
+  },
+  {
+    "id": "p30",
+    "slug": "inkwood-hand-drawn-doodles",
+    "title": "Inkwood — Hand-drawn Doodles",
+    "description": "300 pen doodles: arrows, frames, leaves and underlines. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 32,
+    "category": "illustrations",
+    "tags": [
+      "doodle",
+      "spot",
+      "people"
+    ],
+    "fileTypes": [
+      "SVG",
+      "AI"
+    ],
+    "fileSize": "86 MB",
+    "version": "3.0.3",
+    "compatibility": [
+      "Illustrator",
+      "Figma"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 32
+      },
+      {
+        "type": "Commercial",
+        "price": 80
+      },
+      {
+        "type": "Extended",
+        "price": 320
+      }
+    ],
+    "images": [
+      "illustration:6",
+      "illustration:7",
+      "illustration:8"
+    ],
+    "authorId": "thistle-co",
+    "rating": 3.9,
+    "votes": 220,
+    "sales": 1330,
+    "badges": [],
+    "createdAt": "2026-07-03",
+    "updatedAt": "2026-07-21"
+  },
+  {
+    "id": "p31",
+    "slug": "bark-paper-texture-pack",
+    "title": "Bark & Paper — Texture Pack",
+    "description": "50 high-resolution paper, card and bark textures. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 0,
+    "category": "textures",
+    "tags": [
+      "paper",
+      "print",
+      "grain"
+    ],
+    "fileTypes": [
+      "JPG",
+      "PNG"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "3.5.1",
+    "compatibility": [
+      "Photoshop",
+      "Procreate"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 0
+      },
+      {
+        "type": "Commercial",
+        "price": 9
+      }
+    ],
+    "images": [
+      "texture:9",
+      "texture:10",
+      "texture:11"
+    ],
+    "authorId": "thistle-co",
+    "rating": 4.8,
+    "votes": 65,
+    "sales": 3238,
+    "badges": [
+      "FREE"
+    ],
+    "createdAt": "2026-06-30",
+    "updatedAt": "2026-07-11"
+  },
+  {
+    "id": "p32",
+    "slug": "riso-grain-print-grain-overlays",
+    "title": "Riso Grain — Print Grain Overlays",
+    "description": "Risograph-style grain and halftone overlays. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 16,
+    "salePrice": 11,
+    "category": "textures",
+    "tags": [
+      "print",
+      "pattern",
+      "grain"
+    ],
+    "fileTypes": [
+      "PNG",
+      "PSD"
+    ],
+    "fileSize": "12.8 MB",
+    "version": "2.6.2",
+    "compatibility": [
+      "Photoshop",
+      "Procreate"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 16
+      },
+      {
+        "type": "Commercial",
+        "price": 40
+      },
+      {
+        "type": "Extended",
+        "price": 160
+      }
+    ],
+    "images": [
+      "texture:0",
+      "texture:1",
+      "texture:2"
+    ],
+    "authorId": "brightmeadow",
+    "rating": 4.2,
+    "votes": 182,
+    "sales": 4511,
+    "badges": [
+      "BESTSELLER",
+      "SALE"
+    ],
+    "createdAt": "2026-06-27",
+    "updatedAt": "2026-08-01"
+  },
+  {
+    "id": "p33",
+    "slug": "lichen-organic-patterns",
+    "title": "Lichen — Organic Patterns",
+    "description": "Seamless organic patterns in 12 earthy colourways. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 59,
+    "category": "textures",
+    "tags": [
+      "pattern",
+      "print",
+      "grain"
+    ],
+    "fileTypes": [
+      "SVG",
+      "PNG"
+    ],
+    "fileSize": "86 MB",
+    "version": "1.0.1",
+    "compatibility": [
+      "Photoshop",
+      "Procreate"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 59
+      },
+      {
+        "type": "Commercial",
+        "price": 148
+      },
+      {
+        "type": "Extended",
+        "price": 590
+      }
+    ],
+    "images": [
+      "texture:3",
+      "texture:4",
+      "texture:5"
+    ],
+    "authorId": "thistle-co",
+    "rating": 3.9,
+    "votes": 33,
+    "sales": 3123,
+    "badges": [],
+    "createdAt": "2026-06-22",
+    "updatedAt": "2026-06-25"
+  },
+  {
+    "id": "p34",
+    "slug": "breeze-lottie-animation-pack",
+    "title": "Breeze — Lottie Animation Pack",
+    "description": "40 lightweight loading and success animations. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 16,
+    "category": "motion",
+    "tags": [
+      "lottie",
+      "animation",
+      "transitions"
+    ],
+    "fileTypes": [
+      "JSON",
+      "AEP"
+    ],
+    "fileSize": "58 MB",
+    "version": "3.6.3",
+    "compatibility": [
+      "After Effects",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 16
+      },
+      {
+        "type": "Commercial",
+        "price": 40
+      },
+      {
+        "type": "Extended",
+        "price": 160
+      }
+    ],
+    "images": [
+      "motion:6",
+      "motion:7",
+      "motion:8"
+    ],
+    "authorId": "larch-lane",
+    "rating": 3.3,
+    "votes": 163,
+    "sales": 4706,
+    "badges": [
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-06-16",
+    "updatedAt": "2026-06-21"
+  },
+  {
+    "id": "p35",
+    "slug": "ripple-transition-presets",
+    "title": "Ripple — Transition Presets",
+    "description": "Smooth video transitions for editors and slideshows. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 14,
+    "category": "motion",
+    "tags": [
+      "lottie",
+      "video",
+      "animation"
+    ],
+    "fileTypes": [
+      "MOV",
+      "PRPROJ"
+    ],
+    "fileSize": "640 MB",
+    "version": "1.0.0",
+    "compatibility": [
+      "After Effects",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 14
+      },
+      {
+        "type": "Commercial",
+        "price": 35
+      },
+      {
+        "type": "Extended",
+        "price": 140
+      }
+    ],
+    "images": [
+      "motion:9",
+      "motion:10",
+      "motion:11"
+    ],
+    "authorId": "larch-lane",
+    "rating": 4.5,
+    "votes": 208,
+    "sales": 4363,
+    "badges": [
+      "BESTSELLER"
+    ],
+    "createdAt": "2026-06-12",
+    "updatedAt": "2026-07-04"
+  },
+  {
+    "id": "p36",
+    "slug": "fireflies-animated-backgrounds",
+    "title": "Fireflies — Animated Backgrounds",
+    "description": "Looping particle backgrounds in 4K and web formats. Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.",
+    "price": 32,
+    "category": "motion",
+    "tags": [
+      "video",
+      "animation",
+      "loop"
+    ],
+    "fileTypes": [
+      "MP4",
+      "MOV"
+    ],
+    "fileSize": "86 MB",
+    "version": "3.1.3",
+    "compatibility": [
+      "After Effects",
+      "Web"
+    ],
+    "licenses": [
+      {
+        "type": "Personal",
+        "price": 32
+      },
+      {
+        "type": "Commercial",
+        "price": 80
+      },
+      {
+        "type": "Extended",
+        "price": 320
+      }
+    ],
+    "images": [
+      "motion:0",
+      "motion:1",
+      "motion:2"
+    ],
+    "authorId": "larch-lane",
+    "rating": 4.3,
+    "votes": 132,
+    "sales": 2774,
+    "badges": [],
+    "createdAt": "2026-06-09",
+    "updatedAt": "2026-07-07"
+  }
+]

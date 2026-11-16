@@ -1,0 +1,322 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Brand tokens. Change the palette here (see README "Brand colours").
+   ------------------------------------------------------------------ */
+:root {
+  --bg-night: #0b0b0f;
+  --paper: #d8d0bd;
+  --paper-light: #e9e3d3;
+  --paper-dark: #b9b098;
+  --olive: #5c5a3c;
+  --olive-dark: #3d3b28;
+  --leaf: #7fa23a;
+  --leaf-dark: #4f6a1f;
+  --text-dark: #2b2a22;
+  --text-light: #eeeadb;
+  --link: #5b7a1e;
+  --sale: #c2452d;
+  /* Derived, for WCAG AA text on cream (the brand --link is kept for accents and icons). */
+  --link-strong: #3f5714;
+  --text-muted: #57533f;
+  --focus: #f2c14e;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--bg-night);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg-night);
+  color: var(--text-light);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Visible keyboard focus everywhere, gold so it reads on both night and cream. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.on-paper {
+  color-scheme: light;
+  accent-color: var(--leaf-dark);
+}
+.on-paper :focus-visible {
+  outline-color: var(--olive-dark);
+}
+
+a {
+  color: inherit;
+}
+
+@layer components {
+  /* Cream "paper" frame: 1px inner highlight, soft bevel, drop shadow. */
+  .frame {
+    background: linear-gradient(180deg, var(--paper-light) 0%, var(--paper) 18%, var(--paper) 100%);
+    border: 1px solid #8f8770;
+    border-radius: 7px;
+    color: var(--text-dark);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 6px 18px rgba(0, 0, 0, 0.6);
+  }
+  /* Nested double frame around the slider. */
+  .frame-double {
+    background: linear-gradient(180deg, #cfc6ae, var(--paper-dark));
+    border: 1px solid #7d765f;
+    border-radius: 8px;
+    padding: 7px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 8px 22px rgba(0, 0, 0, 0.65);
+  }
+  .frame-double > .frame-inner {
+    background: var(--paper);
+    border: 1px solid #8f8770;
+    border-radius: 5px;
+    padding: 6px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  }
+  .inset-img {
+    border: 1px solid #8f8770;
+    box-shadow:
+      0 0 0 2px var(--paper-light),
+      0 0 0 3px #a49b82;
+    border-radius: 2px;
+    background: #2b2a22;
+  }
+
+  /* Beveled olive nav bar with rounded ends. */
+  .navbar {
+    background: linear-gradient(180deg, #77744f 0%, var(--olive) 45%, var(--olive-dark) 100%);
+    border: 1px solid #23221a;
+    border-radius: 9px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.35),
+      0 4px 12px rgba(0, 0, 0, 0.6);
+  }
+  .nav-link {
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-stretch: condensed;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  }
+  .nav-link[aria-current='page'] {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.15));
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.55),
+      0 1px 0 rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] font-bold transition;
+    background: linear-gradient(180deg, #93b84c, var(--leaf) 50%, var(--leaf-dark));
+    color: #16200a;
+    border: 1px solid #3a4f15;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 1px 2px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+  .btn:hover {
+    filter: brightness(1.07);
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: none;
+  }
+  .btn-olive {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] font-bold transition;
+    background: linear-gradient(180deg, #77744f, var(--olive) 50%, var(--olive-dark));
+    color: var(--text-light);
+    border: 1px solid #23221a;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+  .btn-olive:hover {
+    filter: brightness(1.12);
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold transition;
+    border: 1px solid #8f8770;
+    background: var(--paper-light);
+    color: var(--text-dark);
+  }
+  .btn-ghost:hover {
+    background: #fff9ea;
+  }
+
+  .field {
+    @apply w-full rounded-md px-3 py-2 text-[13px];
+    background: #f6f2e7;
+    color: var(--text-dark);
+    border: 1px solid #9b937b;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--sale);
+    box-shadow: 0 0 0 1px var(--sale);
+  }
+  .label {
+    @apply mb-1 block text-[12px] font-bold;
+    color: var(--text-dark);
+  }
+  .error-text {
+    @apply mt-1 text-[12px] font-semibold;
+    color: #9e2f19;
+  }
+  .widget-title {
+    font-family: var(--font-display), system-ui, sans-serif;
+    @apply text-[13px] font-bold uppercase tracking-wide;
+    color: var(--olive-dark);
+  }
+  .page-title {
+    font-family: var(--font-display), system-ui, sans-serif;
+    @apply text-[22px] font-bold;
+    color: var(--text-dark);
+  }
+  .prose-paper p {
+    @apply mb-3 text-[14px] leading-relaxed;
+  }
+  .link {
+    color: var(--link-strong);
+    @apply font-semibold underline decoration-1 underline-offset-2;
+  }
+  .link:hover {
+    color: var(--leaf-dark);
+  }
+  .chip {
+    @apply inline-block rounded px-1.5 py-[1px] text-[10px] font-bold tracking-wide;
+    background: #c6bda5;
+    color: #3a382b;
+    border: 1px solid #a69d84;
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #cfc7b2 0%, #e2dbc9 50%, #cfc7b2 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.3s linear infinite;
+    border-radius: 4px;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Card hover: thumbnail zoom and lift; leaves fill in. */
+.card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.card:hover,
+.card:focus-within {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 12px 24px rgba(0, 0, 0, 0.7);
+}
+.card .thumb img {
+  transition: transform 0.35s ease;
+}
+.card:hover .thumb img {
+  transform: scale(1.03);
+}
+.leaf-icon path.leaf-fill {
+  transition: transform 0.35s ease;
+}
+.card:hover .leaf-row .leaf-icon:nth-child(2) path.leaf-fill {
+  transition-delay: 0.04s;
+}
+.card:hover .leaf-row .leaf-icon:nth-child(3) path.leaf-fill {
+  transition-delay: 0.08s;
+}
+.card:hover .leaf-row .leaf-icon:nth-child(4) path.leaf-fill {
+  transition-delay: 0.12s;
+}
+.card:hover .leaf-row .leaf-icon:nth-child(5) path.leaf-fill {
+  transition-delay: 0.16s;
+}
+.card:hover .leaf-row .leaf-icon {
+  animation: leafwiggle 0.6s ease;
+}
+@keyframes leafwiggle {
+  40% {
+    transform: rotate(-8deg) scale(1.08);
+  }
+}
+
+.drawer-enter {
+  animation: drawerin 0.22s ease-out;
+}
+@keyframes drawerin {
+  from {
+    transform: translateX(-100%);
+  }
+}
+.sheet-enter {
+  animation: sheetin 0.22s ease-out;
+}
+@keyframes sheetin {
+  from {
+    transform: translateY(100%);
+  }
+}
+.fade-in {
+  animation: fadein 0.25s ease-out;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+  .card:hover .thumb img {
+    transform: none;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .frame {
+    box-shadow: none;
+    background: #fff;
+  }
+}

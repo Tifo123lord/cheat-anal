@@ -1,0 +1,52 @@
+[
+  {
+    "id": "starter-garden",
+    "title": "Starter Garden",
+    "description": "Everything to launch a small studio site: a template, a UI kit, icons and a font.",
+    "productIds": [
+      "p01",
+      "p04",
+      "p10",
+      "p07"
+    ],
+    "price": 59
+  },
+  {
+    "id": "type-and-texture",
+    "title": "Type & Texture",
+    "description": "Three type families plus grain and paper textures for print-ready branding.",
+    "productIds": [
+      "p07",
+      "p08",
+      "p09",
+      "p32",
+      "p33"
+    ],
+    "price": 79
+  },
+  {
+    "id": "product-storytelling",
+    "title": "Product Storytelling",
+    "description": "Mockups, 3D shapes and motion loops for launch videos and decks.",
+    "productIds": [
+      "p13",
+      "p15",
+      "p16",
+      "p34",
+      "p36"
+    ],
+    "price": 89
+  },
+  {
+    "id": "developer-kit",
+    "title": "Developer Kit",
+    "description": "Typed starters, an admin template and a utility library with the layout handbook.",
+    "productIds": [
+      "p25",
+      "p26",
+      "p27",
+      "p23"
+    ],
+    "price": 69
+  }
+]

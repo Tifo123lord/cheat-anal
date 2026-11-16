@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "how-we-review-files",
+    "title": "How we review every file before it goes live",
+    "excerpt": "Three checks, two people and one cup of tea: our review process explained.",
+    "authorId": "fernhollow",
+    "date": "2026-11-10",
+    "art": "gradient:2",
+    "body": [
+      "Three checks, two people and one cup of tea: our review process explained. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  },
+  {
+    "slug": "naming-layers",
+    "title": "Naming layers so future-you says thanks",
+    "excerpt": "A small habit that makes templates far easier to customise.",
+    "authorId": "mossy-pixel",
+    "date": "2026-10-28",
+    "art": "uikit:4",
+    "body": [
+      "A small habit that makes templates far easier to customise. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  },
+  {
+    "slug": "pairing-fonts",
+    "title": "Pairing a rounded sans with a book serif",
+    "excerpt": "Why soft headings and sturdy body text feel so friendly together.",
+    "authorId": "juniper-ash",
+    "date": "2026-10-14",
+    "art": "type:6",
+    "body": [
+      "Why soft headings and sturdy body text feel so friendly together. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  },
+  {
+    "slug": "licenses-explained",
+    "title": "Personal, Commercial or Extended?",
+    "excerpt": "A plain-language guide to picking the right licence for your project.",
+    "authorId": "sorrel-works",
+    "date": "2026-09-30",
+    "art": "book:1",
+    "body": [
+      "A plain-language guide to picking the right licence for your project. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  },
+  {
+    "slug": "mockups-that-sell",
+    "title": "Mockups that sell the idea, not the props",
+    "excerpt": "Keeping scenes calm so the work stays the hero.",
+    "authorId": "quiet-oak",
+    "date": "2026-09-12",
+    "art": "device:3",
+    "body": [
+      "Keeping scenes calm so the work stays the hero. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  },
+  {
+    "slug": "greener-downloads",
+    "title": "Smaller files, greener downloads",
+    "excerpt": "How compressing previews and code cut our transfer footprint by 40%.",
+    "authorId": "larch-lane",
+    "date": "2026-08-27",
+    "art": "shape3d:8",
+    "body": [
+      "How compressing previews and code cut our transfer footprint by 40%. At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.",
+      "We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.",
+      "Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.",
+      "Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day."
+    ]
+  }
+]
