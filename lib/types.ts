@@ -35,6 +35,8 @@ export interface Product {
   tags: string[];
   fileTypes: string[];
   fileSize: string;
+  /** Extension of an admin-uploaded download (lower case, no dot; '' when it has none). */
+  fileExt?: string;
   version: string;
   compatibility: string[];
   licenses: License[];

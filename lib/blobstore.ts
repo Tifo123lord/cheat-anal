@@ -26,8 +26,15 @@ function run<T>(mode: IDBTransactionMode, fn: (s: IDBObjectStore) => IDBRequest)
   return open().then(
     (db) =>
       new Promise<T>((resolve, reject) => {
-        const tx = db.transaction(STORE, mode);
-        const req = fn(tx.objectStore(STORE));
+        let tx: IDBTransaction;
+        let req: IDBRequest;
+        try {
+          tx = db.transaction(STORE, mode);
+          req = fn(tx.objectStore(STORE));
+        } catch (ex) {
+          reject(ex);
+          return;
+        }
         tx.oncomplete = () => resolve(req.result as T);
         tx.onerror = () => reject(tx.error ?? new Error('IndexedDB transaction failed.'));
         tx.onabort = () => reject(tx.error ?? new Error('IndexedDB transaction aborted (storage full?).'));
@@ -56,3 +63,14 @@ export const deleteBlobs = async (keys: string[]): Promise<void> => {
 
 export const blobKey = (kind: 'file' | 'img'): string =>
   `${kind}-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e9).toString(36)}`;
+
+/** Free bytes the browser will still let this site store (null when the browser does not say). */
+export async function storageHeadroom(): Promise<number | null> {
+  try {
+    const est = await navigator.storage?.estimate?.();
+    if (!est || typeof est.quota !== 'number') return null;
+    return Math.max(0, est.quota - (est.usage ?? 0));
+  } catch {
+    return null;
+  }
+}

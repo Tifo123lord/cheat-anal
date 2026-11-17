@@ -47,7 +47,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
       </Group>
       <Group title="File type">
         <ul className="flex flex-wrap gap-1.5">
-          {allFileTypes().map((t) => (
+          {allFileTypes(f.fileTypes).map((t) => (
             <li key={t}>
               <label
                 className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.fileTypes.includes(t) ? '!border-leaf-dark !bg-leaf !text-[#16200a]' : ''}`}

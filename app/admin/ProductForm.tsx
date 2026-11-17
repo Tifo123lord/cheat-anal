@@ -3,23 +3,26 @@
 import { useEffect, useId, useState } from 'react';
 import {
   IDB_PREFIX,
-  IMAGE_TYPES,
+  MAX_FILE_BYTES,
   MAX_IMAGES,
   buildProduct,
   defaultLicenses,
+  downloadMime,
   fileProblem,
   formatBytes,
   newAdminId,
   splitList,
+  storageErrorMessage,
   validateInput,
   type AdminProductInput,
   type AdminRecord,
   type InputErrors,
   type StoredFile,
 } from '@/lib/admin-products';
-import { blobKey, deleteBlobs, putBlob } from '@/lib/blobstore';
-import { categories, getCategory } from '@/lib/catalog';
-import { resizeImage } from '@/lib/images';
+import { blobKey, deleteBlobs, putBlob, storageHeadroom } from '@/lib/blobstore';
+import { allFileTypes, categories, getCategory } from '@/lib/catalog';
+import { addChips, chipFromFileName, parseChips } from '@/lib/file-types';
+import { prepareImage } from '@/lib/images';
 import { LICENSE_TYPES, type LicenseType } from '@/lib/types';
 import { useAdminCatalog } from '@/store/admin-catalog';
 import { useUI } from '@/store/ui';
@@ -31,6 +34,16 @@ interface Props {
 }
 
 type Lic = Record<LicenseType, { on: boolean; price: string }>;
+
+/** A picked preview image: decoding happens on pick so one bad image never blocks the others. */
+interface Pending {
+  id: string;
+  name: string;
+  blob?: Blob;
+  url?: string;
+  kept?: 'resized' | 'original';
+  error?: string;
+}
 
 const licState = (rec: AdminRecord | null): Lic => {
   const base = defaultLicenses(rec?.product.price ?? 0);
@@ -59,7 +72,9 @@ export default function ProductForm({ editing, onDone }: Props) {
   const [price, setPrice] = useState(p ? String(p.price) : '');
   const [salePrice, setSalePrice] = useState(p?.salePrice !== undefined ? String(p.salePrice) : '');
   const [tags, setTags] = useState(p?.tags.join(', ') ?? '');
-  const [fileTypes, setFileTypes] = useState(p?.fileTypes.join(', ') ?? '');
+  const [types, setTypes] = useState<string[]>(p?.fileTypes ?? []);
+  const [typeDraft, setTypeDraft] = useState('');
+  const [autoType, setAutoType] = useState<string | null>(null);
   const [lic, setLic] = useState<Lic>(() => licState(editing));
   const [published, setPublishedFlag] = useState(editing?.published ?? true);
   const [featured, setFeatured] = useState(editing?.featured ?? false);
@@ -67,16 +82,60 @@ export default function ProductForm({ editing, onDone }: Props) {
   const [keptImages, setKeptImages] = useState<string[]>(
     p?.images.filter((d) => d.startsWith(IDB_PREFIX)) ?? [],
   );
-  const [newImages, setNewImages] = useState<File[]>([]);
-  const [thumbs, setThumbs] = useState<string[]>([]);
+  const [pending, setPending] = useState<Pending[]>([]);
   const [errors, setErrors] = useState<InputErrors>({});
   const [busy, setBusy] = useState(false);
 
+  // Revoke preview object URLs when they are replaced or the form unmounts.
   useEffect(() => {
-    const urls = newImages.map((f) => URL.createObjectURL(f));
-    setThumbs(urls);
+    const urls = pending.map((x) => x.url).filter((u): u is string => Boolean(u));
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
-  }, [newImages]);
+  }, [pending]);
+
+  const readyImages = pending.filter((x) => x.blob);
+  const decoding = pending.some((x) => !x.blob && !x.error);
+  const suggestions = allFileTypes().filter((t) => !types.includes(t));
+
+  const commitDraft = () => {
+    const add = parseChips(typeDraft);
+    if (add.length) {
+      setTypes((t) => addChips(t, ...add));
+      setErrors((x) => ({ ...x, fileTypes: undefined }));
+    }
+    setTypeDraft('');
+  };
+
+  const pickImages = (files: File[]) => {
+    const room = Math.max(0, MAX_IMAGES - keptImages.length);
+    const take = files.slice(0, room);
+    setErrors((x) => ({
+      ...x,
+      images:
+        files.length > room
+          ? `You can add ${room} more image${room === 1 ? '' : 's'} (max ${MAX_IMAGES}).`
+          : undefined,
+    }));
+    const batch: Pending[] = take.map((f, i) => ({ id: `${Date.now()}-${i}`, name: f.name }));
+    setPending(batch);
+    take.forEach((f, i) => {
+      const pid = batch[i].id;
+      prepareImage(f)
+        .then((r) =>
+          setPending((list) =>
+            list.map((x) =>
+              x.id === pid ? { ...x, blob: r.blob, kept: r.kept, url: URL.createObjectURL(r.blob) } : x,
+            ),
+          ),
+        )
+        .catch((ex: unknown) =>
+          setPending((list) =>
+            list.map((x) =>
+              x.id === pid ? { ...x, error: ex instanceof Error ? ex.message : `“${f.name}” failed.` } : x,
+            ),
+          ),
+        );
+    });
+  };
 
   const existingFile: StoredFile | null = editing?.file ?? null;
   const priceNum = price === '' ? NaN : Number(price);
@@ -88,7 +147,7 @@ export default function ProductForm({ editing, onDone }: Props) {
     price: priceNum,
     salePrice: salePrice.trim() === '' ? null : Number(salePrice),
     tags: splitList(tags),
-    fileTypes: splitList(fileTypes),
+    fileTypes: addChips(types, ...parseChips(typeDraft)),
     licenses: LICENSE_TYPES.filter((t) => lic[t].on).map((t) => ({
       type: t,
       // Empty tier price follows the seeded catalogue's ratios.
@@ -118,7 +177,13 @@ export default function ProductForm({ editing, onDone }: Props) {
     const errs = validateInput(data, Boolean(file || existingFile));
     const fp = file ? fileProblem(file.size) : null;
     if (fp) errs.file = fp;
-    if (keptImages.length + newImages.length > MAX_IMAGES) errs.images = `Up to ${MAX_IMAGES} images.`;
+    if (keptImages.length + readyImages.length > MAX_IMAGES) errs.images = `Up to ${MAX_IMAGES} images.`;
+    if (decoding) errs.images = 'Images are still being prepared. Try again in a moment.';
+    if (!errs.file && file) {
+      const free = await storageHeadroom();
+      if (free !== null && file.size > free)
+        errs.file = `This browser only has about ${formatBytes(free)} of storage left for uploads; this file is ${formatBytes(file.size)}.`;
+    }
     setErrors(errs);
     if (Object.keys(errs).length) {
       document.getElementById(`${id}-${Object.keys(errs)[0]}`)?.focus();
@@ -133,13 +198,12 @@ export default function ProductForm({ editing, onDone }: Props) {
         const key = blobKey('file');
         await putBlob(key, file);
         created.push(key);
-        stored = { key, name: file.name, size: file.size, type: file.type || 'application/octet-stream' };
+        stored = { key, name: file.name, size: file.size, type: downloadMime(file.type) };
       }
       const uploaded: string[] = [];
-      for (const img of newImages) {
-        const blob = await resizeImage(img);
+      for (const img of readyImages) {
         const key = blobKey('img');
-        await putBlob(key, blob);
+        await putBlob(key, img.blob as Blob);
         created.push(key);
         uploaded.push(`${IDB_PREFIX}${key}`);
       }
@@ -150,6 +214,7 @@ export default function ProductForm({ editing, onDone }: Props) {
         images,
         categoryArt: getCategory(data.category)?.art,
         fileSize: stored?.size,
+        fileName: stored?.name,
         existing: editing?.product,
       });
       save({ product, published, featured, file: stored });
@@ -165,9 +230,8 @@ export default function ProductForm({ editing, onDone }: Props) {
       onDone();
     } catch (ex) {
       void deleteBlobs(created).catch(() => undefined);
-      setErrors({
-        file: `Could not store the upload in this browser: ${ex instanceof Error ? ex.message : 'unknown error'}.`,
-      });
+      setErrors({ file: storageErrorMessage(ex) });
+      document.getElementById(`${id}-file`)?.focus();
     } finally {
       setBusy(false);
     }
@@ -280,16 +344,70 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-fileTypes`} className="label">
-          File types (comma separated)
+          File types (any; auto-detected from the file)
         </label>
-        <input
-          className="field"
-          value={fileTypes}
-          placeholder="ZIP, PDF"
-          onChange={(e) => setFileTypes(e.target.value)}
-          {...aria('fileTypes')}
-        />
+        <div className="flex gap-1.5">
+          <input
+            className="field"
+            value={typeDraft}
+            placeholder="e.g. DLL, LUA, CFG"
+            list={`${id}-type-suggestions`}
+            onChange={(e) => setTypeDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                commitDraft();
+              }
+            }}
+            onBlur={commitDraft}
+            {...aria('fileTypes')}
+          />
+          <button type="button" className="btn-ghost !px-2 text-[12px]" onClick={commitDraft}>
+            Add
+          </button>
+        </div>
+        <datalist id={`${id}-type-suggestions`}>
+          {suggestions.map((t) => (
+            <option key={t} value={t} />
+          ))}
+        </datalist>
         {err('fileTypes')}
+        {types.length > 0 && (
+          <ul className="mt-1.5 flex flex-wrap gap-1" aria-label="Chosen file types" data-testid="type-chips">
+            {types.map((t) => (
+              <li key={t} className="chip !px-2 !py-0.5 !text-[11px]">
+                {t}
+                <button
+                  type="button"
+                  className="ml-1 text-[#9e2f19]"
+                  aria-label={`Remove file type ${t}`}
+                  onClick={() => setTypes(types.filter((x) => x !== t))}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {suggestions.length > 0 && (
+          <p className="mt-1 flex flex-wrap items-center gap-1 text-[11px] text-ink-muted">
+            <span>Pick:</span>
+            {suggestions.slice(0, 10).map((t) => (
+              <button
+                key={t}
+                type="button"
+                className="chip !px-1.5 !py-0 !text-[10.5px]"
+                aria-label={`Add file type ${t}`}
+                onClick={() => {
+                  setTypes((x) => addChips(x, t));
+                  setErrors((x) => ({ ...x, fileTypes: undefined }));
+                }}
+              >
+                +{t}
+              </button>
+            ))}
+          </p>
+        )}
       </div>
       <fieldset
         className="sm:col-span-2"
@@ -330,7 +448,7 @@ export default function ProductForm({ editing, onDone }: Props) {
       </fieldset>
       <div>
         <label htmlFor={`${id}-file`} className="label">
-          Downloadable file (any type, max 50 MB)
+          Downloadable file (any type, max {formatBytes(MAX_FILE_BYTES)})
         </label>
         <input
           className="field !py-1.5 text-[12px]"
@@ -341,9 +459,19 @@ export default function ProductForm({ editing, onDone }: Props) {
             setErrors((x) => ({ ...x, file: problem ?? undefined }));
             setFile(problem ? null : f);
             if (problem) e.target.value = '';
+            if (f && !problem) {
+              // Auto-detect the chip from the extension; replace the chip the previous pick added.
+              const chip = chipFromFileName(f.name);
+              setTypes((t) => addChips(autoType ? t.filter((x) => x !== autoType) : t, chip));
+              setAutoType(types.includes(chip) && chip !== autoType ? null : chip);
+              setErrors((x) => ({ ...x, fileTypes: undefined }));
+            }
           }}
           {...aria('file')}
         />
+        <p className="mt-1 text-[11px] text-ink-muted">
+          Stored as-is in this browser. Very large files depend on the browser&rsquo;s storage quota.
+        </p>
         {err('file')}
         {file ? (
           <p className="mt-1 text-[11px] text-ink" data-testid="file-info">
@@ -359,36 +487,33 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-images`} className="label">
-          Preview images (JPG/PNG/WebP, up to {MAX_IMAGES}, optional)
+          Preview images (any image, up to {MAX_IMAGES}, optional)
         </label>
         <input
           className="field !py-1.5 text-[12px]"
           type="file"
-          accept={IMAGE_TYPES.join(',')}
+          accept="image/*"
           multiple
-          onChange={(e) => {
-            const files = [...(e.target.files ?? [])];
-            const bad = files.find((f) => !IMAGE_TYPES.includes(f.type));
-            const room = MAX_IMAGES - keptImages.length;
-            if (bad) {
-              setErrors((x) => ({ ...x, images: `“${bad.name}” is not a JPG, PNG or WebP image.` }));
-              setNewImages([]);
-              e.target.value = '';
-            } else if (files.length > room) {
-              setErrors((x) => ({
-                ...x,
-                images: `You can add ${room} more image${room === 1 ? '' : 's'} (max ${MAX_IMAGES}).`,
-              }));
-              setNewImages(files.slice(0, Math.max(0, room)));
-            } else {
-              setErrors((x) => ({ ...x, images: undefined }));
-              setNewImages(files);
-            }
-          }}
+          onChange={(e) => pickImages([...(e.target.files ?? [])])}
           {...aria('images')}
         />
+        <p className="mt-1 text-[11px] text-ink-muted">
+          JPG, PNG, WebP, AVIF, BMP, ICO, HEIC (where supported) are resized to 1600px; SVG and animated GIF
+          are kept as uploaded.
+        </p>
         {err('images')}
-        {(keptImages.length > 0 || thumbs.length > 0) && (
+        {pending.some((x) => x.error) && (
+          <ul className="mt-1 space-y-0.5" role="alert" data-testid="image-errors">
+            {pending
+              .filter((x) => x.error)
+              .map((x) => (
+                <li key={x.id} className="error-text !mt-0">
+                  {x.error}
+                </li>
+              ))}
+          </ul>
+        )}
+        {(keptImages.length > 0 || readyImages.length > 0) && (
           <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Preview images">
             {keptImages.map((d, i) => (
               <li key={d} className="relative w-16">
@@ -403,12 +528,12 @@ export default function ProductForm({ editing, onDone }: Props) {
                 </button>
               </li>
             ))}
-            {thumbs.map((u, i) => (
-              <li key={u}>
-                {/* eslint-disable-next-line @next/next/no-img-element -- local object URL preview */}
+            {readyImages.map((x, i) => (
+              <li key={x.id} data-kept={x.kept}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- local object URL preview (SVG stays in <img>, never inline) */}
                 <img
-                  src={u}
-                  alt={`New image ${i + 1}`}
+                  src={x.url}
+                  alt={`New image ${i + 1}: ${x.name}`}
                   className="h-10 w-16 rounded border border-[#8f8770] object-cover"
                 />
               </li>
@@ -416,7 +541,7 @@ export default function ProductForm({ editing, onDone }: Props) {
           </ul>
         )}
       </div>
-      {keptImages.length + newImages.length === 0 && (
+      {keptImages.length + readyImages.length === 0 && (
         <div className="sm:col-span-2">
           <p className="label">Default preview (generated because no image is uploaded)</p>
           <span className="inset-img block w-[200px] overflow-hidden" data-testid="default-preview">
@@ -435,8 +560,8 @@ export default function ProductForm({ editing, onDone }: Props) {
         </label>
       </div>
       <div className="flex flex-wrap gap-2 sm:col-span-2">
-        <button type="submit" className="btn" disabled={busy}>
-          {busy ? 'Saving…' : editing ? 'Save changes' : 'Add product'}
+        <button type="submit" className="btn" disabled={busy || decoding}>
+          {busy ? 'Saving…' : decoding ? 'Preparing images…' : editing ? 'Save changes' : 'Add product'}
         </button>
         {editing && (
           <button type="button" className="btn-ghost" onClick={onDone}>

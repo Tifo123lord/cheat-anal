@@ -13,7 +13,7 @@ const STEPS = [
   ['Create your account', 'Sign up in a minute and tell us a little about your work.'],
   [
     'Upload your first file',
-    'Add previews, a description, tags and the downloadable .zip from your dashboard.',
+    'Add previews, a description, tags and the downloadable file (any type) from your dashboard.',
   ],
   ['We review it', 'A real person checks every file within one working day and sends friendly notes.'],
   ['Get paid', 'Keep 70% of every sale. Request a payout once your balance reaches $50.'],

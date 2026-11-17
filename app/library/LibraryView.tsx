@@ -8,6 +8,7 @@ import { Container } from '@/components/Layout';
 import ProductImage from '@/components/ProductImage';
 import { slugFor } from '@/lib/cart-view';
 import { getBundle, getProduct } from '@/lib/catalog';
+import { downloadMime } from '@/lib/admin-products';
 import { getBlob } from '@/lib/blobstore';
 import { downloadDummyZip, saveBlob } from '@/lib/download';
 import { formatDate, money2 } from '@/lib/format';
@@ -43,7 +44,9 @@ export default function LibraryView() {
       getBlob(file.key)
         .then((blob) => {
           if (!blob) throw new Error('missing');
-          saveBlob(blob, file.name);
+          // Same bytes, original name; a generic binary type when the browser had no MIME for it.
+          const out = blob.type ? blob : new Blob([blob], { type: downloadMime(file.type) });
+          saveBlob(out, file.name);
           count(orderId, item.id);
         })
         .catch(() => toast('This file is not stored in this browser any more.'))

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { fileNote } from '@/lib/admin-products';
 import { getCategory } from '@/lib/catalog';
 import { formatDate, money } from '@/lib/format';
 import { licensePrice, listLicensePrice } from '@/lib/pricing';
@@ -144,6 +145,11 @@ export default function BuyBox({ product, author }: { product: Product; author?:
             ))}
           </tbody>
         </table>
+        {product.fileExt !== undefined && (
+          <p className="mt-2 text-[11px] text-ink-muted" data-testid="file-note">
+            You download: {fileNote(product.fileExt, product.fileSize)}, exactly as uploaded.
+          </p>
+        )}
       </section>
 
       {author && (

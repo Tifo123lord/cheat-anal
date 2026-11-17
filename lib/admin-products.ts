@@ -1,3 +1,4 @@
+import { extOf, normalizeChip } from './file-types';
 import { hashString } from './random';
 import { LICENSE_TYPES, type ArtKind, type Badge, type LicenseType, type Product } from './types';
 
@@ -5,10 +6,14 @@ import { LICENSE_TYPES, type ArtKind, type Badge, type LicenseType, type Product
 export const ADMIN_ID_PREFIX = 'adm-';
 export const ADMIN_AUTHOR_ID = 'leafpress-studio';
 export const ADMIN_AUTHOR_NAME = 'leafpress Studio';
-export const MAX_FILE_BYTES = 50 * 1024 * 1024;
+/** Largest downloadable file: files are kept whole in IndexedDB, which handles this comfortably. */
+export const MAX_FILE_BYTES = 200 * 1024 * 1024;
 export const MAX_IMAGES = 5;
 export const MAX_IMAGE_SIDE = 1600;
-export const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+/** SVG and animated GIF previews are stored as uploaded, so they get their own cap. */
+export const MAX_ORIGINAL_IMAGE_BYTES = 15 * 1024 * 1024;
+/** Fallback MIME for uploads the browser could not type (.dll, .cfg, .lua, …). */
+export const FALLBACK_MIME = 'application/octet-stream';
 /** Image descriptor prefix: `idb:<key>` points at a resized upload stored in IndexedDB. */
 export const IDB_PREFIX = 'idb:';
 
@@ -59,7 +64,7 @@ export function validateInput(i: AdminProductInput, hasFile: boolean): InputErro
   if (!Number.isFinite(i.price) || i.price < 0) e.price = 'Price must be 0 or more.';
   if (i.salePrice !== null && (!Number.isFinite(i.salePrice) || i.salePrice < 0 || i.salePrice >= i.price))
     e.salePrice = 'Sale price must be lower than the price.';
-  if (!i.fileTypes.length) e.fileTypes = 'List at least one file type (e.g. ZIP, PDF).';
+  if (!i.fileTypes.some((t) => normalizeChip(t))) e.fileTypes = 'Add at least one file type (e.g. DLL, ZIP).';
   if (!i.licenses.length) e.licenses = 'Offer at least one licence.';
   else if (i.licenses.some((l) => !Number.isFinite(l.price) || l.price < 0))
     e.licenses = 'Licence prices must be 0 or more.';
@@ -71,6 +76,29 @@ export function fileProblem(size: number): string | null {
   return size > MAX_FILE_BYTES
     ? `This file is ${formatBytes(size)}; the limit is ${formatBytes(MAX_FILE_BYTES)}.`
     : null;
+}
+
+/** MIME to store and download with: the browser's guess, or a generic binary type when it had none. */
+export const downloadMime = (type: string | undefined | null): string =>
+  (type && type.trim()) || FALLBACK_MIME;
+
+/** True when an error means the browser's storage quota is full. */
+export function isQuotaError(ex: unknown): boolean {
+  if (!ex || typeof ex !== 'object') return false;
+  const { name = '', message = '' } = ex as { name?: string; message?: string };
+  return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || /quota/i.test(message);
+}
+
+/** Friendly inline message for a failed save into IndexedDB. */
+export function storageErrorMessage(ex: unknown): string {
+  if (isQuotaError(ex))
+    return 'This browser has run out of storage space for uploads. Delete older products or free up disk space, or use a smaller file.';
+  return `Could not store the upload in this browser: ${ex instanceof Error ? ex.message : 'unknown error'}.`;
+}
+
+/** Product-page note for a downloadable file, e.g. ".dll file · 12.0 KB". */
+export function fileNote(ext: string | undefined, size: string): string {
+  return `${ext ? `.${ext}` : 'No extension'} file · ${size}`;
 }
 
 export function formatBytes(n: number): string {
@@ -123,6 +151,8 @@ export function buildProduct(
     images: string[];
     categoryArt?: ArtKind;
     fileSize?: number;
+    /** Original name of the downloadable file; its extension is shown on the product page. */
+    fileName?: string;
     existing?: Product;
   },
 ): Product {
@@ -141,8 +171,13 @@ export function buildProduct(
     ...(sale !== undefined ? { salePrice: sale } : {}),
     category: input.category,
     tags: input.tags.map((t) => t.toLowerCase()),
-    fileTypes: input.fileTypes.map((t) => t.toUpperCase()),
+    fileTypes: [...new Set(input.fileTypes.map(normalizeChip).filter(Boolean))],
     fileSize: opts.fileSize !== undefined ? formatBytes(opts.fileSize) : (opts.existing?.fileSize ?? '—'),
+    ...(opts.fileName !== undefined
+      ? { fileExt: extOf(opts.fileName) }
+      : opts.existing?.fileExt !== undefined
+        ? { fileExt: opts.existing.fileExt }
+        : {}),
     version: opts.existing ? bumpPatch(opts.existing.version) : '1.0.0',
     compatibility: ['Any'],
     licenses,

@@ -67,9 +67,9 @@ describe('admin product validation', () => {
       'title',
     ]);
   });
-  it('enforces the 50 MB file limit', () => {
+  it('enforces the 200 MB file limit', () => {
     expect(fileProblem(MAX_FILE_BYTES)).toBeNull();
-    expect(fileProblem(MAX_FILE_BYTES + 1)).toMatch(/50\.0 MB/);
+    expect(fileProblem(MAX_FILE_BYTES + 1)).toMatch(/limit is 200\.0 MB/);
   });
 });
 

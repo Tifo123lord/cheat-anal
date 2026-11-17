@@ -3,6 +3,7 @@ import authorsJson from '@/data/authors.json';
 import categoriesJson from '@/data/categories.json';
 import bundlesJson from '@/data/bundles.json';
 import postsJson from '@/data/posts.json';
+import { fileTypeOptions } from './file-types';
 import type { Author, Bundle, Category, Post, Product } from './types';
 
 export const products = productsJson as Product[];
@@ -79,7 +80,8 @@ export const relatedProducts = (product: Product, count = 4): Product[] => {
 
 export const topAuthors = (): Author[] => [...authors].sort((a, b) => b.sales - a.sales);
 
-export const allFileTypes = (): string[] => [...new Set(allProducts().flatMap((p) => p.fileTypes))].sort();
+/** File types that exist in the shop right now (seeded + published admin items), for the filter. */
+export const allFileTypes = (selected: string[] = []): string[] => fileTypeOptions(allProducts(), selected);
 export const allCompatibility = (): string[] => [...new Set(products.flatMap((p) => p.compatibility))].sort();
 export const allTags = (): { tag: string; count: number }[] => {
   const m = new Map<string, number>();

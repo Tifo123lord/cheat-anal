@@ -1,3 +1,4 @@
+import { normalizeChip } from './file-types';
 import type { LicenseType, Product } from './types';
 
 export type SortKey = 'newest' | 'price-asc' | 'price-desc' | 'popular' | 'rating';
@@ -62,7 +63,7 @@ export function parseFilters(params: ParamsLike): Filters {
   return {
     q: (params.get('q') ?? '').slice(0, 80),
     categories: list(params.get('category')),
-    fileTypes: list(params.get('type')).map((t) => t.toUpperCase()),
+    fileTypes: [...new Set(list(params.get('type')).map(normalizeChip).filter(Boolean))],
     compatibility: list(params.get('compat')),
     licenses: list(params.get('license')).filter(isLicense),
     minPrice: num(params.get('min')),
@@ -107,7 +108,7 @@ export function applyFilters(
   return items.filter((p) => {
     if (f.q && !matchesQuery(p, f.q, authorName(p.authorId))) return false;
     if (f.categories.length && !f.categories.includes(p.category)) return false;
-    if (f.fileTypes.length && !p.fileTypes.some((t) => f.fileTypes.includes(t))) return false;
+    if (f.fileTypes.length && !p.fileTypes.some((t) => f.fileTypes.includes(t.toUpperCase()))) return false;
     if (f.compatibility.length && !p.compatibility.some((c) => f.compatibility.includes(c))) return false;
     if (f.licenses.length && !f.licenses.every((l) => p.licenses.some((x) => x.type === l))) return false;
     if (f.minPrice !== null && price(p) < f.minPrice) return false;

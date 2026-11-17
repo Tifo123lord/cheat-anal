@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useId, useState } from 'react';
+import { MAX_FILE_BYTES, fileProblem, formatBytes } from '@/lib/admin-products';
 import { categories } from '@/lib/catalog';
+import { acceptsImageFile } from '@/lib/images';
 import type { Errors } from '@/lib/validation';
 import { useStudio, type Submission } from '@/store/studio';
 import { useUI } from '@/store/ui';
@@ -9,7 +11,6 @@ import { useUI } from '@/store/ui';
 type Field = 'title' | 'description' | 'category' | 'price' | 'tags' | 'previews' | 'file';
 
 const MAX_PREVIEW = 5 * 1024 * 1024;
-const MAX_FILE = 500 * 1024 * 1024;
 
 interface Props {
   author: string;
@@ -82,11 +83,11 @@ export default function UploadForm({ author, editing, onDone }: Props) {
     const names = previews.length ? previews.map((f) => f.name) : previewNames;
     if (names.length < 1) e.previews = 'Add at least one preview image.';
     else if (previews.length > 5) e.previews = 'Up to 5 preview images.';
-    else if (previews.some((f) => !f.type.startsWith('image/'))) e.previews = 'Previews must be images.';
+    else if (previews.some((f) => !acceptsImageFile(f)))
+      e.previews = `“${previews.find((f) => !acceptsImageFile(f))?.name}” is not an image.`;
     else if (previews.some((f) => f.size > MAX_PREVIEW)) e.previews = 'Each preview must be under 5 MB.';
-    if (!file && !fileName) e.file = 'Attach the downloadable file (.zip).';
-    else if (file && !/\.zip$/i.test(file.name)) e.file = 'The main file must be a .zip archive.';
-    else if (file && file.size > MAX_FILE) e.file = 'The file must be under 500 MB.';
+    if (!file && !fileName) e.file = 'Attach the downloadable file (any type).';
+    else if (file && fileProblem(file.size)) e.file = fileProblem(file.size) ?? undefined;
     return e;
   };
 
@@ -211,7 +212,7 @@ export default function UploadForm({ author, editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-previews`} className="label">
-          Preview images (1–5)
+          Preview images (1–5, any image type)
         </label>
         <input
           className="field !py-1.5 text-[12px]"
@@ -247,12 +248,11 @@ export default function UploadForm({ author, editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-file`} className="label">
-          Downloadable file (.zip)
+          Downloadable file (any type, max {formatBytes(MAX_FILE_BYTES)})
         </label>
         <input
           className="field !py-1.5 text-[12px]"
           type="file"
-          accept=".zip,application/zip"
           onChange={(e) => {
             const f = e.target.files?.[0] ?? null;
             setFile(f);
@@ -261,7 +261,13 @@ export default function UploadForm({ author, editing, onDone }: Props) {
           {...aria('file')}
         />
         {err('file')}
-        {fileName && !file && <p className="mt-1 text-[11px] text-ink-muted">Current: {fileName}</p>}
+        {file ? (
+          <p className="mt-1 text-[11px] text-ink">
+            {file.name} · {formatBytes(file.size)}
+          </p>
+        ) : (
+          fileName && <p className="mt-1 text-[11px] text-ink-muted">Current: {fileName}</p>
+        )}
       </div>
       <div className="flex flex-wrap gap-2 sm:col-span-2">
         <button type="submit" className="btn">
