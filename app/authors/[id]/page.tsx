@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Avatar from '@/components/Avatar';
+import EmptyState from '@/components/EmptyState';
 import { TwoColumn } from '@/components/Layout';
 import { LeafRow } from '@/components/LeafRating';
 import ProductGrid from '@/components/ProductGrid';
-import { authors, getAuthor, productsByAuthor } from '@/lib/catalog';
+import { NO_FILES_TITLE, authors, getAuthor, productsByAuthor } from '@/lib/catalog';
 import { formatDate } from '@/lib/format';
 
 export const dynamicParams = false;
@@ -47,7 +48,7 @@ export default function AuthorPage({ params }: { params: { id: string } }) {
           {[
             ['Files', String(files.length)],
             ['Sales', author.sales.toLocaleString('en-US')],
-            ['Rating', author.rating.toFixed(1)],
+            ['Rating', author.rating > 0 ? author.rating.toFixed(1) : '—'],
           ].map(([k, v]) => (
             <div key={k} className="rounded-md border border-[#a49b82] bg-paper-light/60 p-2">
               <dt className="text-[11px] font-semibold uppercase text-ink-muted">{k}</dt>
@@ -55,12 +56,20 @@ export default function AuthorPage({ params }: { params: { id: string } }) {
             </div>
           ))}
         </dl>
-        <div className="mt-2 flex justify-center">
-          <LeafRow rating={author.rating} size={16} />
-        </div>
+        {author.rating > 0 && (
+          <div className="mt-2 flex justify-center">
+            <LeafRow rating={author.rating} size={16} />
+          </div>
+        )}
       </section>
       <h2 className="brand-heading mb-2 text-[17px] text-ink-light">Files by {author.name}</h2>
-      <ProductGrid items={files} />
+      {files.length ? (
+        <ProductGrid items={files} />
+      ) : (
+        <div className="frame on-paper" data-testid="author-empty">
+          <EmptyState title={NO_FILES_TITLE}>{author.name} has no files listed right now.</EmptyState>
+        </div>
+      )}
     </TwoColumn>
   );
 }

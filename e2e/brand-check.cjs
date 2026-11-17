@@ -4,7 +4,7 @@
 const { chromium } = require(process.env.PW_CORE || 'playwright-core');
 const BASE = process.env.BASE || 'http://127.0.0.1:8811/cheat-anal';
 const CHROME = process.env.CHROMIUM || undefined;
-const PAGES = ['/', '/shop/', '/product/canopy-agency-landing-template/', '/cart/', '/admin/', '/dashboard/'];
+const PAGES = ['/', '/shop/', '/product/unavailable/', '/cart/', '/admin/', '/dashboard/'];
 let fails = 0, passes = 0;
 const ok = (c, m) => { if (c) passes++; else { fails++; console.log('FAIL ' + m); } };
 (async () => {

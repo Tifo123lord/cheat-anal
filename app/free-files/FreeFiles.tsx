@@ -1,16 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import EmptyState from '@/components/EmptyState';
 import { DownloadIcon, LockIcon } from '@/components/Icons';
 import { LeafRow } from '@/components/LeafRating';
 import ProductImage from '@/components/ProductImage';
-import { authorName, freeProducts } from '@/lib/catalog';
-import { downloadDummyZip } from '@/lib/download';
+import { downloadMime } from '@/lib/admin-products';
+import { getBlob } from '@/lib/blobstore';
+import { authorName, freeProducts, productHref } from '@/lib/catalog';
+import { downloadDummyZip, saveBlob } from '@/lib/download';
 import { licenseKey } from '@/lib/keys';
 import { isEmail } from '@/lib/validation';
+import type { Product } from '@/lib/types';
+import { useAdminCatalog, usePublishedAdminProducts } from '@/store/admin-catalog';
 import { useHydrated } from '@/store/hydration';
 import { useLibrary } from '@/store/library';
+import { useUI } from '@/store/ui';
 
 export default function FreeFiles() {
   const hydrated = useHydrated();
@@ -22,6 +28,33 @@ export default function FreeFiles() {
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState('');
   const unlocked = hydrated && Boolean(unlockedEmail);
+  const adminItems = usePublishedAdminProducts();
+  const records = useAdminCatalog((s) => s.records);
+  const toast = useUI((s) => s.toast);
+  const files = useMemo(() => freeProducts(adminItems), [adminItems]);
+
+  const download = (p: Product) => {
+    const file = records.find((r) => r.product.id === p.id)?.file;
+    if (file) {
+      // Admin upload: the exact bytes from IndexedDB under the original file name.
+      getBlob(file.key)
+        .then((blob) => {
+          if (!blob) throw new Error('missing');
+          saveBlob(blob.type ? blob : new Blob([blob], { type: downloadMime(file.type) }), file.name);
+          countFree(p.id);
+        })
+        .catch(() => toast('This file is not stored in this browser any more.'));
+      return;
+    }
+    downloadDummyZip({
+      slug: p.slug,
+      title: p.title,
+      license: 'Personal',
+      licenseKey: licenseKey('FREE', p.id, unlockedEmail),
+      buyer: unlockedEmail,
+    });
+    countFree(p.id);
+  };
 
   return (
     <div className="space-y-[14px]">
@@ -85,11 +118,18 @@ export default function FreeFiles() {
         )}
       </section>
 
+      {!files.length && hydrated && (
+        <div className="frame on-paper" data-testid="free-empty">
+          <EmptyState title="No free files yet">
+            Free files appear here as soon as they are published.
+          </EmptyState>
+        </div>
+      )}
       <ul className="grid grid-cols-1 gap-[14px] md:grid-cols-2">
-        {freeProducts().map((p) => (
+        {files.map((p) => (
           <li key={p.id} className="card frame on-paper flex flex-col p-[7px]">
             <h3 className="mb-1 px-0.5 font-serif text-[13.5px] font-bold text-[color:var(--link-strong)]">
-              <Link href={`/product/${p.slug}/`} className="hover:underline">
+              <Link href={productHref(p)} className="hover:underline">
                 {p.title}
               </Link>
             </h3>
@@ -109,16 +149,7 @@ export default function FreeFiles() {
                 type="button"
                 className="btn !px-3 !py-1"
                 disabled={!unlocked}
-                onClick={() => {
-                  downloadDummyZip({
-                    slug: p.slug,
-                    title: p.title,
-                    license: 'Personal',
-                    licenseKey: licenseKey('FREE', p.id, unlockedEmail),
-                    buyer: unlockedEmail,
-                  });
-                  countFree(p.id);
-                }}
+                onClick={() => download(p)}
               >
                 <DownloadIcon size={12} /> {unlocked ? 'Download' : 'Locked'}
               </button>

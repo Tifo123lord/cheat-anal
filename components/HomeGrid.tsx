@@ -1,16 +1,22 @@
 'use client';
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { paginate, sortProducts } from '@/lib/filters';
 import { usePublishedAdminProducts } from '@/store/admin-catalog';
+import { NO_FILES_TITLE } from '@/lib/catalog';
 import type { Product } from '@/lib/types';
+import { useHydrated } from '@/store/hydration';
+import EmptyState from './EmptyState';
 import Pagination from './Pagination';
+import { GridSkeleton } from './ProductGrid';
 import ProductCard from './ProductCard';
 
 const PER_PAGE = 8;
 
 /** Two-column grid of cream cards with numbered pagination and a "Load more" option. */
 export default function HomeGrid({ items: seeded }: { items: Product[] }) {
+  const hydrated = useHydrated();
   const adminItems = usePublishedAdminProducts();
   const items = useMemo(
     () => (adminItems.length ? sortProducts([...adminItems, ...seeded], 'newest') : seeded),
@@ -23,6 +29,31 @@ export default function HomeGrid({ items: seeded }: { items: Product[] }) {
   const shown = items.slice(start, start + PER_PAGE * (1 + extra));
   const canLoadMore = start + shown.length < items.length;
   const list = extra > 0 ? shown : pageItems;
+
+  if (!items.length) {
+    return (
+      // No slider above when the store is empty, so the panel lines up with the top of the sidebar.
+      <section aria-labelledby="latest-h">
+        <h2 id="latest-h" className="sr-only">
+          Latest files
+        </h2>
+        {/* Admin uploads load from localStorage after hydration; avoid flashing the empty panel first. */}
+        {hydrated ? (
+          <div className="frame on-paper" data-testid="home-empty">
+            <EmptyState title={NO_FILES_TITLE}>
+              New files appear here as soon as they are published. Meanwhile, read the{' '}
+              <Link href="/journal/" className="link">
+                journal
+              </Link>
+              .
+            </EmptyState>
+          </div>
+        ) : (
+          <GridSkeleton count={2} />
+        )}
+      </section>
+    );
+  }
 
   return (
     <section aria-labelledby="latest-h" className="mt-4">

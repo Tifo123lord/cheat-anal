@@ -1,7 +1,6 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { seedReviews } from '@/lib/content';
 import { formatDate } from '@/lib/format';
 import { combineRating, distribution } from '@/lib/rating';
 import type { Product } from '@/lib/types';
@@ -19,7 +18,8 @@ export default function Reviews({ product }: { product: Product }) {
   const user = useCurrentUser();
   const toast = useUI((s) => s.toast);
   const mine = hydrated ? all.filter((r) => r.productId === product.id) : [];
-  const list = [...mine, ...seedReviews(product)];
+  // No sample reviews: only reviews written by buyers in this browser.
+  const list = mine;
   const summary = combineRating(
     product.rating,
     product.votes,

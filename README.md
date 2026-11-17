@@ -4,7 +4,9 @@ Formerly "leafpress". The repo was renamed to `cheat-anal` (URL `/cheat-anal`); 
 
 **Digital files, grown with care.** A demo marketplace for templates, UI kits, fonts, icon packs, mockups, 3D assets, presets, ebooks and source code, styled after a late-2000s "nature web gallery": a night sky with aurora ribbons, a beveled olive nav bar, a featured slider in a double cream frame, and two columns of cream cards with leaf ratings.
 
-Everything is original. The brand, the authors, the products and the house ads are invented, and every image (aurora, logo sprout, leaves, avatars, promo banners and all 36 product previews) is drawn in code as SVG.
+Everything is original. The brand, the authors and the house ads are invented, and every image (aurora, logo sprout, leaves, avatars, promo banners and default product previews) is drawn in code as SVG.
+
+**The store starts empty.** There are no seeded products or bundles: every list (home, shop, categories, new releases, bundles, free files, author pages, search) shows a "No files yet" empty state until the admin uploads files at `/admin/`. Uploads live in the browser (localStorage + IndexedDB) and appear everywhere, can be bought and download byte-for-byte. Saved carts, wishlists, libraries and reviews that still point at the removed demo files (ids `p01`–`p36` and the old bundles) are pruned on load. `/product/[slug]/` pre-renders only a placeholder (`/product/unavailable/`), because static export needs at least one param; admin files open at `/product/view/?id=…`.
 
 ## Run it
 
@@ -51,7 +53,7 @@ app/                     App Router pages (all statically exported)
   page.tsx               Home: slider + card grid + sidebar
   shop/                  Shop with URL-synced filters and sort
   new-releases/          Newest 12 files
-  category/[slug]/       One static page per category (13), incl. /category/cheats/; lists seeded + admin files, empty state when none
+  category/[slug]/       One static page per category (13), incl. /category/cheats/; lists admin files, empty state when none
   product/[slug]/        Product detail (gallery, licences, tabs, reviews, changelog, FAQ)
   cart/, checkout/       Cart with coupon + tax; mock payment; checkout/success
   library/               My downloads (Blob .zip downloads, licence keys, counter) + invoice
@@ -77,7 +79,7 @@ lib/
   zip.ts, download.ts    Tiny ZIP writer + Blob download helper
   types.ts               Product, Author, Order, ... types
 store/                   Zustand stores (cart, wishlist, library, reviews, auth, studio, ui)
-data/                    products.json (36), authors.json, categories.json (13; Cheats has no seeded files), bundles.json, posts.json
+data/                    products.json (empty), authors.json, categories.json (13, incl. Cheats), bundles.json (empty), posts.json
 styles/globals.css       Brand tokens (CSS variables) and the frame / nav / button styles
 tests/                   Vitest: pricing, coupon, cart totals, filters/sort, rating, misc
 scripts/                 seed.mjs (regenerates /data), og.svg + og.cjs (Open Graph image)
@@ -149,7 +151,7 @@ Add an object to `data/products.json`:
 - `salePrice` is optional; when present the same discount ratio applies to every licence tier.
 - A product with `price: 0` appears on the Free Files page.
 
-The page `/product/<slug>/` is generated automatically at build time. To regenerate the whole seed catalogue instead, edit `scripts/seed.mjs` and run `node scripts/seed.mjs`.
+The page `/product/<slug>/` is generated automatically at build time. `scripts/seed.mjs` writes zero products on purpose (the shop shows admin uploads only); run `node scripts/seed.mjs` to regenerate categories, authors and posts.
 
 ## Add an author
 

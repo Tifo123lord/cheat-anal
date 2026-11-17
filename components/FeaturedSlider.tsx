@@ -7,20 +7,28 @@ import { darkImageIndex } from '@/lib/art';
 import { authorName, productHref } from '@/lib/catalog';
 import { money } from '@/lib/format';
 import type { Product } from '@/lib/types';
-import { featuredAdminProducts, useAdminCatalog } from '@/store/admin-catalog';
+import { sortProducts } from '@/lib/filters';
+import { featuredAdminProducts, useAdminCatalog, usePublishedAdminProducts } from '@/store/admin-catalog';
 import { useCart } from '@/store/cart';
 import CreamFrame from './CreamFrame';
 import { ArrowRight } from './Icons';
 import ProductImage from './ProductImage';
 
 const INTERVAL = 6000;
+const SLIDER_FALLBACK = 5;
 
 export default function FeaturedSlider({ items: seeded }: { items: Product[] }) {
   const records = useAdminCatalog((s) => s.records);
+  const published = usePublishedAdminProducts();
   const items = useMemo(() => {
-    const extra = featuredAdminProducts(records);
+    const featured = featuredAdminProducts(records);
+    // Nothing marked featured (and no seeded files): lead with the newest admin uploads instead.
+    const extra =
+      featured.length || seeded.length
+        ? featured
+        : sortProducts(published, 'newest').slice(0, SLIDER_FALLBACK);
     return extra.length ? [...extra, ...seeded] : seeded;
-  }, [records, seeded]);
+  }, [records, published, seeded]);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
@@ -45,7 +53,8 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
     return () => window.clearTimeout(t);
   }, [index, paused, reduced, count, go]);
 
-  const current = items[index];
+  // An empty store has nothing to feature: the slider hides and the grid below shows the empty panel.
+  const current = items[index] ?? items[0];
   if (!current) return null;
 
   return (

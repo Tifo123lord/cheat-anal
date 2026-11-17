@@ -4,8 +4,7 @@ import FreeFiles from './FreeFiles';
 
 export const metadata: Metadata = {
   title: 'Free files',
-  description:
-    'Free templates, mockups, textures and ebooks from Cheat & Anal authors. Unlock with your email.',
+  description: 'Free files from Cheat & Anal. Unlock with your email.',
   alternates: { canonical: '/free-files/' },
 };
 
@@ -15,7 +14,7 @@ export default function FreeFilesPage() {
       <div className="frame on-paper mb-[14px] p-3">
         <h1 className="page-title !text-[19px]">Free files</h1>
         <p className="text-[12px] text-ink-muted">
-          A fresh handful of free files every month, under the Personal licence.
+          Free files under the Personal licence, unlocked with your email.
         </p>
       </div>
       <FreeFiles />

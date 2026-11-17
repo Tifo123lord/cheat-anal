@@ -164,8 +164,9 @@ export default function BuyBox({ product, author }: { product: Product; author?:
                 {author.name}
               </Link>
               <p className="text-[11px] text-ink-muted">
-                {author.location} · {author.sales.toLocaleString('en-US')} sales · {author.rating.toFixed(1)}{' '}
-                avg
+                {author.location}
+                {author.sales > 0 ? ` · ${author.sales.toLocaleString('en-US')} sales` : ''}
+                {author.rating > 0 ? ` · ${author.rating.toFixed(1)} avg` : ''}
               </p>
             </div>
           </div>

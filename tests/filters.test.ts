@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { authorName, products } from '@/lib/catalog';
+import { authorName } from '@/lib/catalog';
+import type { Product } from '@/lib/types';
 import {
   DEFAULT_FILTERS,
   activeFilterCount,
@@ -11,6 +12,87 @@ import {
 } from '@/lib/filters';
 
 const q = (s: string) => new URLSearchParams(s);
+
+// The store ships with no seeded files, so filtering and sorting run on a small fixture catalogue.
+const make = (id: string, patch: Partial<Product>): Product => ({
+  id,
+  slug: id,
+  title: `File ${id}`,
+  description: 'A test file.',
+  price: 10,
+  category: 'templates',
+  tags: [],
+  fileTypes: ['ZIP'],
+  fileSize: '1 MB',
+  version: '1.0.0',
+  compatibility: [],
+  licenses: [
+    { type: 'Personal', price: patch.price ?? 10 },
+    { type: 'Commercial', price: (patch.price ?? 10) * 2 },
+  ],
+  images: ['gradient:1'],
+  authorId: 'leafpress-studio',
+  rating: 0,
+  votes: 0,
+  sales: 0,
+  badges: [],
+  createdAt: '2026-11-01',
+  updatedAt: '2026-11-01',
+  ...patch,
+});
+const products: Product[] = [
+  make('a1', {
+    category: 'fonts',
+    title: 'Wren Serif',
+    tags: ['serif'],
+    fileTypes: ['OTF'],
+    price: 19,
+    rating: 4.5,
+    sales: 40,
+    createdAt: '2026-11-10',
+  }),
+  make('a2', {
+    category: 'fonts',
+    title: 'Bramble Sans',
+    fileTypes: ['OTF', 'SVG'],
+    price: 24,
+    salePrice: 17,
+    rating: 3.2,
+    sales: 5,
+    createdAt: '2026-10-01',
+  }),
+  make('a3', {
+    category: 'icons',
+    title: 'Line Icons',
+    fileTypes: ['SVG'],
+    price: 29,
+    rating: 4.8,
+    sales: 90,
+    createdAt: '2026-09-01',
+    authorId: 'mossy-pixel',
+  }),
+  make('a4', {
+    category: 'cheats',
+    title: 'Hookshot Loader',
+    fileTypes: ['DLL'],
+    price: 0,
+    licenses: [{ type: 'Personal', price: 0 }],
+    createdAt: '2026-11-12',
+  }),
+  make('a5', {
+    category: 'icons',
+    title: 'Duotone Set',
+    fileTypes: ['SVG'],
+    price: 49,
+    rating: 3.9,
+    sales: 12,
+    createdAt: '2026-08-15',
+    licenses: [
+      { type: 'Personal', price: 49 },
+      { type: 'Extended', price: 490 },
+    ],
+  }),
+];
 
 describe('parse / serialise filters', () => {
   it('round-trips through the URL', () => {
@@ -49,13 +131,13 @@ describe('parse / serialise filters', () => {
 describe('applyFilters', () => {
   it('filters by category', () => {
     const r = applyFilters(products, { ...DEFAULT_FILTERS, categories: ['fonts'] });
-    expect(r.length).toBe(3);
+    expect(r.map((p) => p.id)).toEqual(['a1', 'a2']);
     expect(r.every((p) => p.category === 'fonts')).toBe(true);
   });
 
   it('filters by file type, price range and rating together', () => {
     const r = applyFilters(products, { ...DEFAULT_FILTERS, fileTypes: ['SVG'], maxPrice: 30, minRating: 4 });
-    expect(r.length).toBeGreaterThan(0);
+    expect(r.map((p) => p.id)).toEqual(['a3']);
     for (const p of r) {
       expect(p.fileTypes).toContain('SVG');
       expect(p.salePrice ?? p.price).toBeLessThanOrEqual(30);
@@ -65,20 +147,18 @@ describe('applyFilters', () => {
 
   it('free only = max price 0', () => {
     const r = applyFilters(products, { ...DEFAULT_FILTERS, maxPrice: 0 });
-    expect(r.length).toBe(4);
+    expect(r.map((p) => p.id)).toEqual(['a4']);
   });
 
   it('requires every selected licence', () => {
     const r = applyFilters(products, { ...DEFAULT_FILTERS, licenses: ['Extended'] });
     expect(r.every((p) => p.licenses.some((l) => l.type === 'Extended'))).toBe(true);
-    expect(r.length).toBe(32);
+    expect(r.map((p) => p.id)).toEqual(['a5']);
   });
 
   it('searches titles, tags and author names', () => {
     expect(
-      applyFilters(products, { ...DEFAULT_FILTERS, q: 'serif' }, authorName).some((p) =>
-        p.slug.includes('wren'),
-      ),
+      applyFilters(products, { ...DEFAULT_FILTERS, q: 'serif' }, authorName).some((p) => p.id === 'a1'),
     ).toBe(true);
     expect(
       applyFilters(products, { ...DEFAULT_FILTERS, q: 'mossy pixel' }, authorName).length,

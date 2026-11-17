@@ -18,6 +18,7 @@ export default function ProductDetail({ product, related }: { product: Product; 
   const authorLabel = author?.name ?? authorName(product.authorId);
   const category = getCategory(product.category);
   const log = changelog(product);
+  const relatedItems = related ?? relatedProducts(product, 4);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -143,12 +144,14 @@ export default function ProductDetail({ product, related }: { product: Product; 
         <div className="min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:pt-[26px]">
           <BuyBox product={product} author={author} />
         </div>
-        <section className="min-w-0 lg:col-start-1 lg:row-start-2" aria-labelledby="related-h">
-          <h2 id="related-h" className="brand-heading mb-2 mt-2 text-[17px] text-ink-light">
-            You might also like
-          </h2>
-          <ProductGrid items={related ?? relatedProducts(product, 4)} />
-        </section>
+        {relatedItems.length > 0 && (
+          <section className="min-w-0 lg:col-start-1 lg:row-start-2" aria-labelledby="related-h">
+            <h2 id="related-h" className="brand-heading mb-2 mt-2 text-[17px] text-ink-light">
+              You might also like
+            </h2>
+            <ProductGrid items={relatedItems} />
+          </section>
+        )}
       </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </Container>

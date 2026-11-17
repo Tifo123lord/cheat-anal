@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { artSvg, parseArt } from '@/lib/art';
-import { products } from '@/lib/catalog';
+import { categories } from '@/lib/catalog';
 import { licenseKey, orderNumber } from '@/lib/keys';
 import { isEmail, luhn, validCvc, validExpiry } from '@/lib/validation';
 import { buildZip, crc32 } from '@/lib/zip';
@@ -45,11 +45,11 @@ describe('zip + art', () => {
     expect(v.getUint32(0, true)).toBe(0x04034b50);
     expect(v.getUint32(z.length - 22, true)).toBe(0x06054b50);
   });
-  it('renders an SVG for every product preview', () => {
-    for (const p of products) {
-      for (const d of p.images) {
+  it('renders an SVG preview for every category art style', () => {
+    for (const c of categories) {
+      for (const d of [0, 5, 11].map((v) => `${c.art}:${v}`)) {
         expect(parseArt(d).kind).toBeTruthy();
-        const svg = artSvg(d, p.title);
+        const svg = artSvg(d, c.name);
         expect(svg.startsWith('<svg')).toBe(true);
         expect(svg).not.toContain('NaN');
       }

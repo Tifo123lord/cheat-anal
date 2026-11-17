@@ -4,8 +4,8 @@
     "name": "Fernhollow Studio",
     "avatarSeed": 11,
     "bio": "A two-person studio in a converted greenhouse, making calm, well-organised templates.",
-    "sales": 11729,
-    "rating": 3.3,
+    "sales": 0,
+    "rating": 0,
     "location": "Bergen",
     "joined": "2018-01-10"
   },
@@ -14,8 +14,8 @@
     "name": "Mossy Pixel",
     "avatarSeed": 48,
     "bio": "Pixel-tight icon sets and UI kits, hand-hinted at every size.",
-    "sales": 10902,
-    "rating": 4.3,
+    "sales": 0,
+    "rating": 0,
     "location": "Lisbon",
     "joined": "2019-02-11"
   },
@@ -24,8 +24,8 @@
     "name": "Juniper & Ash",
     "avatarSeed": 85,
     "bio": "Type designers who draw every curve on paper first.",
-    "sales": 12031,
-    "rating": 4.1,
+    "sales": 0,
+    "rating": 0,
     "location": "Montreal",
     "joined": "2020-03-12"
   },
@@ -34,8 +34,8 @@
     "name": "Quiet Oak Supply",
     "avatarSeed": 122,
     "bio": "Mockups and scenes photographed in nature, rebuilt as editable files.",
-    "sales": 4701,
-    "rating": 3.7,
+    "sales": 0,
+    "rating": 0,
     "location": "Kyoto",
     "joined": "2021-04-13"
   },
@@ -44,8 +44,8 @@
     "name": "Brightmeadow",
     "avatarSeed": 159,
     "bio": "Colour presets and gradients inspired by long summer evenings.",
-    "sales": 12670,
-    "rating": 3.8,
+    "sales": 0,
+    "rating": 0,
     "location": "Cape Town",
     "joined": "2022-05-14"
   },
@@ -54,8 +54,8 @@
     "name": "Sorrel Works",
     "avatarSeed": 196,
     "bio": "Clean source code starters with tests and docs included.",
-    "sales": 10198,
-    "rating": 4.6,
+    "sales": 0,
+    "rating": 0,
     "location": "Tallinn",
     "joined": "2023-06-15"
   },
@@ -64,8 +64,8 @@
     "name": "Thistle & Co.",
     "avatarSeed": 233,
     "bio": "Illustrations and textures with a warm, inky hand.",
-    "sales": 14402,
-    "rating": 4.1,
+    "sales": 0,
+    "rating": 0,
     "location": "Edinburgh",
     "joined": "2018-07-16"
   },
@@ -74,8 +74,8 @@
     "name": "Larch Lane",
     "avatarSeed": 270,
     "bio": "3D props and motion loops for product storytelling.",
-    "sales": 17480,
-    "rating": 4,
+    "sales": 0,
+    "rating": 0,
     "location": "Melbourne",
     "joined": "2019-08-17"
   }

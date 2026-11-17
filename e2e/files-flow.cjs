@@ -94,7 +94,7 @@ const ok = (c, m) => { console.log(`[${VW}] ` + (c ? 'PASS ' : 'FAIL ') + m); if
   if (VW >= 1024) {
     const side = p.locator('aside, main').locator('fieldset:has(legend:has-text("File type"))').first();
     const labels = (await side.locator('label').allInnerTexts()).map((t) => t.trim());
-    ok(['DLL', 'LUA', 'CFG', 'PSD'].every((t) => labels.includes(t)), 'filter lists DLL, LUA, CFG next to seeded types');
+    ok(['DLL', 'LUA', 'CFG'].every((t) => labels.includes(t)), 'filter lists DLL, LUA and CFG');
     await side.locator('label:has-text("CFG")').click();
     await p.waitForTimeout(400);
     ok((await p.locator('main article').count()) === 2, 'DLL+CFG filter shows two products');

@@ -1,47 +1,4 @@
-import { seeded, hashString } from './random';
-import type { Product, Review } from './types';
-
-const NAMES = [
-  'Mara L.',
-  'Theo K.',
-  'Ines P.',
-  'Sam W.',
-  'Noor A.',
-  'Felix R.',
-  'Ada M.',
-  'Kian T.',
-  'Lena V.',
-  'Oskar B.',
-];
-const LINES = [
-  'Beautifully organised, everything named exactly how I would have done it.',
-  'Saved me a full weekend. The read-me alone is worth it.',
-  'Lovely details. I wish there were a few more variations, but great value.',
-  'Clean, consistent and easy to customise for a client project.',
-  'Exactly as previewed. Support answered my question within a day.',
-  'Good starting point, though I had to tweak some spacing.',
-  'Gorgeous file. The colours are spot on.',
-  'Works great, the update last month fixed my only issue.',
-];
-
-/** A few deterministic sample reviews whose ratings sit around the product average. */
-export function seedReviews(product: Product): Review[] {
-  if (product.votes === 0) return []; // new (admin-added) files start without reviews
-  const r = seeded(hashString(product.id));
-  const count = Math.min(4, Math.max(1, Math.round(product.votes / 40)));
-  return Array.from({ length: count }, (_, i) => {
-    const rating = Math.max(1, Math.min(5, Math.round(product.rating + (r() - 0.5) * 1.6)));
-    const day = 1 + Math.floor(r() * 27);
-    return {
-      id: `${product.id}-seed-${i}`,
-      productId: product.id,
-      name: NAMES[Math.floor(r() * NAMES.length)],
-      rating,
-      text: LINES[Math.floor(r() * LINES.length)],
-      date: `2026-${String(10 - (i % 3)).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
-    };
-  });
-}
+import type { Product } from './types';
 
 export interface ChangelogEntry {
   version: string;

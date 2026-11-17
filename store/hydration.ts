@@ -1,6 +1,8 @@
 'use client';
 
 import { create } from 'zustand';
+import { getBundle } from '@/lib/catalog';
+import { pruneCartLines, pruneCounts, pruneIds, pruneOrders, pruneReviews } from '@/lib/prune';
 import { useAdminCatalog } from './admin-catalog';
 import { useAuth } from './auth';
 import { useCart } from './cart';
@@ -28,5 +30,32 @@ export async function rehydrateAll(): Promise<void> {
       s.persist.rehydrate(),
     ),
   );
+  pruneRetired();
   useHydration.getState().done();
+}
+
+const bundleExists = (id: string): boolean => getBundle(id) !== undefined;
+
+/** Drops removed seed files and bundles that older visits left in this browser's saved data. */
+export function pruneRetired(): void {
+  const cart = useCart.getState();
+  const lines = pruneCartLines(cart.lines, bundleExists);
+  if (lines.length !== cart.lines.length) useCart.setState({ lines });
+
+  const wish = useWishlist.getState();
+  const ids = pruneIds(wish.ids);
+  if (ids.length !== wish.ids.length) useWishlist.setState({ ids });
+
+  const lib = useLibrary.getState();
+  const orders = pruneOrders(lib.orders, bundleExists);
+  const freeDownloads = pruneCounts(lib.freeDownloads);
+  const ordersChanged =
+    orders.length !== lib.orders.length ||
+    orders.some((o, i) => o.items.length !== lib.orders[i].items.length);
+  if (ordersChanged || Object.keys(freeDownloads).length !== Object.keys(lib.freeDownloads).length)
+    useLibrary.setState({ orders, freeDownloads });
+
+  const rev = useReviews.getState();
+  const reviews = pruneReviews(rev.reviews);
+  if (reviews.length !== rev.reviews.length) useReviews.setState({ reviews });
 }

@@ -73,7 +73,7 @@ export default function Sidebar() {
         <NewsletterForm />
       </SidebarWidget>
 
-      <SidebarWidget title="Top authors" id="sb-authors">
+      <SidebarWidget title="Authors" id="sb-authors">
         <ol className="space-y-2">
           {topAuthors()
             .slice(0, 5)
@@ -82,28 +82,32 @@ export default function Sidebar() {
                 <Link href={`/authors/${a.id}/`} className="flex items-center gap-2 hover:underline">
                   <Avatar seed={a.avatarSeed} name={a.name} size={26} />
                   <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">{a.name}</span>
-                  <span className="text-[11px] text-ink-muted">{compact(a.sales)} sales</span>
+                  {a.sales > 0 && (
+                    <span className="text-[11px] text-ink-muted">{compact(a.sales)} sales</span>
+                  )}
                 </Link>
               </li>
             ))}
         </ol>
       </SidebarWidget>
 
-      <SidebarWidget title="Tags" id="sb-tags">
-        <ul className="flex flex-wrap gap-x-2 gap-y-1">
-          {tags.slice(0, 22).map((t) => (
-            <li key={t.tag}>
-              <Link
-                href={`/shop/?q=${encodeURIComponent(t.tag)}`}
-                className="text-[color:var(--link-strong)] hover:underline"
-                style={{ fontSize: `${11 + Math.round((t.count / max) * 5)}px` }}
-              >
-                {t.tag}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </SidebarWidget>
+      {tags.length > 0 && (
+        <SidebarWidget title="Tags" id="sb-tags">
+          <ul className="flex flex-wrap gap-x-2 gap-y-1">
+            {tags.slice(0, 22).map((t) => (
+              <li key={t.tag}>
+                <Link
+                  href={`/shop/?q=${encodeURIComponent(t.tag)}`}
+                  className="text-[color:var(--link-strong)] hover:underline"
+                  style={{ fontSize: `${11 + Math.round((t.count / max) * 5)}px` }}
+                >
+                  {t.tag}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </SidebarWidget>
+      )}
 
       <p className="px-3 pb-4 pt-3 text-center text-[11px] font-bold">
         <Link href="/sell/#advertise" className="hover:underline">

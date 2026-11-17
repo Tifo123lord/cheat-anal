@@ -27,6 +27,8 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
   const set = (patch: Partial<Filters>) => onChange({ ...f, ...patch, page: 1 });
   const minV = f.minPrice ?? 0;
   const maxV = f.maxPrice ?? top;
+  const types = allFileTypes(f.fileTypes);
+  const software = allCompatibility();
   return (
     <div className="text-[12.5px] text-ink">
       <Group title="Category">
@@ -45,25 +47,27 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           ))}
         </ul>
       </Group>
-      <Group title="File type">
-        <ul className="flex flex-wrap gap-1.5">
-          {allFileTypes(f.fileTypes).map((t) => (
-            <li key={t}>
-              <label
-                className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.fileTypes.includes(t) ? '!border-leaf-dark !bg-leaf !text-white' : ''}`}
-              >
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={f.fileTypes.includes(t)}
-                  onChange={() => set({ fileTypes: toggle(f.fileTypes, t) })}
-                />
-                {t}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </Group>
+      {types.length > 0 && (
+        <Group title="File type">
+          <ul className="flex flex-wrap gap-1.5">
+            {types.map((t) => (
+              <li key={t}>
+                <label
+                  className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.fileTypes.includes(t) ? '!border-leaf-dark !bg-leaf !text-white' : ''}`}
+                >
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={f.fileTypes.includes(t)}
+                    onChange={() => set({ fileTypes: toggle(f.fileTypes, t) })}
+                  />
+                  {t}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </Group>
+      )}
       <Group title="Price">
         <div className="space-y-2">
           <div className="flex justify-between text-[12px] font-semibold" aria-live="polite">
@@ -112,22 +116,24 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           </label>
         </div>
       </Group>
-      <Group title="Software">
-        <ul className="grid grid-cols-2 gap-0.5">
-          {allCompatibility().map((c) => (
-            <li key={c}>
-              <label className="flex cursor-pointer items-center gap-2 py-0.5">
-                <input
-                  type="checkbox"
-                  checked={f.compatibility.includes(c)}
-                  onChange={() => set({ compatibility: toggle(f.compatibility, c) })}
-                />
-                {c}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </Group>
+      {software.length > 0 && (
+        <Group title="Software">
+          <ul className="grid grid-cols-2 gap-0.5">
+            {software.map((c) => (
+              <li key={c}>
+                <label className="flex cursor-pointer items-center gap-2 py-0.5">
+                  <input
+                    type="checkbox"
+                    checked={f.compatibility.includes(c)}
+                    onChange={() => set({ compatibility: toggle(f.compatibility, c) })}
+                  />
+                  {c}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </Group>
+      )}
       <Group title="Rating">
         <ul className="space-y-0.5">
           {[0, 4.5, 4, 3.5].map((r) => (

@@ -107,11 +107,12 @@ describe('free-form file types in products and shop filters', () => {
   it('lists the types that exist dynamically, including new admin types', () => {
     setExtraProducts([dll], [dll]);
     const types = allFileTypes();
-    expect(types).toEqual(expect.arrayContaining(['DLL', 'LUA', 'CFG', 'PSD', 'ZIP']));
+    // Only admin uploads exist now (no seeded files), so the list is exactly the uploaded types.
+    expect(types).toEqual(['CFG', 'DLL', 'LUA']);
     expect(types).toEqual([...types].sort());
     expect(allFileTypes(['APK'])).toContain('APK');
     setExtraProducts([], []);
-    expect(allFileTypes()).not.toContain('DLL');
+    expect(allFileTypes()).toEqual([]);
     expect(fileTypeOptions([{ fileTypes: ['lua'] }, { fileTypes: ['LUA', 'ini'] }])).toEqual(['INI', 'LUA']);
   });
 

@@ -2,7 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { authorName, getCategory, products } from '@/lib/catalog';
+import { NO_FILES_TITLE, authorName, getCategory, products } from '@/lib/catalog';
+import { useHydrated } from '@/store/hydration';
 import { usePublishedAdminProducts } from '@/store/admin-catalog';
 import {
   SORT_OPTIONS,
@@ -22,7 +23,7 @@ import { CloseIcon, FilterIcon } from './Icons';
 import { TwoColumn } from './Layout';
 import Modal from './Modal';
 import Pagination from './Pagination';
-import ProductGrid from './ProductGrid';
+import ProductGrid, { GridSkeleton } from './ProductGrid';
 
 const PER_PAGE = 12;
 
@@ -51,7 +52,9 @@ export default function ShopView({
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
   };
 
+  const hydrated = useHydrated();
   const adminItems = usePublishedAdminProducts();
+  const catalogueEmpty = adminItems.length + products.length === 0;
   const results = useMemo(
     () => sortProducts(applyFilters([...adminItems, ...products], filters, authorName), filters.sort),
     [filters, adminItems],
@@ -152,6 +155,14 @@ export default function ShopView({
 
       {items.length ? (
         <ProductGrid items={items} label="Search results" />
+      ) : catalogueEmpty && !hydrated ? (
+        <GridSkeleton count={2} />
+      ) : catalogueEmpty ? (
+        <div className="frame on-paper" data-testid="shop-empty">
+          <EmptyState title={NO_FILES_TITLE}>
+            The shop is empty for now. New files appear here as soon as they are published.
+          </EmptyState>
+        </div>
       ) : (
         <div className="frame on-paper">
           <EmptyState title="Nothing sprouted here">

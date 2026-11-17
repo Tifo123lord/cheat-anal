@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bundles, getBundle, getProduct, products } from '@/lib/catalog';
+import { bundles, getBundle, getProduct } from '@/lib/catalog';
 import {
   BUNDLE_LICENSE_MULTIPLIER,
   TAX_RATE,
@@ -72,8 +72,8 @@ describe('licence pricing', () => {
     expect(licensePrice(free, 'Commercial')).toBe(9);
   });
 
-  it('seed data: higher licences never cost less than Personal', () => {
-    for (const p of products) {
+  it('higher licences never cost less than Personal', () => {
+    for (const p of [base, onSale]) {
       const personal = licensePrice(p, 'Personal');
       for (const l of p.licenses) expect(licensePrice(p, l.type)).toBeGreaterThanOrEqual(personal);
     }
@@ -127,7 +127,7 @@ describe('cart totals', () => {
     expect(cartTotals([], lookups, 'LEAF15')).toMatchObject({ subtotal: 0, discount: 0, tax: 0, total: 0 });
   });
 
-  it('works with the real catalogue', () => {
+  it('works with the real (empty) catalogue', () => {
     const t = cartTotals(
       bundles.map((b) => ({ kind: 'bundle', id: b.id, license: 'Personal' })),
       { product: getProduct, bundle: getBundle },
@@ -135,5 +135,11 @@ describe('cart totals', () => {
     );
     expect(t.subtotal).toBe(bundles.reduce((s, b) => s + b.price, 0));
     expect(t.total).toBeCloseTo((t.subtotal - t.discount) * (1 + TAX_RATE), 1);
+    expect(
+      cartTotals([{ kind: 'product', id: 'p01', license: 'Personal' }], {
+        product: getProduct,
+        bundle: getBundle,
+      }).total,
+    ).toBe(0);
   });
 });

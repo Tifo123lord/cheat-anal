@@ -2,7 +2,7 @@ import { extOf, normalizeChip } from './file-types';
 import { hashString } from './random';
 import { LICENSE_TYPES, type ArtKind, type Badge, type LicenseType, type Product } from './types';
 
-/** Admin products are prefixed so they never collide with the 36 seeded catalogue ids. */
+/** Admin products are prefixed so they never collide with seeded catalogue ids (retired p01–p36). */
 export const ADMIN_ID_PREFIX = 'adm-';
 export const ADMIN_AUTHOR_ID = 'leafpress-studio';
 export const ADMIN_AUTHOR_NAME = 'Cheat & Anal Studio';

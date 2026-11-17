@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { useId, useState } from 'react';
+import EmptyState from '@/components/EmptyState';
 import { Container } from '@/components/Layout';
 import SalesChart from '@/components/SalesChart';
 import { getCategory } from '@/lib/catalog';
 import { formatDate, money2 } from '@/lib/format';
-import { MIN_PAYOUT, demoStats } from '@/lib/stats';
+import { MIN_PAYOUT, hasSales, salesStats } from '@/lib/stats';
 import { useCurrentUser } from '@/store/auth';
 import { useHydrated } from '@/store/hydration';
 import { useStudio, type Submission } from '@/store/studio';
@@ -66,7 +67,8 @@ export default function DashboardView() {
   }
 
   const mine = submissions.filter((s) => s.author === user.email);
-  const stats = demoStats(user.email);
+  const stats = salesStats();
+  const sold = hasSales(stats);
   const chart = stats.map((s) => ({ label: s.label, sales: s.sales, earnings: s.net }));
   const totalNet = stats.reduce((t, s) => t + s.net, 0);
   const totalSales = stats.reduce((t, s) => t + s.sales, 0);
@@ -103,9 +105,7 @@ export default function DashboardView() {
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
             <h1 className="page-title">Author dashboard</h1>
-            <p className="text-[12px] text-ink-muted">
-              Welcome back, {user.name}. Demo figures for your account.
-            </p>
+            <p className="text-[12px] text-ink-muted">Welcome back, {user.name}.</p>
           </div>
           {user.role === 'admin' ? (
             <Link href="/admin/" className="link text-[12px]">
@@ -132,7 +132,13 @@ export default function DashboardView() {
             <h2 id={`${id}-chart`} className="widget-title mb-2">
               Sales statistics
             </h2>
-            <SalesChart data={chart} />
+            {sold ? (
+              <SalesChart data={chart} />
+            ) : (
+              <div className="rounded-md border border-[#a49b82] bg-paper-light/60" data-testid="sales-empty">
+                <EmptyState title="No sales yet">Your monthly sales and earnings appear here.</EmptyState>
+              </div>
+            )}
           </section>
           <section aria-labelledby={`${id}-pay`}>
             <h2 id={`${id}-pay`} className="widget-title mb-2">
@@ -199,42 +205,46 @@ export default function DashboardView() {
           <h2 id={`${id}-earn`} className="widget-title mb-2">
             Earnings
           </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] text-[12px] text-ink">
-              <thead>
-                <tr className="border-b border-[#a49b82] text-left">
-                  <th scope="col" className="py-1">
-                    Month
-                  </th>
-                  <th scope="col" className="py-1 text-right">
-                    Units
-                  </th>
-                  <th scope="col" className="py-1 text-right">
-                    Gross
-                  </th>
-                  <th scope="col" className="py-1 text-right">
-                    Fee (30%)
-                  </th>
-                  <th scope="col" className="py-1 text-right">
-                    Net
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...stats].reverse().map((s) => (
-                  <tr key={s.label} className="border-b border-[#c9c0a6]">
-                    <th scope="row" className="py-1 text-left font-semibold">
-                      {s.label}
+          {sold ? (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[420px] text-[12px] text-ink">
+                <thead>
+                  <tr className="border-b border-[#a49b82] text-left">
+                    <th scope="col" className="py-1">
+                      Month
                     </th>
-                    <td className="py-1 text-right">{s.sales}</td>
-                    <td className="py-1 text-right">{money2(s.gross)}</td>
-                    <td className="py-1 text-right">−{money2(s.fee)}</td>
-                    <td className="py-1 text-right font-semibold">{money2(s.net)}</td>
+                    <th scope="col" className="py-1 text-right">
+                      Units
+                    </th>
+                    <th scope="col" className="py-1 text-right">
+                      Gross
+                    </th>
+                    <th scope="col" className="py-1 text-right">
+                      Fee (30%)
+                    </th>
+                    <th scope="col" className="py-1 text-right">
+                      Net
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {[...stats].reverse().map((s) => (
+                    <tr key={s.label} className="border-b border-[#c9c0a6]">
+                      <th scope="row" className="py-1 text-left font-semibold">
+                        {s.label}
+                      </th>
+                      <td className="py-1 text-right">{s.sales}</td>
+                      <td className="py-1 text-right">{money2(s.gross)}</td>
+                      <td className="py-1 text-right">−{money2(s.fee)}</td>
+                      <td className="py-1 text-right font-semibold">{money2(s.net)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-[12px] text-ink-muted">No earnings yet. Months with sales are listed here.</p>
+          )}
         </section>
 
         <section className="mt-6" aria-labelledby={`${id}-up`}>

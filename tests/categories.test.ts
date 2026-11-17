@@ -52,11 +52,6 @@ describe('categories', () => {
     expect(categoryEmptyText(getCategory('cheats')!)).toBe('No cheats yet — check back soon');
   });
 
-  it('every seeded product belongs to a known category', () => {
-    const ids = new Set(categories.map((c) => c.id));
-    expect(products.every((p) => ids.has(p.category))).toBe(true);
-  });
-
   it('lists admin products in Cheats on the category page and in the shop filter', () => {
     const extra = cheatsProduct();
     const all = [extra, ...products];

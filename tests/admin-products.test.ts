@@ -162,7 +162,7 @@ describe('catalogue registry', () => {
     expect(allProducts()).toHaveLength(products.length + 1);
     expect(getProduct('adm-hidden')?.id).toBe('adm-hidden');
     expect(productHref(pub)).toBe('/product/view/?id=adm-pub');
-    expect(productHref(products[0])).toBe(`/product/${products[0].slug}/`);
+    expect(productHref({ id: 'p01', slug: 'some-static-file' })).toBe('/product/some-static-file/');
     const found = applyFilters(
       allProducts(),
       parseFilters(new URLSearchParams('q=mossbank&category=templates')),

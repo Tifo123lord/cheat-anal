@@ -1,5 +1,3 @@
-import { hashString, seeded } from './random';
-
 export const AUTHOR_FEE = 0.3;
 export const MIN_PAYOUT = 50;
 
@@ -13,15 +11,12 @@ export interface MonthStat {
 
 const MONTHS = ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
 
-/** Deterministic demo sales history for an author account (Dec 2025 – Nov 2026). */
-export function demoStats(seedKey: string): MonthStat[] {
-  const r = seeded(hashString(seedKey));
-  let base = 20 + r() * 30;
-  return MONTHS.map((label) => {
-    base = Math.max(6, base + (r() - 0.35) * 14);
-    const sales = Math.round(base);
-    const gross = Math.round(sales * (14 + r() * 18) * 100) / 100;
-    const fee = Math.round(gross * AUTHOR_FEE * 100) / 100;
-    return { label, sales, gross, fee, net: Math.round((gross - fee) * 100) / 100 };
-  });
+/**
+ * Sales history for an author account (Dec 2025 – Nov 2026). The store ships with no seeded files,
+ * so there is no demo history: every month starts at zero.
+ */
+export function salesStats(): MonthStat[] {
+  return MONTHS.map((label) => ({ label, sales: 0, gross: 0, fee: 0, net: 0 }));
 }
+
+export const hasSales = (stats: MonthStat[]): boolean => stats.some((s) => s.sales > 0 || s.net > 0);

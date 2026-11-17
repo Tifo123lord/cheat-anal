@@ -31,10 +31,10 @@ export function setExtraProducts(all: Product[], published: Product[]): void {
 /** Published admin products (browser only; empty during static render). */
 export const extraProducts = (): Product[] => extraPublished;
 
-/** Seeded catalogue plus published admin products. */
+/** Seeded catalogue (empty: the store ships with no files) plus published admin products. */
 export const allProducts = (): Product[] => [...extraPublished, ...products];
 
-/** Where a product's page lives: static pages for the seeded catalogue, a client route for admin items. */
+/** Where a product's page lives: static pages for seeded items (none today), a client route for admin items. */
 export const productHref = (p: Pick<Product, 'id' | 'slug'>): string =>
   extraAll.has(p.id) || p.id.startsWith('adm-')
     ? `/product/view/?id=${encodeURIComponent(p.id)}`
@@ -53,11 +53,20 @@ export const authorName = (id: string): string =>
   authorById.get(id)?.name ?? (id === 'leafpress-studio' ? 'Cheat & Anal Studio' : 'Unknown author');
 
 export const productsByAuthor = (authorId: string): Product[] =>
-  products.filter((p) => p.authorId === authorId);
+  allProducts().filter((p) => p.authorId === authorId);
 
-export const freeProducts = (): Product[] => products.filter((p) => p.price === 0);
+/** Free files: seeded (none) plus the given published admin products. */
+export const freeProducts = (extra: Product[] = []): Product[] =>
+  [...extra, ...products].filter((p) => (p.salePrice ?? p.price) === 0);
 
-/** Featured products for the home slider: the 12 best-rated paid files. */
+/** Placeholder slug for /product/[slug]: static export needs at least one param, and the store ships empty. */
+export const PLACEHOLDER_SLUG = 'unavailable';
+
+/** Slugs to pre-render under /product/[slug]: the seeded catalogue, or the placeholder when it is empty. */
+export const productSlugs = (): string[] =>
+  products.length ? products.map((p) => p.slug) : [PLACEHOLDER_SLUG];
+
+/** Featured products for the home slider: the 12 best-rated paid seeded files (none while the store is empty). */
 export const featuredProducts = (): Product[] => {
   const ranked = [...products]
     .filter((p) => p.price > 0)
@@ -69,26 +78,40 @@ export const featuredProducts = (): Product[] => {
 };
 
 export const relatedProducts = (product: Product, count = 4): Product[] => {
-  const same = products.filter((p) => p.id !== product.id && p.category === product.category);
-  const others = products.filter(
+  const pool = allProducts();
+  const same = pool.filter((p) => p.id !== product.id && p.category === product.category);
+  const others = pool.filter(
     (p) =>
       p.id !== product.id && p.category !== product.category && p.tags.some((t) => product.tags.includes(t)),
   );
-  const rest = products.filter((p) => p.id !== product.id && !same.includes(p) && !others.includes(p));
+  const rest = pool.filter((p) => p.id !== product.id && !same.includes(p) && !others.includes(p));
   return [...same, ...others, ...rest].slice(0, count);
 };
 
-export const topAuthors = (): Author[] => [...authors].sort((a, b) => b.sales - a.sales);
+/** Authors by lifetime sales, then by name (all start at zero sales now the store ships empty). */
+export const topAuthors = (): Author[] =>
+  [...authors].sort((a, b) => b.sales - a.sales || a.name.localeCompare(b.name));
 
 /** File types that exist in the shop right now (seeded + published admin items), for the filter. */
 export const allFileTypes = (selected: string[] = []): string[] => fileTypeOptions(allProducts(), selected);
-export const allCompatibility = (): string[] => [...new Set(products.flatMap((p) => p.compatibility))].sort();
+export const allCompatibility = (): string[] =>
+  [...new Set(allProducts().flatMap((p) => p.compatibility ?? []))].sort();
 export const allTags = (): { tag: string; count: number }[] => {
   const m = new Map<string, number>();
   allProducts().forEach((p) => p.tags.forEach((t) => m.set(t, (m.get(t) ?? 0) + 1)));
   return [...m.entries()].map(([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count);
 };
-export const maxPrice = (): number => Math.max(...allProducts().map((p) => p.price));
+/** Top of the price filter: the dearest listed file, or 100 when there are no files yet. */
+export const maxPrice = (): number => {
+  const prices = allProducts().map((p) => p.price);
+  return prices.length ? Math.max(0, ...prices) : 100;
+};
+
+/** Seeded ids were p01–p36. They are gone; carts, wishlists and libraries saved before are pruned of them. */
+export const isRetiredSeedId = (id: string): boolean => /^p\d{2}$/.test(id);
+
+/** Copy for a list with nothing in it yet. */
+export const NO_FILES_TITLE = 'No files yet';
 
 /** Products of one category from a list (seeded + admin), newest first. */
 export const productsInCategory = (list: Product[], categoryId: string): Product[] =>
