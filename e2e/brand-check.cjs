@@ -1,8 +1,8 @@
 // Brand check (Cheat & Anal): logo loads, H1/page titles use Rubik Glitch, no console errors, no horizontal overflow,
-// at 320/768/1280 on home, shop, product, cart, admin, dashboard. BASE=http://127.0.0.1:8811/leafpress node e2e/brand-check.cjs
-// Brand check for Cheat & Anal (leafpress repo) against a served static build.
+// at 320/768/1280 on home, shop, product, cart, admin, dashboard. BASE=http://127.0.0.1:8811/cheat-anal node e2e/brand-check.cjs
+// Brand check for Cheat & Anal (cheat-anal repo) against a served static build.
 const { chromium } = require(process.env.PW_CORE || 'playwright-core');
-const BASE = process.env.BASE || 'http://127.0.0.1:8811/leafpress';
+const BASE = process.env.BASE || 'http://127.0.0.1:8811/cheat-anal';
 const CHROME = process.env.CHROMIUM || undefined;
 const PAGES = ['/', '/shop/', '/product/canopy-agency-landing-template/', '/cart/', '/admin/', '/dashboard/'];
 let fails = 0, passes = 0;

@@ -7,6 +7,6 @@ export const SITE = {
   tagline: 'Digital files, grown with care.',
   description:
     'Cheat & Anal is an independent marketplace for website templates, UI kits, fonts, icon packs, mockups, 3D assets, presets, ebooks and source code.',
-  /** Absolute site root including the base path, e.g. https://tifo123lord.github.io/leafpress (no trailing slash). */
+  /** Absolute site root including the base path, e.g. https://tifo123lord.github.io/cheat-anal (no trailing slash). */
   url: `${(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cheat-anal.example').replace(/\/+$/, '')}${BASE_PATH}`,
 };

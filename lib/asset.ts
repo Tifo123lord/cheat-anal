@@ -1,5 +1,5 @@
 /**
- * Base path the site is served under (e.g. "/leafpress" on GitHub Pages, "" locally).
+ * Base path the site is served under (e.g. "/cheat-anal" on GitHub Pages, "" locally).
  * Inlined at build time from NEXT_PUBLIC_BASE_PATH; must match next.config.mjs.
  */
 export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? '').replace(/\/+$/, '');

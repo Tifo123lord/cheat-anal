@@ -1,6 +1,6 @@
 # Cheat & Anal (C&A)
 
-Formerly "leafpress". The repo name, URL (`/leafpress`), storage keys and demo/admin logins keep the old identifiers so existing data and sign-ins keep working.
+Formerly "leafpress". The repo was renamed to `cheat-anal` (URL `/cheat-anal`); the storage keys and demo/admin logins keep the old identifiers so existing data and sign-ins keep working.
 
 **Digital files, grown with care.** A demo marketplace for templates, UI kits, fonts, icon packs, mockups, 3D assets, presets, ebooks and source code, styled after a late-2000s "nature web gallery": a night sky with aurora ribbons, a beveled olive nav bar, a featured slider in a double cream frame, and two columns of cream cards with leaf ratings.
 
@@ -23,11 +23,11 @@ npm run dev        # http://localhost:3000
 | `npm test`          | Vitest unit tests                                                       |
 | `npm run format`    | Prettier                                                                |
 
-Optional environment variables: `NEXT_PUBLIC_SITE_URL` (origin for canonical/Open Graph/sitemap/RSS URLs, defaults to `https://cheat-anal.example`) and `NEXT_PUBLIC_BASE_PATH` (sub-path, e.g. `/leafpress`; empty for `npm run dev`).
+Optional environment variables: `NEXT_PUBLIC_SITE_URL` (origin for canonical/Open Graph/sitemap/RSS URLs, defaults to `https://cheat-anal.example`) and `NEXT_PUBLIC_BASE_PATH` (sub-path, e.g. `/cheat-anal`; empty for `npm run dev`).
 
 ## Deploy (GitHub Pages)
 
-`.github/workflows/deploy.yml` runs lint, typecheck, tests and `npm run build` with `NEXT_PUBLIC_BASE_PATH=/<repo>` and `NEXT_PUBLIC_SITE_URL=https://<owner>.github.io` on every push to `main`, then publishes `out/` with GitHub Pages (Settings → Pages → Source: GitHub Actions). Live: https://tifo123lord.github.io/leafpress/. Locally, `npm run dev` stays at the root because both variables are unset.
+`.github/workflows/deploy.yml` runs lint, typecheck, tests and `npm run build` with `NEXT_PUBLIC_BASE_PATH=/<repo>` and `NEXT_PUBLIC_SITE_URL=https://<owner>.github.io` on every push to `main`, then publishes `out/` with GitHub Pages (Settings → Pages → Source: GitHub Actions). Live: https://tifo123lord.github.io/cheat-anal/. Locally, `npm run dev` stays at the root because both variables are unset.
 
 Demo sign-in: `demo@leafpress.test` / `leafpress`. Demo card at checkout: `4242 4242 4242 4242`, any future expiry, any CVC. Coupon: `LEAF15` (15% off).
 

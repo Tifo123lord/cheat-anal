@@ -1,9 +1,9 @@
 // Any-file-type flow: admin uploads .dll/.lua/.cfg + GIF/SVG previews; a customer buys and downloads the .dll.
-// Run against a served static build: BASE=http://127.0.0.1:8811/leafpress VW=320|768|1280 node e2e/files-flow.cjs
+// Run against a served static build: BASE=http://127.0.0.1:8811/cheat-anal VW=320|768|1280 node e2e/files-flow.cjs
 // Fixtures expected in /tmp: hookshot.dll, init.lua, server.cfg, anim.gif (animated), logo.svg, broken.png, too-big.bin (201 MB).
 const { chromium } = require(process.env.PW_CORE || 'playwright-core');
 const fs = require('fs');
-const BASE = process.env.BASE || 'http://127.0.0.1:8811/leafpress';
+const BASE = process.env.BASE || 'http://127.0.0.1:8811/cheat-anal';
 const VW = Number(process.env.VW || 1280);
 const ok = (c, m) => { console.log(`[${VW}] ` + (c ? 'PASS ' : 'FAIL ') + m); if (!c) process.exitCode = 1; };
 (async () => {

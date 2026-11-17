@@ -11,7 +11,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   eslint: { dirs: ['app', 'components', 'lib', 'store', 'tests'] },
-  // Every image in leafpress is an SVG generated in code (lib/art), so there is nothing to optimise.
+  // Every image in Cheat & Anal is an SVG generated in code (lib/art), so there is nothing to optimise.
   images: { unoptimized: true },
 };
 

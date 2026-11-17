@@ -1,9 +1,9 @@
 // Cheats category flow: empty state, nav/menu/sidebar/filter/dropdown entries, admin uploads a .dll into Cheats,
 // it appears on /category/cheats/ and under the shop filter. No console errors, no horizontal overflow.
-// BASE=http://127.0.0.1:8811/leafpress VW=320|768|1280 [SHOT=/path.png] node e2e/cheats-category.cjs
+// BASE=http://127.0.0.1:8811/cheat-anal VW=320|768|1280 [SHOT=/path.png] node e2e/cheats-category.cjs
 // Fixture: /tmp/aimcfg.dll (any small file).
 const { chromium } = require(process.env.PW_CORE || 'playwright-core');
-const BASE = process.env.BASE || 'http://127.0.0.1:8811/leafpress';
+const BASE = process.env.BASE || 'http://127.0.0.1:8811/cheat-anal';
 const VW = Number(process.env.VW || 1280);
 let passes = 0;
 const ok = (c, m) => {
