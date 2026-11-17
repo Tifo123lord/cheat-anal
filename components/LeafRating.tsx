@@ -25,15 +25,15 @@ function Leaf({ fill, size }: { fill: number; size: number }) {
       <path
         className="leaf-fill"
         d={LEAF}
-        fill="#7fa23a"
-        stroke="#4f6a1f"
+        fill="#e0102a"
+        stroke="#a30b1e"
         strokeWidth="1"
         transform="rotate(-35 12 12)"
         clipPath={`url(#c${id})`}
       />
       <path
         d="M12 4 V20"
-        stroke={fill > 0.5 ? '#c9dd86' : '#ddd5bf'}
+        stroke={fill > 0.5 ? '#ffb3bc' : '#ddd5bf'}
         strokeWidth="0.9"
         transform="rotate(-35 12 12)"
       />

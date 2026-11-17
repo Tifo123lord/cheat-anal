@@ -97,7 +97,7 @@ export default function ProductGallery({ product }: { product: Product }) {
             <span className="h-2.5 w-2.5 rounded-full bg-[#e8c25c]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#7fc25c]" />
             <span className="ml-2 min-w-0 flex-1 truncate rounded-full bg-[#3a382b] px-3 py-0.5 text-[11px] text-[#d9d4c2]">
-              preview.leafpress.example/{product.slug}
+              preview.cheat-anal.example/{product.slug}
             </span>
           </div>
           <div className="grid gap-1 p-1 sm:grid-cols-[2fr_1fr]">

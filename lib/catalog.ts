@@ -50,7 +50,7 @@ export const getBundle = (id: string): Bundle | undefined => bundles.find((b) =>
 export const getPost = (slug: string): Post | undefined => posts.find((p) => p.slug === slug);
 
 export const authorName = (id: string): string =>
-  authorById.get(id)?.name ?? (id === 'leafpress-studio' ? 'leafpress Studio' : 'Unknown author');
+  authorById.get(id)?.name ?? (id === 'leafpress-studio' ? 'Cheat & Anal Studio' : 'Unknown author');
 
 export const productsByAuthor = (authorId: string): Product[] =>
   products.filter((p) => p.authorId === authorId);

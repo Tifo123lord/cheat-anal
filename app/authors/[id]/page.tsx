@@ -59,7 +59,7 @@ export default function AuthorPage({ params }: { params: { id: string } }) {
           <LeafRow rating={author.rating} size={16} />
         </div>
       </section>
-      <h2 className="mb-2 font-display text-[17px] font-bold text-ink-light">Files by {author.name}</h2>
+      <h2 className="brand-heading mb-2 text-[17px] text-ink-light">Files by {author.name}</h2>
       <ProductGrid items={files} />
     </TwoColumn>
   );

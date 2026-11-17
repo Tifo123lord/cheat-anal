@@ -299,7 +299,7 @@ for (const cat of categories) {
       id: `p${String(n).padStart(2, '0')}`,
       slug,
       title: `${name} — ${kind}`,
-      description: `${desc} Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the leafpress review team before it is published.`,
+      description: `${desc} Organised layers, clear naming and a friendly read-me are included, so you can start in minutes. Every file is checked by the Cheat & Anal review team before it is published.`,
       price,
       ...(salePrice ? { salePrice: Math.round(price * 0.7) } : {}),
       category: cat.id,
@@ -416,7 +416,7 @@ const posts = [
   date,
   art,
   body: [
-    `${excerpt} At leafpress we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.`,
+    `${excerpt} At Cheat & Anal we think of every file as something that should keep growing after you download it, which is why the details matter so much to us and to our authors.`,
     'We start by opening the file exactly as a buyer would: on a fresh machine, with nothing else installed. If anything is missing, mislabelled or confusing, it goes back to the author with friendly notes and screenshots.',
     'Next we look at the small things: consistent naming, sensible defaults, clear licences and a read-me that explains where to begin. These are the details that save hours later.',
     'Finally, we ask whether the file is something we would happily use ourselves. If the answer is yes, it is published, and the author is notified the same day.',

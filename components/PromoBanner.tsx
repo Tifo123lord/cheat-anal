@@ -45,7 +45,7 @@ function Art({ kind }: { kind: Kind }) {
         <path d="M180 84 L180 118 L220 108 L220 70Z" fill="#b07a3c" />
         <path d="M140 70 L118 56 L160 46 L180 60Z" fill="#dcaa6a" />
         <path d="M220 70 L240 54 L200 44 L180 60Z" fill="#d49e5c" />
-        <rect x="150" y="26" width="26" height="20" rx="2" fill="#7fa23a" transform="rotate(-14 163 36)" />
+        <rect x="150" y="26" width="26" height="20" rx="2" fill="#e0102a" transform="rotate(-14 163 36)" />
         <rect x="178" y="18" width="24" height="18" rx="2" fill="#3f6fb5" transform="rotate(10 190 27)" />
         <rect x="196" y="34" width="20" height="16" rx="2" fill="#e8c25c" transform="rotate(22 206 42)" />
         <circle cx="222" cy="28" r="20" fill="#c2452d" />
@@ -130,7 +130,7 @@ function Art({ kind }: { kind: Kind }) {
         <g key={i} transform={`translate(${26 + i * 26} ${58 + i * 34})`}>
           <rect width="150" height="96" rx="4" fill="#000" opacity=".18" transform="translate(3 4)" />
           <rect width="150" height="96" rx="4" fill="#fff" stroke="#b9b098" />
-          <rect width="150" height="14" rx="4" fill={['#5c5a3c', '#3f6fb5', '#7fa23a'][i]} />
+          <rect width="150" height="14" rx="4" fill={['#5c5a3c', '#3f6fb5', '#e0102a'][i]} />
           <circle cx="8" cy="7" r="2" fill="#fff" />
           <circle cx="15" cy="7" r="2" fill="#fff" opacity=".7" />
           {[0, 1, 2, 3].map((j) => (

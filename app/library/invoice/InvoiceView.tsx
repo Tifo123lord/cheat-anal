@@ -31,7 +31,9 @@ export default function InvoiceView() {
                   <span className="text-[#6b6754]">leaf</span>
                   <span className="text-[color:var(--link-strong)]">press</span>
                 </p>
-                <p className="text-[11px] text-ink-muted">leafpress Ltd · 1 Greenhouse Row · Demo City</p>
+                <p className="text-[11px] text-ink-muted">
+                  Cheat &amp; Anal Ltd · 1 Greenhouse Row · Demo City
+                </p>
               </div>
               <div className="text-right">
                 <h1 id="inv-h" className="font-display text-[18px] font-bold">

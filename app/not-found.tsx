@@ -29,14 +29,14 @@ export default function NotFound() {
           <g transform="translate(170 54) rotate(28)">
             <path
               d="M0 -34 C 26 -18, 26 18, 0 34 C -26 18, -26 -18, 0 -34Z"
-              fill="#7fa23a"
-              stroke="#4f6a1f"
+              fill="#e0102a"
+              stroke="#a30b1e"
               strokeWidth="2.5"
             />
-            <path d="M0 -30 V 40" stroke="#c9dd86" strokeWidth="2" strokeLinecap="round" />
+            <path d="M0 -30 V 40" stroke="#ffb3bc" strokeWidth="2" strokeLinecap="round" />
             <path
               d="M0 -8 L12 -18 M0 6 L-12 -4 M0 18 L12 8"
-              stroke="#c9dd86"
+              stroke="#ffb3bc"
               strokeWidth="1.6"
               strokeLinecap="round"
             />

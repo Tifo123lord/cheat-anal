@@ -28,7 +28,7 @@ export const SEED_USERS: User[] = [
     newsletter: true,
   },
   {
-    name: 'leafpress Admin',
+    name: 'Cheat & Anal Admin',
     email: ADMIN_USER.email,
     salt: 'a1b2c3d4e5f60718293a4b5c6d7e8f90',
     passwordHash: '999078b86082afded133c708a5d284a143bffb4581ceeb7fce0974b44547bda9',

@@ -109,7 +109,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             add({ kind: 'product', id: product.id, license: 'Personal' });
             toast(`${name} added to cart`);
           }}
-          className={`shrink-0 rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${inCart ? 'border-leaf-dark bg-paper-light text-[color:var(--link-strong)]' : 'border-[#3a4f15] bg-leaf text-[#16200a] hover:brightness-110'}`}
+          className={`shrink-0 rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${inCart ? 'border-leaf-dark bg-paper-light text-[color:var(--link-strong)]' : 'border-[#6e0713] bg-leaf text-white hover:brightness-110'}`}
           aria-label={inCart ? `${name} is in your cart, add again to update` : `Add ${name} to cart`}
         >
           <span className="inline-flex items-center gap-1">

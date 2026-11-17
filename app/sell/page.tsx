@@ -5,7 +5,7 @@ import { TwoColumn } from '@/components/Layout';
 export const metadata: Metadata = {
   title: 'Sell with us',
   description:
-    'Become a leafpress author: keep 70% of every sale, get paid monthly, and reach buyers who care about craft.',
+    'Become a Cheat & Anal author: keep 70% of every sale, get paid monthly, and reach buyers who care about craft.',
   alternates: { canonical: '/sell/' },
 };
 
@@ -25,8 +25,8 @@ export default function SellPage() {
       <article className="frame on-paper p-4 sm:p-6">
         <h1 className="page-title">Sell with us</h1>
         <p className="mt-1 text-[14px] text-ink">
-          leafpress is a small, friendly marketplace for people who make careful digital things. Grow an
-          audience that values quality over quantity.
+          Cheat &amp; Anal is a small, friendly marketplace for people who make careful digital things. Grow
+          an audience that values quality over quantity.
         </p>
         <ol className="mt-4 grid gap-3 sm:grid-cols-2">
           {STEPS.map(([t, d], i) => (
@@ -53,7 +53,7 @@ export default function SellPage() {
           aria-labelledby="adv-h"
         >
           <h2 id="adv-h" className="font-display text-[16px] font-bold text-ink">
-            Advertise with leafpress
+            Advertise with Cheat &amp; Anal
           </h2>
           <p className="text-[13px] text-ink">
             Sidebar placements reach designers and developers on every page. House ads only in this demo:

@@ -1,4 +1,6 @@
-# leafpress
+# Cheat & Anal (C&A)
+
+Formerly "leafpress". The repo name, URL (`/leafpress`), storage keys and demo/admin logins keep the old identifiers so existing data and sign-ins keep working.
 
 **Digital files, grown with care.** A demo marketplace for templates, UI kits, fonts, icon packs, mockups, 3D assets, presets, ebooks and source code, styled after a late-2000s "nature web gallery": a night sky with aurora ribbons, a beveled olive nav bar, a featured slider in a double cream frame, and two columns of cream cards with leaf ratings.
 
@@ -21,7 +23,7 @@ npm run dev        # http://localhost:3000
 | `npm test`          | Vitest unit tests                                                       |
 | `npm run format`    | Prettier                                                                |
 
-Optional environment variables: `NEXT_PUBLIC_SITE_URL` (origin for canonical/Open Graph/sitemap/RSS URLs, defaults to `https://leafpress.example`) and `NEXT_PUBLIC_BASE_PATH` (sub-path, e.g. `/leafpress`; empty for `npm run dev`).
+Optional environment variables: `NEXT_PUBLIC_SITE_URL` (origin for canonical/Open Graph/sitemap/RSS URLs, defaults to `https://cheat-anal.example`) and `NEXT_PUBLIC_BASE_PATH` (sub-path, e.g. `/leafpress`; empty for `npm run dev`).
 
 ## Deploy (GitHub Pages)
 
@@ -172,3 +174,9 @@ Add to `data/authors.json`:
 - Payments and emails are mocks; all data (accounts, admin products, uploaded files) is per-browser.
 - Images are SVG data URIs through `next/image` (unoptimized, as required by static export), lazy-loaded with fixed dimensions to avoid layout shift.
 - Respects `prefers-reduced-motion` (no slider autoplay, no hover motion).
+
+## Brand
+
+- Name: **Cheat & Anal**, short name **C&A** (`lib/site.ts`). Accent red `#e0102a` (`--leaf` in `styles/globals.css`; `--link-strong` `#8c0a19` for text on cream, white text on red buttons, all WCAG AA).
+- Logo, favicons, apple-touch icon and the Open Graph image are generated from `scripts/brand-src/` by `python3 scripts/brand-assets.py`.
+- Headings (H1, `.page-title`, `.brand-heading`) use **Rubik Glitch**, self-hosted via `next/font/local` from `app/fonts/RubikGlitch-latin.woff2` (SIL Open Font License 1.1, see `app/fonts/OFL.txt`, also published as `/fonts-OFL.txt`). Body text stays Open Sans.

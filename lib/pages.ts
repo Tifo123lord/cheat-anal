@@ -8,12 +8,12 @@ export interface InfoPage {
 export const INFO_PAGES: InfoPage[] = [
   {
     slug: 'about',
-    title: 'About leafpress',
+    title: 'About Cheat & Anal',
     description: 'A small marketplace for careful digital files.',
     sections: [
       {
         heading: 'Grown with care',
-        body: 'leafpress started as a shared folder between a few friends who made templates and fonts. Today it is a home for independent authors who care about the details.',
+        body: 'Cheat & Anal started as a shared folder between a few friends who made templates and fonts. Today it is a home for independent authors who care about the details.',
       },
       {
         heading: 'What we believe',
@@ -77,9 +77,9 @@ export const INFO_PAGES: InfoPage[] = [
   {
     slug: 'contact',
     title: 'Contact',
-    description: 'Get in touch with the leafpress team.',
+    description: 'Get in touch with the Cheat & Anal team.',
     sections: [
-      { heading: 'Email', body: 'hello@leafpress.example. We read every message.' },
+      { heading: 'Email', body: 'hello@cheat-anal.example. We read every message.' },
       {
         heading: 'Community',
         body: 'Join the author community chat and the weekly newsletter for news, tips and freebies.',
@@ -89,7 +89,7 @@ export const INFO_PAGES: InfoPage[] = [
   {
     slug: 'terms',
     title: 'Terms of use',
-    description: 'The rules for using leafpress.',
+    description: 'The rules for using Cheat & Anal.',
     sections: [
       {
         heading: 'Using the store',
@@ -104,7 +104,7 @@ export const INFO_PAGES: InfoPage[] = [
   {
     slug: 'privacy',
     title: 'Privacy',
-    description: 'How leafpress handles your data.',
+    description: 'How Cheat & Anal handles your data.',
     sections: [
       {
         heading: 'In this demo',
@@ -112,7 +112,7 @@ export const INFO_PAGES: InfoPage[] = [
       },
       {
         heading: 'Clearing data',
-        body: 'Clear site data in your browser settings to remove everything leafpress stored.',
+        body: 'Clear site data in your browser settings to remove everything Cheat & Anal stored.',
       },
     ],
   },

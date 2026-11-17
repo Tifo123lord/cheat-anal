@@ -31,7 +31,7 @@ export default function Pagination({ page, pages, onPage, label = 'Pagination' }
           onClick={() => onPage(n)}
           aria-current={n === page ? 'page' : undefined}
           aria-label={`Page ${n}`}
-          className={`${btn} ${n === page ? 'border-leaf-dark bg-leaf text-[#16200a]' : 'border-[#4a4833] bg-olive-dark text-ink-light hover:bg-olive'}`}
+          className={`${btn} ${n === page ? 'border-leaf-dark bg-leaf text-white' : 'border-[#4a4833] bg-olive-dark text-ink-light hover:bg-olive'}`}
         >
           {n}
         </button>

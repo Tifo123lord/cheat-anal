@@ -22,7 +22,7 @@ export default function SiteHeader() {
   const user = useCurrentUser();
 
   return (
-    <header className="relative z-20">
+    <header className="site-header relative z-20">
       {/* 1. header band (130px) with the wordmark */}
       <div className="mx-auto flex h-[96px] max-w-site items-center justify-between px-3 md:h-[130px] lg:px-0">
         <div className="flex items-center gap-2 pt-3 md:pt-0">
@@ -54,7 +54,7 @@ export default function SiteHeader() {
           {hydrated && user?.role === 'admin' && (
             <Link
               href="/admin/"
-              className="inline-flex items-center gap-1 font-bold text-[#c9e07a] hover:text-white"
+              className="inline-flex items-center gap-1 font-bold text-[#ff8a96] hover:text-white"
             >
               Admin
             </Link>
@@ -81,7 +81,7 @@ export default function SiteHeader() {
         >
           <CartIcon size={20} />
           {hydrated && count > 0 && (
-            <span className="absolute -right-1.5 -top-1.5 rounded-full bg-leaf px-1.5 text-[10px] font-bold text-[#16200a]">
+            <span className="absolute -right-1.5 -top-1.5 rounded-full bg-leaf px-1.5 text-[10px] font-bold text-white">
               {count}
             </span>
           )}

@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { asset } from '@/lib/asset';
 import { BankIcon, CameraIcon, CardIcon, ChatIcon, CoinIcon, RssIcon, VideoIcon, WalletIcon } from './Icons';
+import { SITE } from '@/lib/site';
 import Logo from './Logo';
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
-    title: 'leafpress',
+    title: SITE.name,
     links: [
       { href: '/info/about/', label: 'About' },
       { href: '/journal/', label: 'Journal' },
@@ -64,7 +65,7 @@ export default function Footer() {
         </div>
         {COLUMNS.map((c) => (
           <nav key={c.title} aria-label={c.title}>
-            <h2 className="mb-2 font-display text-[13px] font-bold uppercase tracking-wide text-[#a9c35c]">
+            <h2 className="mb-2 font-display text-[13px] font-bold uppercase tracking-wide text-[#ff6b7c]">
               {c.title}
             </h2>
             <ul className="space-y-1.5 text-[12px]">
@@ -81,7 +82,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-[#24231a]">
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-3 px-3 py-4 text-[11px] text-[#b8b3a1] lg:px-0">
-          <p>© 2026 leafpress. All rights reserved.</p>
+          <p>© 2026 {SITE.name}. All rights reserved.</p>
           <ul className="flex items-center gap-2" aria-label="Accepted payment methods">
             {[
               { I: CardIcon, l: 'Credit card' },

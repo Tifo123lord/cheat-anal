@@ -50,8 +50,8 @@ export default function SalesChart({ data }: { data: Point[] }) {
               width={bw * 0.64}
               height={pad.t + ih - y(d.sales, maxS)}
               rx="2"
-              fill="#7fa23a"
-              stroke="#4f6a1f"
+              fill="#e0102a"
+              stroke="#a30b1e"
             />
             <text x={pad.l + bw * i + bw / 2} y={H - 9} fontSize="9" textAnchor="middle" fill="#57533f">
               {d.label}

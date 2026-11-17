@@ -5,7 +5,7 @@ import { LICENSE_TYPES, type ArtKind, type Badge, type LicenseType, type Product
 /** Admin products are prefixed so they never collide with the 36 seeded catalogue ids. */
 export const ADMIN_ID_PREFIX = 'adm-';
 export const ADMIN_AUTHOR_ID = 'leafpress-studio';
-export const ADMIN_AUTHOR_NAME = 'leafpress Studio';
+export const ADMIN_AUTHOR_NAME = 'Cheat & Anal Studio';
 /** Largest downloadable file: files are kept whole in IndexedDB, which handles this comfortably. */
 export const MAX_FILE_BYTES = 200 * 1024 * 1024;
 export const MAX_IMAGES = 5;

@@ -8,6 +8,7 @@ import { Container } from '@/components/Layout';
 import ProductDetail from '@/components/ProductDetail';
 import { getProduct, relatedProducts } from '@/lib/catalog';
 import { extOf } from '@/lib/file-types';
+import { SITE } from '@/lib/site';
 import { useAdminCatalog } from '@/store/admin-catalog';
 import { useIsAdmin } from '@/store/auth';
 import { useHydrated } from '@/store/hydration';
@@ -26,7 +27,7 @@ export default function ProductView() {
 
   const title = visible ? product?.title : undefined;
   useEffect(() => {
-    if (title) document.title = `${title} · leafpress`;
+    if (title) document.title = `${title} · ${SITE.name}`;
   }, [title]);
 
   if (!hydrated) {

@@ -34,7 +34,7 @@ export default function SuccessView() {
         ) : (
           <>
             <div className="flex items-center gap-3">
-              <span className="rounded-full bg-leaf p-2 text-[#16200a]">
+              <span className="rounded-full bg-leaf p-2 text-white">
                 <CheckIcon size={22} />
               </span>
               <div>

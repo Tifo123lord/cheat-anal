@@ -8,7 +8,7 @@ import { formatDate } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'New releases',
-  description: 'The newest digital files on leafpress, freshly reviewed and ready to download.',
+  description: 'The newest digital files on Cheat & Anal, freshly reviewed and ready to download.',
   alternates: { canonical: '/new-releases/' },
 };
 

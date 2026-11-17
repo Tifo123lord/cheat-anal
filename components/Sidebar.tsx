@@ -107,7 +107,7 @@ export default function Sidebar() {
 
       <p className="px-3 pb-4 pt-3 text-center text-[11px] font-bold">
         <Link href="/sell/#advertise" className="hover:underline">
-          Advertise with leafpress
+          Advertise with Cheat &amp; Anal
         </Link>
       </p>
     </CreamFrame>

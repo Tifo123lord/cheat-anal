@@ -12,14 +12,16 @@
   --paper-dark: #b9b098;
   --olive: #5c5a3c;
   --olive-dark: #3d3b28;
-  --leaf: #7fa23a;
-  --leaf-dark: #4f6a1f;
+  /* Primary accent: the logo red (#e0102a). White text on it is 4.9:1 (AA). */
+  --leaf: #e0102a;
+  --leaf-dark: #a30b1e;
+  --on-accent: #ffffff;
   --text-dark: #2b2a22;
   --text-light: #eeeadb;
-  --link: #5b7a1e;
+  --link: #c20e24;
   --sale: #c2452d;
   /* Derived, for WCAG AA text on cream (the brand --link is kept for accents and icons). */
-  --link-strong: #3f5714;
+  --link-strong: #8c0a19;
   --text-muted: #57533f;
   --focus: #f2c14e;
   color-scheme: dark;
@@ -55,6 +57,34 @@ body {
 
 a {
   color: inherit;
+}
+
+/* Dark band behind the white logo so it stays readable over the aurora; fades out under the nav bar. */
+.site-header {
+  background: linear-gradient(180deg, #141414 0%, rgba(20, 20, 20, 0.94) 60%, rgba(20, 20, 20, 0) 100%);
+}
+@media (min-width: 768px) {
+  .site-header {
+    background: linear-gradient(
+      180deg,
+      #141414 0%,
+      rgba(20, 20, 20, 0.96) 112px,
+      rgba(20, 20, 20, 0.55) 140px,
+      rgba(20, 20, 20, 0) 185px
+    );
+  }
+}
+
+/* Brand display face (Rubik Glitch, single weight): H1 page headings, .page-title, hero titles
+   and section headings only. Body copy keeps --font-body. */
+h1,
+.page-title,
+.brand-heading {
+  font-family: var(--font-brand), Impact, system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
 }
 
 @layer components {
@@ -126,13 +156,13 @@ a {
 
   .btn {
     @apply inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] font-bold transition;
-    background: linear-gradient(180deg, #93b84c, var(--leaf) 50%, var(--leaf-dark));
-    color: #16200a;
-    border: 1px solid #3a4f15;
+    background: linear-gradient(180deg, #e0102a, #c80e25 50%, var(--leaf-dark));
+    color: var(--on-accent);
+    border: 1px solid #6e0713;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
       0 1px 2px rgba(0, 0, 0, 0.35);
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
   .btn:hover {
     filter: brightness(1.07);
@@ -187,8 +217,7 @@ a {
     color: var(--olive-dark);
   }
   .page-title {
-    font-family: var(--font-display), system-ui, sans-serif;
-    @apply text-[22px] font-bold;
+    @apply text-[22px];
     color: var(--text-dark);
   }
   .prose-paper p {

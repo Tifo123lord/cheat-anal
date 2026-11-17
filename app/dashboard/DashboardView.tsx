@@ -16,7 +16,7 @@ import UploadForm from './UploadForm';
 const STATUS_STYLE: Record<Submission['status'], string> = {
   draft: 'bg-[#c6bda5] text-ink',
   pending: 'bg-[#e0b040] text-ink',
-  approved: 'bg-leaf text-[#16200a]',
+  approved: 'bg-leaf text-white',
   rejected: 'bg-sale text-white',
 };
 
@@ -113,7 +113,7 @@ export default function DashboardView() {
             </Link>
           ) : (
             <span className="text-[11px] text-ink-muted">
-              Submissions are reviewed by the leafpress admin.
+              Submissions are reviewed by the Cheat &amp; Anal admin.
             </span>
           )}
         </div>

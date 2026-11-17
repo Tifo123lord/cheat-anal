@@ -246,7 +246,7 @@ function book(p: Palette, rnd: () => number, title: string): string {
   b +=
     `<circle cx="160" cy="118" r="${r1(22 + rnd() * 6)}" fill="${p.accent2}"/>` +
     leafPath(160, 118, 2, 20, p.bg);
-  b += text(124, 172, 'leafpress books', 7, p.bg, `${SANS} opacity=".85"`);
+  b += text(124, 172, 'Cheat & Anal books', 7, p.bg, `${SANS} opacity=".85"`);
   b +=
     rect(30, 40, 60, 80, p.bg, 3, ' opacity=".6" transform="rotate(-8 60 80)"') +
     rect(232, 52, 60, 80, p.bg, 3, ' opacity=".5" transform="rotate(7 262 92)"');
@@ -355,7 +355,7 @@ export function parseArt(descriptor: string): ArtSpec {
   return { kind, variant };
 }
 
-export function artSvg(descriptor: string, title = 'leafpress'): string {
+export function artSvg(descriptor: string, title = 'Cheat & Anal'): string {
   const { kind, variant } = parseArt(descriptor);
   const p = PALETTES[variant % PALETTES.length];
   const rnd = seeded(variant * 7919 + kind.length * 104729 + title.length);

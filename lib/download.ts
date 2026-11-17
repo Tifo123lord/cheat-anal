@@ -26,7 +26,7 @@ export function downloadDummyZip(f: DummyFile): void {
     `${f.title}`,
     '='.repeat(f.title.length),
     '',
-    'Thanks for downloading from leafpress!',
+    'Thanks for downloading from Cheat & Anal!',
     'This is a demo store, so this archive holds placeholder files only.',
     '',
     `Licence: ${f.license}`,
@@ -35,7 +35,7 @@ export function downloadDummyZip(f: DummyFile): void {
     '',
     'Digital files, grown with care.',
   ].join('\n');
-  const licence = `LEAFPRESS ${f.license.toUpperCase()} LICENCE\nKey: ${f.licenseKey}\nItem: ${f.title}\n`;
+  const licence = `CHEAT & ANAL ${f.license.toUpperCase()} LICENCE\nKey: ${f.licenseKey}\nItem: ${f.title}\n`;
   const bytes = buildZip([
     { name: `${f.slug}/README.txt`, content: readme },
     { name: `${f.slug}/LICENSE.txt`, content: licence },

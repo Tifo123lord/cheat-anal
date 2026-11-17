@@ -144,7 +144,7 @@ export default function ProductDetail({ product, related }: { product: Product; 
           <BuyBox product={product} author={author} />
         </div>
         <section className="min-w-0 lg:col-start-1 lg:row-start-2" aria-labelledby="related-h">
-          <h2 id="related-h" className="mb-2 mt-2 font-display text-[17px] font-bold text-ink-light">
+          <h2 id="related-h" className="brand-heading mb-2 mt-2 text-[17px] text-ink-light">
             You might also like
           </h2>
           <ProductGrid items={related ?? relatedProducts(product, 4)} />

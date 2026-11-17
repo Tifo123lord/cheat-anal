@@ -4,7 +4,8 @@ import FreeFiles from './FreeFiles';
 
 export const metadata: Metadata = {
   title: 'Free files',
-  description: 'Free templates, mockups, textures and ebooks from leafpress authors. Unlock with your email.',
+  description:
+    'Free templates, mockups, textures and ebooks from Cheat & Anal authors. Unlock with your email.',
   alternates: { canonical: '/free-files/' },
 };
 

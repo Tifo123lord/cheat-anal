@@ -106,16 +106,16 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
           ))}
 
           {/* Featured ribbon */}
-          <div className="absolute -left-8 top-3 w-32 -rotate-45 bg-gradient-to-b from-[#93b84c] to-leaf-dark py-0.5 text-center text-[10px] font-extrabold uppercase tracking-widest text-[#16200a] shadow-md">
+          <div className="absolute -left-8 top-3 w-32 -rotate-45 bg-gradient-to-b from-[#e0102a] to-leaf-dark py-0.5 text-center text-[10px] font-extrabold uppercase tracking-widest text-white shadow-md">
             Featured
           </div>
 
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3 pt-10 sm:p-4 sm:pt-14">
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#c5dc63]">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff8a96]">
                 by {authorName(current.authorId)}
               </p>
-              <h2 className="truncate font-display text-[17px] font-bold leading-tight text-white sm:text-[22px]">
+              <h2 className="brand-heading truncate text-[15px] leading-tight text-white sm:text-[22px]">
                 <Link href={productHref(current)} className="hover:underline" tabIndex={0}>
                   {current.title}
                 </Link>

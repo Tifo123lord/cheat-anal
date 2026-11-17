@@ -46,7 +46,7 @@ export default function Aurora() {
           </linearGradient>
           <linearGradient id="au-green" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#d9e36a" stopOpacity="0.95" />
-            <stop offset="0.35" stopColor="#7fa23a" stopOpacity="0.95" />
+            <stop offset="0.35" stopColor="#e0102a" stopOpacity="0.95" />
             <stop offset="0.8" stopColor="#3f6a24" stopOpacity="0.6" />
             <stop offset="1" stopColor="#3f6a24" stopOpacity="0" />
           </linearGradient>
@@ -129,7 +129,7 @@ export default function Aurora() {
         />
         <path
           d="M380 110 C 300 170, 250 250, 270 380"
-          stroke="#7fa23a"
+          stroke="#e0102a"
           strokeWidth="30"
           fill="none"
           opacity="0.35"
@@ -160,7 +160,7 @@ export default function Aurora() {
         {/* green wave crest above the right end of the nav */}
         <path
           d="M900 132 C 1020 100, 1110 96, 1230 118 C 1150 112, 1050 118, 960 138Z"
-          fill="#9cc24a"
+          fill="#ff5a6c"
           opacity="0.75"
         />
         <path

@@ -1,35 +1,40 @@
 import Link from 'next/link';
+import { asset } from '@/lib/asset';
+import { SITE } from '@/lib/site';
 
-/** "leafpress" wordmark: "leaf" in light gray, "press" in olive green, a sprout over the f. */
+/** Intrinsic size of the trimmed wordmark (public/brand/logo-*.webp): stacked "CHEAT / & ANAL", white with a red slash. */
+const LOGO_W = 953;
+const LOGO_H = 697;
+
+/**
+ * "Cheat & Anal" wordmark. The artwork is white on transparent, so it must sit on a dark
+ * background (the header and footer are both on --bg-night).
+ */
 export default function Logo({ small = false }: { small?: boolean }) {
+  const sizes = small ? '82px' : '(min-width: 768px) 132px, 88px';
   return (
     <Link
       href="/"
-      className={`relative inline-block font-display font-bold leading-none tracking-tight no-underline ${small ? 'text-[26px]' : 'text-[30px] sm:text-[40px]'}`}
-      aria-label="leafpress home"
+      className="relative inline-block shrink-0 leading-none no-underline"
+      aria-label={`${SITE.name} home`}
     >
-      <span className="text-[#cfcfcf] [text-shadow:0_2px_3px_rgba(0,0,0,.6)]">lea</span>
-      <span className="relative text-[#cfcfcf] [text-shadow:0_2px_3px_rgba(0,0,0,.6)]">
-        f
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 40 36"
-          className="absolute left-1/2 top-0 h-[0.9em] w-[1em] -translate-x-[40%] -translate-y-[78%]"
-        >
-          <path
-            d="M20 35 C 20 26, 19 20, 20 13"
-            stroke="#8fb43f"
-            strokeWidth="2.4"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path d="M20 16 C 12 16, 5 11, 3 3 C 12 3, 19 7, 20 16Z" fill="#9cc24a" />
-          <path d="M20 13 C 26 12, 33 6, 36 0 C 27 0, 21 5, 20 13Z" fill="#c5dc63" />
-          <path d="M20 22 C 25 22, 31 19, 33 13 C 27 13, 22 16, 20 22Z" fill="#7fa23a" />
-          <path d="M20 16 C 14 14, 9 10, 5 5" stroke="#5c7d26" strokeWidth="0.8" fill="none" />
-        </svg>
-      </span>
-      <span className="text-[#8aa53f] [text-shadow:0_2px_3px_rgba(0,0,0,.6)]">press</span>
+      <picture>
+        <source
+          type="image/webp"
+          srcSet={`${asset('/brand/logo-160.webp')} 160w, ${asset('/brand/logo-240.webp')} 240w, ${asset('/brand/logo-320.webp')} 320w, ${asset('/brand/logo-480.webp')} 480w`}
+          sizes={sizes}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element -- static export; srcset of pre-sized webp files */}
+        <img
+          src={asset('/brand/logo-320.png')}
+          alt={SITE.name}
+          width={LOGO_W}
+          height={LOGO_H}
+          decoding="async"
+          fetchPriority={small ? 'low' : 'high'}
+          className={`block h-auto drop-shadow-[0_2px_3px_rgba(0,0,0,.6)] ${small ? 'w-[82px]' : 'w-[88px] md:w-[132px]'}`}
+        />
+      </picture>
     </Link>
   );
 }

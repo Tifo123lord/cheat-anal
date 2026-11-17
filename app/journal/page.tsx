@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Journal',
-  description: 'Notes from the leafpress greenhouse: craft, licensing, reviews and greener downloads.',
+  description: 'Notes from the Cheat & Anal greenhouse: craft, licensing, reviews and greener downloads.',
   alternates: { canonical: '/journal/' },
 };
 

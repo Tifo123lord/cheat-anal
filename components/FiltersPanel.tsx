@@ -50,7 +50,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           {allFileTypes(f.fileTypes).map((t) => (
             <li key={t}>
               <label
-                className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.fileTypes.includes(t) ? '!border-leaf-dark !bg-leaf !text-[#16200a]' : ''}`}
+                className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.fileTypes.includes(t) ? '!border-leaf-dark !bg-leaf !text-white' : ''}`}
               >
                 <input
                   type="checkbox"
@@ -84,7 +84,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
               const v = Math.min(Number(e.target.value), maxV);
               set({ minPrice: v === 0 ? null : v });
             }}
-            className="w-full accent-[#5b7a1e]"
+            className="w-full accent-[#c20e24]"
           />
           <label htmlFor={`${idPrefix}-max`} className="sr-only">
             Maximum price
@@ -100,7 +100,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
               const v = Math.max(Number(e.target.value), minV);
               set({ maxPrice: v === top ? null : v });
             }}
-            className="w-full accent-[#5b7a1e]"
+            className="w-full accent-[#c20e24]"
           />
           <label className="flex items-center gap-2">
             <input

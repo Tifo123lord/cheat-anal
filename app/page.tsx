@@ -21,7 +21,9 @@ export default function HomePage() {
   };
   return (
     <TwoColumn>
-      <h1 className="sr-only">leafpress — {SITE.tagline}</h1>
+      <h1 className="sr-only">
+        {SITE.name} — {SITE.tagline}
+      </h1>
       <FeaturedSlider items={featured} />
       <HomeGrid items={latest} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

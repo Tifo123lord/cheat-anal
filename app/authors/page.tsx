@@ -8,7 +8,7 @@ import { compact } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Top authors',
-  description: 'Meet the independent studios and designers behind leafpress files.',
+  description: 'Meet the independent studios and designers behind Cheat & Anal files.',
   alternates: { canonical: '/authors/' },
 };
 
