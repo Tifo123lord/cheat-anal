@@ -39,11 +39,11 @@ describe('categories', () => {
       description: 'Configs, scripts and mods: dll, lua, cfg and more',
       icon: 'crosshair',
     });
-    expect(iconSource).toMatch(/\n\s+crosshair: '/);
+    expect(iconSource).toMatch(/\n\s+crosshair:\s+'/);
   });
 
   it('gives every category an icon that exists', () => {
-    for (const c of categories) expect(iconSource, c.icon).toMatch(new RegExp(`\\n\\s+'?${c.icon}'?: '`));
+    for (const c of categories) expect(iconSource, c.icon).toMatch(new RegExp(`\\n\\s+'?${c.icon}'?:\\s+'`));
   });
 
   it('ships no seeded cheats', () => {
