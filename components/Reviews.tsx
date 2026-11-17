@@ -41,6 +41,10 @@ export default function Reviews({ product }: { product: Product }) {
     if (text.trim().length < 10) errs.text = 'Tell other buyers a little more (10+ characters).';
     setErrors(errs);
     if (Object.keys(errs).length) return;
+    if (!user) {
+      setErrors({ text: 'Sign in to post a review.' });
+      return;
+    }
     addReview({
       id: `${product.id}-${Date.now()}`,
       productId: product.id,
@@ -48,10 +52,14 @@ export default function Reviews({ product }: { product: Product }) {
       rating,
       text: text.trim(),
       date: new Date().toISOString().slice(0, 10),
-    });
-    setRating(0);
-    setText('');
-    toast('Thanks! Your review is live.');
+    }).then(
+      () => {
+        setRating(0);
+        setText('');
+        toast('Thanks! Your review is live.');
+      },
+      (ex: unknown) => setErrors({ text: `Could not post: ${ex instanceof Error ? ex.message : 'server error'}.` }),
+    );
   };
 
   return (

@@ -103,10 +103,17 @@ export default function CheckoutView() {
         createdAt: new Date().toISOString(),
         licenseKeys: items.map((i) => i.licenseKey),
       };
-      addOrder(order);
-      setPlaced(true);
-      clear();
-      router.push(`/checkout/success/?order=${encodeURIComponent(id)}`);
+      addOrder(order).then(
+        () => {
+          setPlaced(true);
+          clear();
+          router.push(`/checkout/success/?order=${encodeURIComponent(id)}`);
+        },
+        (ex: unknown) => {
+          setBusy(false);
+          setErrors({ terms: `Could not save the order: ${ex instanceof Error ? ex.message : 'server error'}.` });
+        },
+      );
     }, 900);
   };
 

@@ -6,7 +6,7 @@ import { LICENSE_TYPES, type ArtKind, type Badge, type LicenseType, type Product
 export const ADMIN_ID_PREFIX = 'adm-';
 export const ADMIN_AUTHOR_ID = 'leafpress-studio';
 export const ADMIN_AUTHOR_NAME = 'Cheat & Anal Studio';
-/** Largest downloadable file: files are kept whole in IndexedDB, which handles this comfortably. */
+/** Largest downloadable file (the server's file bucket allows the same). */
 export const MAX_FILE_BYTES = 200 * 1024 * 1024;
 export const MAX_IMAGES = 5;
 export const MAX_IMAGE_SIDE = 1600;
@@ -14,7 +14,7 @@ export const MAX_IMAGE_SIDE = 1600;
 export const MAX_ORIGINAL_IMAGE_BYTES = 15 * 1024 * 1024;
 /** Fallback MIME for uploads the browser could not type (.dll, .cfg, .lua, …). */
 export const FALLBACK_MIME = 'application/octet-stream';
-/** Image descriptor prefix: `idb:<key>` points at a resized upload stored in IndexedDB. */
+/** Image descriptor prefix: `idb:<key>` points at an uploaded image in server storage (prefix kept for saved data). */
 export const IDB_PREFIX = 'idb:';
 
 export const isAdminProductId = (id: string): boolean => id.startsWith(ADMIN_ID_PREFIX);
@@ -89,11 +89,11 @@ export function isQuotaError(ex: unknown): boolean {
   return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || /quota/i.test(message);
 }
 
-/** Friendly inline message for a failed save into IndexedDB. */
+/** Friendly inline message for a failed upload or save on the server. */
 export function storageErrorMessage(ex: unknown): string {
   if (isQuotaError(ex))
-    return 'This browser has run out of storage space for uploads. Delete older products or free up disk space, or use a smaller file.';
-  return `Could not store the upload in this browser: ${ex instanceof Error ? ex.message : 'unknown error'}.`;
+    return 'The server has run out of storage space for uploads. Delete older products or use a smaller file.';
+  return `Could not upload to the server: ${ex instanceof Error ? ex.message : 'unknown error'}.`;
 }
 
 /** Product-page note for a downloadable file, e.g. ".dll file · 12.0 KB". */

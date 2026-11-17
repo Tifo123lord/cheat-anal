@@ -6,7 +6,7 @@ import { useState } from 'react';
 import FormField from '@/components/FormField';
 import { MIN_PASSWORD } from '@/lib/password';
 import { isEmail, safeNext, type Errors } from '@/lib/validation';
-import { DEMO_USER, useAuth } from '@/store/auth';
+import { useAuth } from '@/store/auth';
 import { useHydrated } from '@/store/hydration';
 
 export default function LoginForm() {
@@ -77,10 +77,6 @@ export default function LoginForm() {
           Create an account
         </Link>
       </div>
-      <p className="rounded-md border border-dashed border-[#8f8770] p-2 text-[11px] text-ink-muted">
-        Demo account: <strong className="text-ink">{DEMO_USER.email}</strong> /{' '}
-        <strong className="text-ink">{DEMO_USER.password}</strong>
-      </p>
     </form>
   );
 }

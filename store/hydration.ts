@@ -24,14 +24,38 @@ export const useHydration = create<HydrationState>()((set) => ({
 /** True once persisted stores have been read from localStorage (always false during static render). */
 export const useHydrated = (): boolean => useHydration((s) => s.hydrated);
 
+/** Loads everything the server holds for this visitor; a network failure leaves the shop empty but usable. */
+export async function loadServerData(): Promise<void> {
+  await useAuth
+    .getState()
+    .init()
+    .catch(() => undefined);
+  await Promise.all([
+    useAdminCatalog.getState().load(),
+    useReviews.getState().load(),
+    useLibrary.getState().load(),
+  ].map((p) => p.catch(() => undefined)));
+}
+
+let watching = false;
+
 export async function rehydrateAll(): Promise<void> {
-  await Promise.all(
-    [useAdminCatalog, useCart, useWishlist, useLibrary, useReviews, useAuth, useStudio].map((s) =>
-      s.persist.rehydrate(),
-    ),
-  );
+  await Promise.all([useCart, useWishlist, useLibrary, useStudio].map((s) => s.persist.rehydrate()));
+  await loadServerData();
   pruneRetired();
   useHydration.getState().done();
+  if (!watching) {
+    watching = true;
+    // Signing in or out changes what the server shows (admins see drafts; buyers see their orders).
+    let lastUid: string | null = useAuth.getState().user?.id ?? null;
+    useAuth.subscribe((s) => {
+      const uid = s.user?.id ?? null;
+      if (uid === lastUid) return;
+      lastUid = uid;
+      if (!uid) useLibrary.getState().clearOrders();
+      void Promise.all([useAdminCatalog.getState().load(), useLibrary.getState().load()].map((p) => p.catch(() => undefined)));
+    });
+  }
 }
 
 const bundleExists = (id: string): boolean => getBundle(id) !== undefined;

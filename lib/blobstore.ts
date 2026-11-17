@@ -1,76 +1,44 @@
-/** Minimal IndexedDB key/value store for uploaded files and preview images (browser only). */
-const DB = 'leafpress-files';
-const STORE = 'blobs';
+/**
+ * Uploaded files and preview images, stored on the server (Supabase Storage).
+ * Keys starting with `file-` live in the private file bucket (download is checked by the server);
+ * every other key lives in the public image bucket.
+ */
+import { FILE_BUCKET, IMAGE_BUCKET, must, sb, SUPABASE_URL } from './supabase';
 
-let dbPromise: Promise<IDBDatabase> | null = null;
+export const bucketFor = (key: string): string => (key.startsWith('file-') ? FILE_BUCKET : IMAGE_BUCKET);
 
-function open(): Promise<IDBDatabase> {
-  if (dbPromise) return dbPromise;
-  dbPromise = new Promise((resolve, reject) => {
-    if (typeof indexedDB === 'undefined') {
-      reject(new Error('IndexedDB is not available in this browser.'));
-      return;
-    }
-    const req = indexedDB.open(DB, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error ?? new Error('Could not open IndexedDB.'));
-  });
-  dbPromise.catch(() => {
-    dbPromise = null;
-  });
-  return dbPromise;
-}
+export const publicImageUrl = (key: string): string =>
+  `${SUPABASE_URL}/storage/v1/object/public/${IMAGE_BUCKET}/${encodeURIComponent(key)}`;
 
-function run<T>(mode: IDBTransactionMode, fn: (s: IDBObjectStore) => IDBRequest): Promise<T> {
-  return open().then(
-    (db) =>
-      new Promise<T>((resolve, reject) => {
-        let tx: IDBTransaction;
-        let req: IDBRequest;
-        try {
-          tx = db.transaction(STORE, mode);
-          req = fn(tx.objectStore(STORE));
-        } catch (ex) {
-          reject(ex);
-          return;
-        }
-        tx.oncomplete = () => resolve(req.result as T);
-        tx.onerror = () => reject(tx.error ?? new Error('IndexedDB transaction failed.'));
-        tx.onabort = () => reject(tx.error ?? new Error('IndexedDB transaction aborted (storage full?).'));
-      }),
+export async function putBlob(key: string, blob: Blob): Promise<void> {
+  must(
+    await sb()
+      .storage.from(bucketFor(key))
+      .upload(key, blob, { upsert: true, contentType: blob.type || 'application/octet-stream' }),
   );
 }
 
-export const putBlob = (key: string, blob: Blob): Promise<void> =>
-  run<IDBValidKey>('readwrite', (s) => s.put(blob, key)).then(() => undefined);
+export async function getBlob(key: string): Promise<Blob | undefined> {
+  if (bucketFor(key) === IMAGE_BUCKET) {
+    const res = await fetch(publicImageUrl(key));
+    return res.ok ? res.blob() : undefined;
+  }
+  const r = await sb().storage.from(FILE_BUCKET).download(key);
+  if (r.error) throw new Error('You do not have access to this file, or it was removed.');
+  return r.data ?? undefined;
+}
 
-export const getBlob = (key: string): Promise<Blob | undefined> =>
-  run<Blob | undefined>('readonly', (s) => s.get(key));
-
-export const deleteBlobs = async (keys: string[]): Promise<void> => {
-  if (!keys.length) return;
-  await open().then(
-    (db) =>
-      new Promise<void>((resolve, reject) => {
-        const tx = db.transaction(STORE, 'readwrite');
-        keys.forEach((k) => tx.objectStore(STORE).delete(k));
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error ?? new Error('IndexedDB delete failed.'));
-      }),
-  );
-};
+export async function deleteBlobs(keys: string[]): Promise<void> {
+  const files = keys.filter((k) => bucketFor(k) === FILE_BUCKET);
+  const imgs = keys.filter((k) => bucketFor(k) === IMAGE_BUCKET);
+  if (files.length) must(await sb().storage.from(FILE_BUCKET).remove(files));
+  if (imgs.length) must(await sb().storage.from(IMAGE_BUCKET).remove(imgs));
+}
 
 export const blobKey = (kind: 'file' | 'img'): string =>
   `${kind}-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e9).toString(36)}`;
 
-/** Free bytes the browser will still let this site store (null when the browser does not say). */
+/** Server storage has no per-browser quota to report. */
 export async function storageHeadroom(): Promise<number | null> {
-  try {
-    const est = await navigator.storage?.estimate?.();
-    if (!est || typeof est.quota !== 'number') return null;
-    return Math.max(0, est.quota - (est.usage ?? 0));
-  } catch {
-    return null;
-  }
+  return null;
 }

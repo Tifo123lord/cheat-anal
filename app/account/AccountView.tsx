@@ -98,7 +98,7 @@ export default function AccountView() {
                     e.preventDefault();
                     if (name.trim().length < 2) return setNameErr('Name must be at least 2 characters.');
                     setNameErr('');
-                    update({ name: name.trim(), newsletter });
+                    void update({ name: name.trim(), newsletter });
                     toast('Profile saved');
                   }}
                 >

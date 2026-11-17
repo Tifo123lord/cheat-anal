@@ -56,8 +56,8 @@ export default function AdminView() {
           Admin panel
         </h1>
         <p className="text-[12px] text-ink-muted">
-          Signed in as {user.email}. Everything here is stored only in this browser (localStorage +
-          IndexedDB).
+          Signed in as {user.email}. Products and files are stored on the server, so every visitor sees
+          them.
         </p>
         {user.defaultPassword && (
           <div

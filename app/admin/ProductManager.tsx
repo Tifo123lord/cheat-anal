@@ -91,8 +91,10 @@ export default function ProductManager() {
                       type="button"
                       className="btn-ghost !px-2 !py-1 text-[11px]"
                       onClick={() => {
-                        publish(p.id, !r.published);
-                        toast(r.published ? `Unpublished “${p.title}”` : `Published “${p.title}”`);
+                        publish(p.id, !r.published).then(
+                          () => toast(r.published ? `Unpublished “${p.title}”` : `Published “${p.title}”`),
+                          (ex: unknown) => toast(`Could not update: ${ex instanceof Error ? ex.message : 'error'}`),
+                        );
                       }}
                     >
                       {r.published ? 'Unpublish' : 'Publish'}
@@ -102,11 +104,15 @@ export default function ProductManager() {
                         type="button"
                         className="btn-ghost !border-sale !px-2 !py-1 text-[11px] !text-[#9e2f19]"
                         onClick={() => {
-                          remove(p.id);
-                          void deleteBlobs(blobKeys(r)).catch(() => undefined);
                           setConfirmDelete(null);
-                          if (editing?.product.id === p.id) done();
-                          toast(`Deleted “${p.title}”`);
+                          remove(p.id).then(
+                            () => {
+                              void deleteBlobs(blobKeys(r)).catch(() => undefined);
+                              if (editing?.product.id === p.id) done();
+                              toast(`Deleted “${p.title}”`);
+                            },
+                            (ex: unknown) => toast(`Could not delete: ${ex instanceof Error ? ex.message : 'error'}`),
+                          );
                         }}
                       >
                         Confirm delete

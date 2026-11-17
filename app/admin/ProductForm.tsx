@@ -217,7 +217,7 @@ export default function ProductForm({ editing, onDone }: Props) {
         fileName: stored?.name,
         existing: editing?.product,
       });
-      save({ product, published, featured, file: stored });
+      await save({ product, published, featured, file: stored });
       // Clean up blobs this edit replaced.
       const stale = [
         ...(file && existingFile ? [existingFile.key] : []),
