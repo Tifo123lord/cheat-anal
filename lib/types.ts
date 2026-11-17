@@ -65,6 +65,8 @@ export interface Author {
 export interface Category {
   id: string;
   name: string;
+  /** Short blurb for the category page header. */
+  description?: string;
   icon: string;
   art: ArtKind;
 }

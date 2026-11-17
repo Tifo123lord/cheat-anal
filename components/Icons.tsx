@@ -174,6 +174,8 @@ const CATEGORY_PATHS: Record<string, string> = {
   brush: 'M14 4l6 6-8 8H8v-4l6-10ZM4 20c2 0 4-1 4-3',
   texture: 'M4 4l16 16M4 10l10 10M10 4l10 10M4 16l4 4M16 4l4 4',
   play: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18Zm-2 5.5v7l6-3.5-6-3.5Z',
+  crosshair:
+    'M12 4.5a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15ZM12 2v5.5M12 16.5V22M2 12h5.5M16.5 12H22M12 11.5v1',
 };
 
 export function CategoryIcon({ name, ...p }: IconProps & { name: string }) {

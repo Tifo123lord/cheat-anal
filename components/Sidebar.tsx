@@ -47,11 +47,11 @@ export default function Sidebar() {
       </div>
 
       <nav aria-label="Categories" className="border-b border-[#bcb399] px-3 py-2.5">
-        <ul className="grid grid-cols-6 gap-1.5">
+        <ul className="grid grid-cols-7 gap-1.5">
           {categories.map((c) => (
             <li key={c.id}>
               <Link
-                href={`/shop/?category=${c.id}`}
+                href={`/category/${c.id}/`}
                 title={c.name}
                 aria-label={c.name}
                 className="flex aspect-square items-center justify-center rounded-[3px] border border-[#9a8f6e] bg-gradient-to-b from-[#d6c79f] to-[#b9a777] text-[#4a4026] shadow-[inset_0_1px_0_rgba(255,255,255,.5)] hover:from-[#e2d6b3]"

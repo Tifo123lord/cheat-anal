@@ -70,5 +70,12 @@
     "name": "Motion",
     "icon": "play",
     "art": "motion"
+  },
+  {
+    "id": "cheats",
+    "name": "Cheats",
+    "description": "Configs, scripts and mods: dll, lua, cfg and more",
+    "icon": "crosshair",
+    "art": "code"
   }
 ]

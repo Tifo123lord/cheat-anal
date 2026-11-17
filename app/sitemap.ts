@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { authors, posts, products } from '@/lib/catalog';
+import { authors, categories, posts, products } from '@/lib/catalog';
 import { INFO_PAGES } from '@/lib/pages';
 import { SITE } from '@/lib/site';
 
@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   return [
     ...staticPaths.map((p) => ({ url: `${SITE.url}${p}`, changeFrequency: 'daily' as const })),
+    ...categories.map((c) => ({ url: `${SITE.url}/category/${c.id}/`, changeFrequency: 'daily' as const })),
     ...products.map((p) => ({ url: `${SITE.url}/product/${p.slug}/`, lastModified: p.updatedAt })),
     ...authors.map((a) => ({ url: `${SITE.url}/authors/${a.id}/` })),
     ...posts.map((p) => ({ url: `${SITE.url}/journal/${p.slug}/`, lastModified: p.date })),

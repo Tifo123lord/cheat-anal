@@ -1,6 +1,7 @@
 export const NAV_ITEMS = [
   { href: '/', label: 'Home' },
   { href: '/shop/', label: 'Shop' },
+  { href: '/category/cheats/', label: 'Cheats' },
   { href: '/new-releases/', label: 'New Releases' },
   { href: '/authors/', label: 'Top Authors' },
   { href: '/bundles/', label: 'Bundles' },

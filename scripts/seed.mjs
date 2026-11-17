@@ -23,6 +23,14 @@ const categories = [
   { id: 'illustrations', name: 'Illustrations', icon: 'brush', art: 'illustration' },
   { id: 'textures', name: 'Textures', icon: 'texture', art: 'texture' },
   { id: 'motion', name: 'Motion', icon: 'play', art: 'motion' },
+  // No seeded files: its page shows an empty state until the admin uploads some.
+  {
+    id: 'cheats',
+    name: 'Cheats',
+    description: 'Configs, scripts and mods: dll, lua, cfg and more',
+    icon: 'crosshair',
+    art: 'code',
+  },
 ];
 
 const authors = [
@@ -262,7 +270,7 @@ const freeSlots = new Set([5, 14, 22, 31]);
 const products = [];
 let n = 0;
 for (const cat of categories) {
-  names[cat.id].forEach(([name, kind, desc], i) => {
+  (names[cat.id] ?? []).forEach(([name, kind, desc], i) => {
     n += 1;
     const isFree = freeSlots.has(n);
     const price = isFree ? 0 : pick(prices);

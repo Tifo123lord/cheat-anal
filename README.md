@@ -51,6 +51,7 @@ app/                     App Router pages (all statically exported)
   page.tsx               Home: slider + card grid + sidebar
   shop/                  Shop with URL-synced filters and sort
   new-releases/          Newest 12 files
+  category/[slug]/       One static page per category (13), incl. /category/cheats/; lists seeded + admin files, empty state when none
   product/[slug]/        Product detail (gallery, licences, tabs, reviews, changelog, FAQ)
   cart/, checkout/       Cart with coupon + tax; mock payment; checkout/success
   library/               My downloads (Blob .zip downloads, licence keys, counter) + invoice
@@ -76,7 +77,7 @@ lib/
   zip.ts, download.ts    Tiny ZIP writer + Blob download helper
   types.ts               Product, Author, Order, ... types
 store/                   Zustand stores (cart, wishlist, library, reviews, auth, studio, ui)
-data/                    products.json (36), authors.json, categories.json, bundles.json, posts.json
+data/                    products.json (36), authors.json, categories.json (13; Cheats has no seeded files), bundles.json, posts.json
 styles/globals.css       Brand tokens (CSS variables) and the frame / nav / button styles
 tests/                   Vitest: pricing, coupon, cart totals, filters/sort, rating, misc
 scripts/                 seed.mjs (regenerates /data), og.svg + og.cjs (Open Graph image)

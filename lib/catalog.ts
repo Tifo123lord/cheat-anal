@@ -89,3 +89,13 @@ export const allTags = (): { tag: string; count: number }[] => {
   return [...m.entries()].map(([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count);
 };
 export const maxPrice = (): number => Math.max(...allProducts().map((p) => p.price));
+
+/** Products of one category from a list (seeded + admin), newest first. */
+export const productsInCategory = (list: Product[], categoryId: string): Product[] =>
+  list
+    .filter((p) => p.category === categoryId)
+    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
+
+/** Empty-state line for a category page, e.g. "No cheats yet — check back soon". */
+export const categoryEmptyText = (c: Pick<Category, 'name'>): string =>
+  `No ${c.name.toLowerCase()} yet — check back soon`;
