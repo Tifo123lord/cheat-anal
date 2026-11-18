@@ -63,13 +63,14 @@ export const DownloadIcon = (p: IconProps) => (
     <path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 19h16" />
   </svg>
 );
-export const ArrowRight = (p: IconProps) => (
-  <svg {...base(p)}>
+/** Directional arrows mirror in RTL (`rtl:-scale-x-100`), so "next" always points forward. */
+export const ArrowRight = ({ className = '', ...p }: IconProps) => (
+  <svg {...base(p)} className={`rtl:-scale-x-100 ${className}`.trim()}>
     <path d="M5 12h14m-5-5 5 5-5 5" />
   </svg>
 );
-export const ArrowLeft = (p: IconProps) => (
-  <svg {...base(p)}>
+export const ArrowLeft = ({ className = '', ...p }: IconProps) => (
+  <svg {...base(p)} className={`rtl:-scale-x-100 ${className}`.trim()}>
     <path d="M19 12H5m5-5-5 5 5 5" />
   </svg>
 );

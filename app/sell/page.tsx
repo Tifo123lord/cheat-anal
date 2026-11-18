@@ -3,36 +3,39 @@ import Link from 'next/link';
 import { TwoColumn } from '@/components/Layout';
 
 export const metadata: Metadata = {
-  title: 'Sell with us',
+  title: 'با ما بفروشید',
   description:
-    'Become a Cheat & Anal author: keep 70% of every sale, get paid monthly, and reach buyers who care about craft.',
+    'سازندهٔ Cheat & Anal شو: ۷۰٪ هر فروش برای خودت، تسویهٔ ماهانه و دسترسی به خریدارانی که قدر کار باکیفیت را می‌دانند.',
   alternates: { canonical: '/sell/' },
 };
 
 const STEPS = [
-  ['Create your account', 'Sign up in a minute and tell us a little about your work.'],
+  ['حسابت را بساز', 'در یک دقیقه ثبت‌نام کن و کمی از کارت برایمان بگو.'],
   [
-    'Upload your first file',
-    'Add previews, a description, tags and the downloadable file (any type) from your dashboard.',
+    'اولین فایلت را آپلود کن',
+    'از داشبوردت پیش‌نمایش، توضیحات، برچسب و فایل قابل دانلود (با هر فرمتی) اضافه کن.',
   ],
-  ['We review it', 'A real person checks every file within one working day and sends friendly notes.'],
-  ['Get paid', 'Keep 70% of every sale. Request a payout once your balance reaches $50.'],
+  [
+    'ما بررسی‌اش می‌کنیم',
+    'یک آدم واقعی ظرف یک روز کاری هر فایل را بررسی می‌کند و نکته‌های دوستانه می‌فرستد.',
+  ],
+  ['درآمدت را بگیر', '۷۰٪ هر فروش مال توست. وقتی موجودی‌ات به ۵۰ دلار رسید، درخواست تسویه بده.'],
 ];
 
 export default function SellPage() {
   return (
     <TwoColumn>
       <article className="frame on-paper p-4 sm:p-6">
-        <h1 className="page-title">Sell with us</h1>
+        <h1 className="page-title">با ما بفروشید</h1>
         <p className="mt-1 text-[14px] text-ink">
-          Cheat &amp; Anal is a small, friendly marketplace for people who make careful digital things. Grow
-          an audience that values quality over quantity.
+          Cheat &amp; Anal بازارچه‌ای کوچک و صمیمی برای آدم‌هایی است که چیزهای دیجیتال را با دقت می‌سازند.
+          مخاطبانی پیدا کن که کیفیت را به کمیت ترجیح می‌دهند.
         </p>
         <ol className="mt-4 grid gap-3 sm:grid-cols-2">
           {STEPS.map(([t, d], i) => (
             <li key={t} className="rounded-md border border-[#a49b82] bg-paper-light/60 p-3">
               <p className="font-display text-[13px] font-bold text-[color:var(--link-strong)]">
-                Step {i + 1}
+                مرحلهٔ {i + 1}
               </p>
               <h2 className="font-serif text-[15px] font-bold text-ink">{t}</h2>
               <p className="text-[12px] text-ink">{d}</p>
@@ -41,10 +44,10 @@ export default function SellPage() {
         </ol>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link href="/register/" className="btn">
-            Become an author
+            سازنده شو
           </Link>
           <Link href="/dashboard/" className="btn-olive">
-            Go to author dashboard
+            رفتن به داشبورد سازنده
           </Link>
         </div>
         <section
@@ -53,15 +56,15 @@ export default function SellPage() {
           aria-labelledby="adv-h"
         >
           <h2 id="adv-h" className="font-display text-[16px] font-bold text-ink">
-            Advertise with Cheat &amp; Anal
+            تبلیغ در Cheat &amp; Anal
           </h2>
           <p className="text-[13px] text-ink">
-            Sidebar placements reach designers and developers on every page. House ads only in this demo:
-            write to us through the{' '}
+            جایگاه‌های ستون کناری در همهٔ صفحه‌ها به چشم طراحان و برنامه‌نویسان می‌آیند. در این نسخهٔ نمایشی
+            فقط تبلیغات خودمان نمایش داده می‌شود؛ از طریق{' '}
             <Link href="/info/contact/" className="link">
-              contact page
-            </Link>
-            .
+              صفحهٔ تماس
+            </Link>{' '}
+            برایمان بنویس.
           </p>
         </section>
       </article>

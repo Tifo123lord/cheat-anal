@@ -13,7 +13,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const p = INFO_PAGES.find((x) => x.slug === params.slug);
   return p
     ? { title: p.title, description: p.description, alternates: { canonical: `/info/${p.slug}/` } }
-    : { title: 'Not found' };
+    : { title: 'پیدا نشد' };
 }
 
 export default function InfoPage({ params }: { params: { slug: string } }) {

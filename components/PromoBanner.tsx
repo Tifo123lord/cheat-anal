@@ -10,7 +10,8 @@ function Art({ kind }: { kind: Kind }) {
         viewBox="0 0 250 120"
         className="block h-auto w-full"
         role="img"
-        aria-label="Packly: bundle 10 UI kits for $50. An opened cardboard box with design files flying out."
+        direction="ltr"
+        aria-label="Packly: بستهٔ ۱۰ کیت رابط کاربری به قیمت ۵۰ دلار. یک جعبهٔ مقوایی باز که فایل‌های طراحی از آن بیرون می‌پرند."
       >
         <defs>
           <linearGradient id="pk-bg" x1="0" y1="0" x2="0" y2="1">
@@ -22,23 +23,35 @@ function Art({ kind }: { kind: Kind }) {
         <text x="12" y="38" fontFamily="Georgia,serif" fontWeight="bold" fontSize="30" fill="#c8571f">
           Packly
         </text>
-        <text x="12" y="58" fontFamily="Verdana,sans-serif" fontSize="10" fill="#5a3a1a">
-          Bundle 10 UI kits
+        <text
+          x="12"
+          y="58"
+          fontSize="10"
+          fill="#5a3a1a"
+          style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
+        >
+          ده کیت رابط کاربری
         </text>
-        <text x="12" y="72" fontFamily="Verdana,sans-serif" fontSize="10" fill="#5a3a1a">
-          for one small price
+        <text
+          x="12"
+          y="72"
+          fontSize="10"
+          fill="#5a3a1a"
+          style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
+        >
+          با یک قیمت کوچک
         </text>
         <rect x="12" y="84" width="74" height="20" rx="10" fill="#c8571f" />
         <text
           x="49"
           y="98"
           textAnchor="middle"
-          fontFamily="Verdana,sans-serif"
           fontWeight="bold"
           fontSize="10"
           fill="#fff"
+          style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
         >
-          Get bundle
+          خرید بسته
         </text>
         {/* opened box */}
         <path d="M140 70 L180 84 L220 70 L220 108 L180 118 L140 108Z" fill="#c98f4f" />
@@ -69,7 +82,8 @@ function Art({ kind }: { kind: Kind }) {
         viewBox="0 0 250 100"
         className="block h-auto w-full"
         role="img"
-        aria-label="Birdsong Fonts: beautiful type for your next brand. A small songbird on a branch."
+        direction="ltr"
+        aria-label="Birdsong Fonts: تایپ‌فیس‌های زیبا برای برند بعدی تو. یک پرندهٔ آوازخوان کوچک روی شاخه."
       >
         <rect width="250" height="100" fill="#f7f8fb" />
         <rect y="78" width="250" height="22" fill="#26375e" />
@@ -87,8 +101,14 @@ function Art({ kind }: { kind: Kind }) {
         <text x="16" y="58" fontFamily="Verdana,sans-serif" fontSize="9" letterSpacing="3" fill="#4a5c86">
           FONTS
         </text>
-        <text x="14" y="93" fontFamily="Verdana,sans-serif" fontSize="8.5" fill="#e9eef8">
-          Beautiful type for your next brand
+        <text
+          x="14"
+          y="93"
+          fontSize="8.5"
+          fill="#e9eef8"
+          style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
+        >
+          فونت‌های زیبا برای برند بعدی‌ات
         </text>
         <path
           d="M150 62 C 180 58, 215 60, 245 52"
@@ -114,7 +134,8 @@ function Art({ kind }: { kind: Kind }) {
       viewBox="0 0 250 250"
       className="block h-auto w-full"
       role="img"
-      aria-label="NavKit: menu builder with 120 styles. Stacked application windows showing menus."
+      direction="ltr"
+      aria-label="NavKit: منوساز با ۱۲۰ استایل. پنجره‌های روی هم که منوها را نشان می‌دهند."
     >
       <rect width="250" height="250" fill="#f3efe6" />
       <rect width="250" height="40" fill="#d26a3c" />
@@ -123,8 +144,15 @@ function Art({ kind }: { kind: Kind }) {
       <text x="40" y="27" fontFamily="Verdana,sans-serif" fontWeight="bold" fontSize="17" fill="#fff">
         NavKit
       </text>
-      <text x="236" y="26" textAnchor="end" fontFamily="Verdana,sans-serif" fontSize="9" fill="#fff">
-        menu builder
+      <text
+        x="236"
+        y="26"
+        textAnchor="end"
+        fontSize="9"
+        fill="#fff"
+        style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
+      >
+        منوساز
       </text>
       {[0, 1, 2].map((i) => (
         <g key={i} transform={`translate(${26 + i * 26} ${58 + i * 34})`}>
@@ -157,12 +185,12 @@ function Art({ kind }: { kind: Kind }) {
         x="125"
         y="231"
         textAnchor="middle"
-        fontFamily="Verdana,sans-serif"
         fontWeight="bold"
         fontSize="11"
         fill="#fff"
+        style={{ fontFamily: 'var(--font-fa), Tahoma, sans-serif' }}
       >
-        120 styles · try it free
+        بیش از ۱۲۰ استایل · رایگان امتحان کن
       </text>
     </svg>
   );
@@ -177,8 +205,8 @@ const LINKS: Record<Kind, string> = {
 export default function PromoBanner({ kind }: { kind: Kind }) {
   return (
     <figure className="m-0">
-      <figcaption className="mb-0.5 text-right text-[9px] uppercase tracking-wider text-ink-muted">
-        Advertise
+      <figcaption className="mb-0.5 text-end text-[9px] uppercase tracking-wider text-ink-muted">
+        تبلیغ
       </figcaption>
       <Link
         href={LINKS[kind]}

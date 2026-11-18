@@ -58,12 +58,12 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
   if (!current) return null;
 
   return (
-    <CreamFrame double as="section" label="Featured files" className="select-none">
+    <CreamFrame double as="section" label="فایل‌های ویژه" className="select-none">
       <div
         className="relative overflow-hidden rounded-[3px] border border-[#5d5847] bg-[#141410]"
         role="region"
         aria-roledescription="carousel"
-        aria-label="Featured files"
+        aria-label="فایل‌های ویژه"
         tabIndex={0}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -72,10 +72,12 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
           if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
         }}
         onKeyDown={(e) => {
-          if (e.key === 'ArrowRight') {
+          // In RTL the "forward" arrow key is ArrowLeft.
+          const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
+          if (e.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) {
             e.preventDefault();
             go(index + 1);
-          } else if (e.key === 'ArrowLeft') {
+          } else if (e.key === (rtl ? 'ArrowRight' : 'ArrowLeft')) {
             e.preventDefault();
             go(index - 1);
           }
@@ -85,7 +87,8 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
         }}
         onPointerUp={(e) => {
           if (startX.current === null) return;
-          const dx = e.clientX - startX.current;
+          const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
+          const dx = (e.clientX - startX.current) * (rtl ? -1 : 1);
           startX.current = null;
           if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
         }}
@@ -97,7 +100,7 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
               key={p.id}
               role="group"
               aria-roledescription="slide"
-              aria-label={`${i + 1} of ${count}: ${p.title}`}
+              aria-label={`${i + 1} از ${count}: ${p.title}`}
               aria-hidden={i !== index}
               className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
             >
@@ -108,24 +111,24 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
                   priority={i === 0}
                   sizes="(max-width: 768px) 100vw, 610px"
                   className="h-full object-cover"
-                  alt={`Featured: ${p.title}`}
+                  alt={`ویژه: ${p.title}`}
                 />
               ) : null}
             </div>
           ))}
 
           {/* Featured ribbon */}
-          <div className="absolute -left-8 top-3 w-32 -rotate-45 bg-gradient-to-b from-[#e0102a] to-leaf-dark py-0.5 text-center text-[10px] font-extrabold uppercase tracking-widest text-white shadow-md">
-            Featured
+          <div className="absolute -start-8 top-3 w-32 -rotate-45 rtl:rotate-45 bg-gradient-to-b from-[#e0102a] to-leaf-dark py-0.5 text-center text-[10px] font-extrabold uppercase tracking-widest text-white shadow-md">
+            ویژه
           </div>
 
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3 pt-10 sm:p-4 sm:pt-14">
             <div className="min-w-0">
               <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff8a96]">
-                by {authorName(current.authorId)}
+                از <bdi>{authorName(current.authorId)}</bdi>
               </p>
               <h2 className="brand-heading truncate text-[15px] leading-tight text-white sm:text-[22px]">
-                <Link href={productHref(current)} className="hover:underline" tabIndex={0}>
+                <Link href={productHref(current)} className="hover:underline" tabIndex={0} dir="auto">
                   {current.title}
                 </Link>
               </h2>
@@ -142,7 +145,7 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
                   router.push('/cart/');
                 }}
               >
-                Buy now
+                همین حالا بخر
               </button>
             </div>
           </div>
@@ -150,14 +153,14 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
 
         {/* bottom strip: dots left, NEXT right */}
         <div className="flex items-center justify-between gap-2 border-t border-[#3a382b] bg-gradient-to-b from-[#2a2920] to-[#17160f] px-2.5 py-1.5">
-          <div className="flex flex-wrap items-center gap-[5px]" role="tablist" aria-label="Choose slide">
+          <div className="flex flex-wrap items-center gap-[5px]" role="tablist" aria-label="انتخاب اسلاید">
             {items.map((p, i) => (
               <button
                 key={p.id}
                 type="button"
                 role="tab"
                 aria-selected={i === index}
-                aria-label={`Slide ${i + 1}: ${p.title}`}
+                aria-label={`اسلاید ${i + 1}: ${p.title}`}
                 onClick={() => go(i)}
                 className={`h-[9px] w-[9px] rounded-full border border-[#8f8a70] ${i === index ? 'bg-[#e9e3d3]' : 'bg-transparent hover:bg-[#8f8a70]'}`}
               />
@@ -167,9 +170,9 @@ export default function FeaturedSlider({ items: seeded }: { items: Product[] }) 
             type="button"
             onClick={() => go(index + 1)}
             className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-widest text-[#e9e3d3] hover:text-white"
-            aria-label="Next slide"
+            aria-label="اسلاید بعدی"
           >
-            Next <ArrowRight size={12} />
+            بعدی <ArrowRight size={12} />
           </button>
         </div>
       </div>

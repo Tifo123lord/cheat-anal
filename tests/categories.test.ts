@@ -35,8 +35,8 @@ describe('categories', () => {
     const c = getCategory('cheats');
     expect(c).toMatchObject({
       id: 'cheats',
-      name: 'Cheats',
-      description: 'Configs, scripts and mods: dll, lua, cfg and more',
+      name: 'چیت‌ها',
+      description: 'کانفیگ، اسکریپت و ماد: dll، lua، cfg و بیشتر',
       icon: 'crosshair',
     });
     expect(iconSource).toMatch(/\n\s+crosshair:\s+'/);
@@ -49,7 +49,9 @@ describe('categories', () => {
   it('ships no seeded cheats', () => {
     expect(products.filter((p) => p.category === 'cheats')).toHaveLength(0);
     expect(productsInCategory(products, 'cheats')).toEqual([]);
-    expect(categoryEmptyText(getCategory('cheats')!)).toBe('No cheats yet — check back soon');
+    expect(categoryEmptyText(getCategory('cheats')!)).toBe(
+      'هنوز در «چیت‌ها» فایلی نیست — به‌زودی دوباره سر بزن',
+    );
   });
 
   it('lists admin products in Cheats on the category page and in the shop filter', () => {
@@ -70,7 +72,7 @@ describe('categories', () => {
 
   it('puts Cheats in the main nav right after Shop', () => {
     const i = NAV_ITEMS.findIndex((n) => n.href === '/shop/');
-    expect(NAV_ITEMS[i + 1]).toEqual({ href: '/category/cheats/', label: 'Cheats' });
+    expect(NAV_ITEMS[i + 1]).toEqual({ href: '/category/cheats/', label: 'چیت‌ها' });
   });
 
   it('lists every category page in the sitemap', () => {

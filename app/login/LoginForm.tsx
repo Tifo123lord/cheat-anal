@@ -27,9 +27,8 @@ export default function LoginForm() {
         e.preventDefault();
         if (busy) return;
         const errs: typeof errors = {};
-        if (!isEmail(email)) errs.email = 'Enter a valid email.';
-        if (password.length < MIN_PASSWORD)
-          errs.password = `Passwords are at least ${MIN_PASSWORD} characters.`;
+        if (!isEmail(email)) errs.email = 'یک ایمیل معتبر وارد کن.';
+        if (password.length < MIN_PASSWORD) errs.password = `رمز عبور دست‌کم ${MIN_PASSWORD} کاراکتر است.`;
         if (!errs.email && !errs.password) {
           setBusy(true);
           const msg = await login(email, password);
@@ -42,7 +41,7 @@ export default function LoginForm() {
     >
       <FormField
         id="login-email"
-        label="Email"
+        label="ایمیل"
         type="email"
         autoComplete="email"
         value={email}
@@ -51,7 +50,7 @@ export default function LoginForm() {
       />
       <FormField
         id="login-password"
-        label="Password"
+        label="رمز عبور"
         type="password"
         autoComplete="current-password"
         value={password}
@@ -64,17 +63,17 @@ export default function LoginForm() {
         </p>
       )}
       <button type="submit" className="btn w-full !py-2" disabled={!hydrated || busy}>
-        {busy ? 'Signing in…' : 'Sign in'}
+        {busy ? 'در حال ورود…' : 'ورود'}
       </button>
       <div className="flex justify-between text-[12px]">
         <Link href="/forgot-password/" className="link">
-          Forgot password?
+          رمز عبور را فراموش کرده‌ای؟
         </Link>
         <Link
           href={next === '/account/' ? '/register/' : `/register/?next=${encodeURIComponent(next)}`}
           className="link"
         >
-          Create an account
+          ساخت حساب کاربری
         </Link>
       </div>
     </form>

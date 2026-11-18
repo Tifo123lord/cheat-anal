@@ -18,7 +18,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const p = getProductBySlug(params.slug);
-  if (!p) return { title: 'File not found', robots: { index: false, follow: true } };
+  if (!p) return { title: 'فایل پیدا نشد', robots: { index: false, follow: true } };
   const description = p.description.split('. ')[0] + '.';
   return {
     title: p.title,
@@ -35,16 +35,16 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   return (
     <Container className="mt-3 md:mt-[14px]">
       <section className="frame on-paper p-5" data-testid="product-unavailable">
-        <EmptyState title="File not found">
-          This file is not listed any more. Files added by the admin open from the{' '}
+        <EmptyState title="فایل پیدا نشد">
+          این فایل دیگر در فهرست نیست. فایل‌هایی که مدیر اضافه کرده از{' '}
           <Link href="/shop/" className="link">
-            shop
+            فروشگاه
           </Link>{' '}
-          or the{' '}
+          یا{' '}
           <Link href="/admin/" className="link">
-            admin panel
-          </Link>
-          .
+            پنل مدیریت
+          </Link>{' '}
+          باز می‌شوند.
         </EmptyState>
       </section>
     </Container>

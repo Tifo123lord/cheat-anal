@@ -16,7 +16,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const a = getAuthor(params.id);
-  if (!a) return { title: 'Author not found' };
+  if (!a) return { title: 'سازنده پیدا نشد' };
   return {
     title: a.name,
     description: a.bio,
@@ -35,20 +35,22 @@ export default function AuthorPage({ params }: { params: { id: string } }) {
         <div className="flex flex-wrap items-center gap-4">
           <Avatar seed={author.avatarSeed} name={author.name} size={72} />
           <div className="min-w-0 flex-1">
-            <h1 id="author-h" className="page-title">
+            <h1 id="author-h" className="page-title" dir="auto">
               {author.name}
             </h1>
             <p className="text-[12px] text-ink-muted">
-              {author.location} · author since {formatDate(author.joined)}
+              <bdi>{author.location}</bdi> · سازنده از {formatDate(author.joined)}
             </p>
-            <p className="mt-1 text-[13px] text-ink">{author.bio}</p>
+            <p className="mt-1 text-[13px] text-ink" dir="auto">
+              {author.bio}
+            </p>
           </div>
         </div>
         <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
           {[
-            ['Files', String(files.length)],
-            ['Sales', author.sales.toLocaleString('en-US')],
-            ['Rating', author.rating > 0 ? author.rating.toFixed(1) : '—'],
+            ['فایل‌ها', String(files.length)],
+            ['فروش', author.sales.toLocaleString('en-US')],
+            ['امتیاز', author.rating > 0 ? author.rating.toFixed(1) : '—'],
           ].map(([k, v]) => (
             <div key={k} className="rounded-md border border-[#a49b82] bg-paper-light/60 p-2">
               <dt className="text-[11px] font-semibold uppercase text-ink-muted">{k}</dt>
@@ -62,12 +64,16 @@ export default function AuthorPage({ params }: { params: { id: string } }) {
           </div>
         )}
       </section>
-      <h2 className="brand-heading mb-2 text-[17px] text-ink-light">Files by {author.name}</h2>
+      <h2 className="brand-heading mb-2 text-[17px] text-ink-light">
+        فایل‌های <bdi>{author.name}</bdi>
+      </h2>
       {files.length ? (
         <ProductGrid items={files} />
       ) : (
         <div className="frame on-paper" data-testid="author-empty">
-          <EmptyState title={NO_FILES_TITLE}>{author.name} has no files listed right now.</EmptyState>
+          <EmptyState title={NO_FILES_TITLE}>
+            <bdi>{author.name}</bdi> فعلاً فایلی برای فروش ندارد.
+          </EmptyState>
         </div>
       )}
     </TwoColumn>

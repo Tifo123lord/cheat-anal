@@ -8,31 +8,31 @@ const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
     title: SITE.name,
     links: [
-      { href: '/info/about/', label: 'About' },
-      { href: '/journal/', label: 'Journal' },
-      { href: '/info/contact/', label: 'Contact' },
+      { href: '/info/about/', label: 'درباره ما' },
+      { href: '/journal/', label: 'مجله' },
+      { href: '/info/contact/', label: 'تماس با ما' },
     ],
   },
   {
-    title: 'Buying',
+    title: 'خرید',
     links: [
-      { href: '/info/licenses/', label: 'Licenses' },
-      { href: '/info/refunds/', label: 'Refunds' },
-      { href: '/info/help/', label: 'Help Center' },
+      { href: '/info/licenses/', label: 'لایسنس‌ها' },
+      { href: '/info/refunds/', label: 'بازگشت وجه' },
+      { href: '/info/help/', label: 'مرکز راهنما' },
     ],
   },
   {
-    title: 'Selling',
+    title: 'فروش',
     links: [
-      { href: '/sell/', label: 'Become an Author' },
-      { href: '/dashboard/', label: 'Author dashboard' },
+      { href: '/sell/', label: 'سازنده شو' },
+      { href: '/dashboard/', label: 'داشبورد سازنده' },
     ],
   },
   {
-    title: 'Legal',
+    title: 'قوانین',
     links: [
-      { href: '/info/terms/', label: 'Terms' },
-      { href: '/info/privacy/', label: 'Privacy' },
+      { href: '/info/terms/', label: 'شرایط استفاده' },
+      { href: '/info/privacy/', label: 'حریم خصوصی' },
     ],
   },
 ];
@@ -43,13 +43,13 @@ export default function Footer() {
       <div className="mx-auto grid max-w-site gap-6 px-3 py-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)] lg:px-0">
         <div>
           <Logo small />
-          <p className="mt-2 text-[12px] text-[#c9c4b2]">Digital files, grown with care.</p>
-          <ul className="mt-3 flex gap-2" aria-label="Social">
+          <p className="mt-2 text-[12px] text-[#c9c4b2]">{SITE.tagline}</p>
+          <ul className="mt-3 flex gap-2" aria-label="شبکه‌های اجتماعی">
             {[
-              { I: RssIcon, l: 'RSS feed', h: '/feed.xml' },
-              { I: ChatIcon, l: 'Community chat', h: '/info/contact/' },
-              { I: CameraIcon, l: 'Photo feed', h: '/info/contact/' },
-              { I: VideoIcon, l: 'Video channel', h: '/info/contact/' },
+              { I: RssIcon, l: 'خوراک RSS', h: '/feed.xml' },
+              { I: ChatIcon, l: 'گفت‌وگوی جامعه', h: '/info/contact/' },
+              { I: CameraIcon, l: 'صفحهٔ عکس', h: '/info/contact/' },
+              { I: VideoIcon, l: 'کانال ویدیو', h: '/info/contact/' },
             ].map(({ I, l, h }) => (
               <li key={l}>
                 <a
@@ -82,14 +82,16 @@ export default function Footer() {
       </div>
       <div className="border-t border-[#24231a]">
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-3 px-3 py-4 text-[11px] text-[#b8b3a1] lg:px-0">
-          <p>© 2026 {SITE.name}. All rights reserved.</p>
-          <ul className="flex items-center gap-2" aria-label="Accepted payment methods">
+          <p>
+            © 2026 <bdi>{SITE.name}</bdi>. همهٔ حقوق محفوظ است.
+          </p>
+          <ul className="flex items-center gap-2" aria-label="روش‌های پرداخت">
             {[
-              { I: CardIcon, l: 'Credit card' },
-              { I: CardIcon, l: 'Debit card' },
-              { I: WalletIcon, l: 'Digital wallet' },
-              { I: BankIcon, l: 'Bank transfer' },
-              { I: CoinIcon, l: 'Gift credit' },
+              { I: CardIcon, l: 'کارت اعتباری' },
+              { I: CardIcon, l: 'کارت بانکی' },
+              { I: WalletIcon, l: 'کیف پول دیجیتال' },
+              { I: BankIcon, l: 'انتقال بانکی' },
+              { I: CoinIcon, l: 'اعتبار هدیه' },
             ].map(({ I, l }) => (
               <li
                 key={l}

@@ -15,7 +15,11 @@ export default function ProductGrid({ items, label }: { items: Product[]; label?
 
 export function GridSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <ul className="grid grid-cols-1 gap-[14px] md:grid-cols-2" aria-busy="true" aria-label="Loading files">
+    <ul
+      className="grid grid-cols-1 gap-[14px] md:grid-cols-2"
+      aria-busy="true"
+      aria-label="در حال بارگذاری فایل‌ها"
+    >
       {Array.from({ length: count }, (_, i) => (
         <li key={i} className="frame p-[7px]">
           <div className="skeleton mb-2 h-4 w-2/3" />

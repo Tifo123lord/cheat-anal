@@ -3,15 +3,16 @@
 import { useEffect, useState } from 'react';
 import EmptyState from '@/components/EmptyState';
 import { formatDate, money2 } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import type { OrderStatus } from '@/lib/types';
 import { useAdminOrders } from '@/store/admin-orders';
 import { useUI } from '@/store/ui';
 
 const TABS: OrderStatus[] = ['pending', 'paid', 'cancelled'];
 const LABEL: Record<OrderStatus, string> = {
-  pending: 'Awaiting payment',
-  paid: 'Paid',
-  cancelled: 'Cancelled',
+  pending: 'در انتظار پرداخت',
+  paid: 'پرداخت‌شده',
+  cancelled: 'لغوشده',
 };
 
 export default function OrdersQueue() {
@@ -37,10 +38,12 @@ export default function OrdersQueue() {
     try {
       await setStatus(id, status);
       toast(
-        status === 'paid' ? `Order ${id} marked paid: downloads are open` : `Order ${id}: ${LABEL[status]}`,
+        status === 'paid'
+          ? `سفارش ${id} پرداخت‌شده علامت خورد و دانلودها باز شد`
+          : `سفارش ${id}: ${LABEL[status]}`,
       );
     } catch (e) {
-      toast(`Could not update ${id}: ${e instanceof Error ? e.message : 'server error'}`);
+      toast(`به‌روزرسانی ${id} انجام نشد: ${e instanceof Error ? e.message : 'خطای سرور'}`);
     } finally {
       setBusy(null);
     }
@@ -50,14 +53,15 @@ export default function OrdersQueue() {
     <section aria-labelledby="oq-h">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="oq-h" className="widget-title">
-          Orders
+          سفارش‌ها
         </h2>
         <button type="button" className="btn-ghost" onClick={() => void load()} disabled={loading}>
-          {loading ? 'Loading…' : 'Refresh'}
+          {loading ? 'در حال بارگذاری…' : 'تازه‌سازی'}
         </button>
       </div>
       <p className="text-[12px] text-ink-muted">
-        Buyers pay you on Telegram. Once the money arrives, find their order number here and mark it paid.
+        خریدارها در تلگرام به تو پرداخت می‌کنند. وقتی پول رسید، شمارهٔ سفارششان را اینجا پیدا کن و آن را
+        پرداخت‌شده علامت بزن.
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {TABS.map((t) => (
@@ -72,12 +76,12 @@ export default function OrdersQueue() {
           </button>
         ))}
         <label htmlFor="oq-search" className="sr-only">
-          Search orders
+          جست‌وجوی سفارش‌ها
         </label>
         <input
           id="oq-search"
           className="field !w-auto flex-1 !py-1.5"
-          placeholder="Order number or email"
+          placeholder="شمارهٔ سفارش یا ایمیل"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -90,8 +94,8 @@ export default function OrdersQueue() {
       {loading && orders.length === 0 ? (
         <div className="skeleton mt-4 h-32 w-full" aria-busy="true" />
       ) : list.length === 0 ? (
-        <EmptyState title={`No ${LABEL[tab].toLowerCase()} orders`}>
-          {tab === 'pending' ? 'New Telegram orders show up here.' : 'Nothing here yet.'}
+        <EmptyState title={`سفارش «${LABEL[tab]}» وجود ندارد`}>
+          {tab === 'pending' ? 'سفارش‌های جدید تلگرامی اینجا نمایش داده می‌شوند.' : 'فعلاً چیزی اینجا نیست.'}
         </EmptyState>
       ) : (
         <ul className="mt-4 space-y-3">
@@ -100,15 +104,17 @@ export default function OrdersQueue() {
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-[13px] font-bold">
-                    <span data-testid="admin-order-id">{o.id}</span> · {money2(o.total)}
+                    <bdi data-testid="admin-order-id">{o.id}</bdi> · {money2(o.total)}
                   </p>
                   <p className="text-[11px] text-ink-muted">
-                    {o.name} · {o.email} · {formatDate(o.createdAt)}
+                    <bdi>{o.name}</bdi> · <bdi>{o.email}</bdi> · {formatDate(o.createdAt)}
                   </p>
                   <ul className="mt-1 text-[12px]">
                     {o.items.map((i) => (
                       <li key={i.id}>
-                        {i.title} <span className="text-ink-muted">({i.license})</span> · {money2(i.price)}
+                        <bdi>{i.title}</bdi>{' '}
+                        <span className="text-ink-muted">({licenseLabel(i.license)})</span> ·{' '}
+                        {money2(i.price)}
                       </li>
                     ))}
                   </ul>
@@ -121,7 +127,7 @@ export default function OrdersQueue() {
                       disabled={busy === o.id}
                       onClick={() => void change(o.id, 'paid')}
                     >
-                      Mark paid
+                      پرداخت‌شده
                     </button>
                   )}
                   {o.status === 'pending' && (
@@ -131,7 +137,7 @@ export default function OrdersQueue() {
                       disabled={busy === o.id}
                       onClick={() => void change(o.id, 'cancelled')}
                     >
-                      Cancel
+                      لغو
                     </button>
                   )}
                   {o.status === 'paid' && (
@@ -141,7 +147,7 @@ export default function OrdersQueue() {
                       disabled={busy === o.id}
                       onClick={() => void change(o.id, 'pending')}
                     >
-                      Undo
+                      برگرداندن
                     </button>
                   )}
                 </div>

@@ -23,6 +23,7 @@ import { blobKey, deleteBlobs, putBlob, storageHeadroom } from '@/lib/blobstore'
 import { allFileTypes, categories, getCategory } from '@/lib/catalog';
 import { addChips, chipFromFileName, parseChips } from '@/lib/file-types';
 import { prepareImage } from '@/lib/images';
+import { licenseLabel } from '@/lib/i18n';
 import { LICENSE_TYPES, type LicenseType } from '@/lib/types';
 import { useAdminCatalog } from '@/store/admin-catalog';
 import { useUI } from '@/store/ui';
@@ -111,9 +112,7 @@ export default function ProductForm({ editing, onDone }: Props) {
     setErrors((x) => ({
       ...x,
       images:
-        files.length > room
-          ? `You can add ${room} more image${room === 1 ? '' : 's'} (max ${MAX_IMAGES}).`
-          : undefined,
+        files.length > room ? `فقط ${room} تصویر دیگر می‌توانی اضافه کنی (حداکثر ${MAX_IMAGES}).` : undefined,
     }));
     const batch: Pending[] = take.map((f, i) => ({ id: `${Date.now()}-${i}`, name: f.name }));
     setPending(batch);
@@ -130,7 +129,9 @@ export default function ProductForm({ editing, onDone }: Props) {
         .catch((ex: unknown) =>
           setPending((list) =>
             list.map((x) =>
-              x.id === pid ? { ...x, error: ex instanceof Error ? ex.message : `“${f.name}” failed.` } : x,
+              x.id === pid
+                ? { ...x, error: ex instanceof Error ? ex.message : `پردازش «${f.name}» ناموفق بود.` }
+                : x,
             ),
           ),
         );
@@ -177,12 +178,12 @@ export default function ProductForm({ editing, onDone }: Props) {
     const errs = validateInput(data, Boolean(file || existingFile));
     const fp = file ? fileProblem(file.size) : null;
     if (fp) errs.file = fp;
-    if (keptImages.length + readyImages.length > MAX_IMAGES) errs.images = `Up to ${MAX_IMAGES} images.`;
-    if (decoding) errs.images = 'Images are still being prepared. Try again in a moment.';
+    if (keptImages.length + readyImages.length > MAX_IMAGES) errs.images = `حداکثر ${MAX_IMAGES} تصویر.`;
+    if (decoding) errs.images = 'تصاویر هنوز در حال آماده‌سازی‌اند. چند لحظه دیگر دوباره امتحان کن.';
     if (!errs.file && file) {
       const free = await storageHeadroom();
       if (free !== null && file.size > free)
-        errs.file = `This browser only has about ${formatBytes(free)} of storage left for uploads; this file is ${formatBytes(file.size)}.`;
+        errs.file = `فقط حدود ${formatBytes(free)} فضا برای آپلود باقی مانده؛ حجم این فایل ${formatBytes(file.size)} است.`;
     }
     setErrors(errs);
     if (Object.keys(errs).length) {
@@ -226,7 +227,7 @@ export default function ProductForm({ editing, onDone }: Props) {
           .map((d) => d.slice(IDB_PREFIX.length)),
       ];
       void deleteBlobs(stale).catch(() => undefined);
-      toast(editing ? `Saved “${product.title}”` : `Added “${product.title}”`);
+      toast(editing ? `«${product.title}» ذخیره شد` : `«${product.title}» اضافه شد`);
       onDone();
     } catch (ex) {
       void deleteBlobs(created).catch(() => undefined);
@@ -238,9 +239,9 @@ export default function ProductForm({ editing, onDone }: Props) {
   };
 
   const previewProduct = {
-    title: title || 'Untitled',
+    title: title || 'بدون عنوان',
     images: buildProduct(
-      { ...input(), title: title || 'Untitled', price: Number.isFinite(priceNum) ? priceNum : 0 },
+      { ...input(), title: title || 'بدون عنوان', price: Number.isFinite(priceNum) ? priceNum : 0 },
       { id: 'adm-preview', now: '2026-01-01', images: keptImages, categoryArt: getCategory(category)?.art },
     ).images,
   };
@@ -250,14 +251,15 @@ export default function ProductForm({ editing, onDone }: Props) {
       noValidate
       onSubmit={submit}
       className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2"
-      aria-label="Product"
+      aria-label="محصول"
     >
       <div className="sm:col-span-2">
         <label htmlFor={`${id}-title`} className="label">
-          Title
+          عنوان
         </label>
         <input
           className="field"
+          dir="auto"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           {...aria('title')}
@@ -266,10 +268,11 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div className="sm:col-span-2">
         <label htmlFor={`${id}-description`} className="label">
-          Description
+          توضیحات
         </label>
         <textarea
           className="field min-h-[90px]"
+          dir="auto"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           {...aria('description')}
@@ -278,7 +281,7 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-category`} className="label">
-          Category
+          دسته‌بندی
         </label>
         <select
           className="field"
@@ -286,7 +289,7 @@ export default function ProductForm({ editing, onDone }: Props) {
           onChange={(e) => setCategory(e.target.value)}
           {...aria('category')}
         >
-          <option value="">Choose…</option>
+          <option value="">انتخاب کن…</option>
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
               {c.name}
@@ -298,7 +301,7 @@ export default function ProductForm({ editing, onDone }: Props) {
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label htmlFor={`${id}-price`} className="label">
-            Price (USD)
+            قیمت (دلار)
           </label>
           <input
             className="field"
@@ -306,6 +309,7 @@ export default function ProductForm({ editing, onDone }: Props) {
             min={0}
             step="0.01"
             inputMode="decimal"
+            dir="ltr"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             {...aria('price')}
@@ -314,7 +318,7 @@ export default function ProductForm({ editing, onDone }: Props) {
         </div>
         <div>
           <label htmlFor={`${id}-salePrice`} className="label">
-            Sale price
+            قیمت با تخفیف
           </label>
           <input
             className="field"
@@ -322,7 +326,8 @@ export default function ProductForm({ editing, onDone }: Props) {
             min={0}
             step="0.01"
             inputMode="decimal"
-            placeholder="optional"
+            dir="ltr"
+            placeholder="اختیاری"
             value={salePrice}
             onChange={(e) => setSalePrice(e.target.value)}
             {...aria('salePrice')}
@@ -332,7 +337,7 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-tags`} className="label">
-          Tags (comma separated)
+          برچسب‌ها (جداشده با ویرگول)
         </label>
         <input
           className="field"
@@ -344,13 +349,13 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       <div>
         <label htmlFor={`${id}-fileTypes`} className="label">
-          File types (any; auto-detected from the file)
+          نوع فایل (هر نوعی؛ خودکار از روی فایل تشخیص داده می‌شود)
         </label>
         <div className="flex gap-1.5">
           <input
             className="field"
             value={typeDraft}
-            placeholder="e.g. DLL, LUA, CFG"
+            placeholder="مثلاً DLL، LUA، CFG"
             list={`${id}-type-suggestions`}
             onChange={(e) => setTypeDraft(e.target.value)}
             onKeyDown={(e) => {
@@ -363,7 +368,7 @@ export default function ProductForm({ editing, onDone }: Props) {
             {...aria('fileTypes')}
           />
           <button type="button" className="btn-ghost !px-2 text-[12px]" onClick={commitDraft}>
-            Add
+            افزودن
           </button>
         </div>
         <datalist id={`${id}-type-suggestions`}>
@@ -373,14 +378,18 @@ export default function ProductForm({ editing, onDone }: Props) {
         </datalist>
         {err('fileTypes')}
         {types.length > 0 && (
-          <ul className="mt-1.5 flex flex-wrap gap-1" aria-label="Chosen file types" data-testid="type-chips">
+          <ul
+            className="mt-1.5 flex flex-wrap gap-1"
+            aria-label="نوع فایل‌های انتخاب‌شده"
+            data-testid="type-chips"
+          >
             {types.map((t) => (
               <li key={t} className="chip !px-2 !py-0.5 !text-[11px]">
                 {t}
                 <button
                   type="button"
-                  className="ml-1 text-[#9e2f19]"
-                  aria-label={`Remove file type ${t}`}
+                  className="ms-1 text-[#9e2f19]"
+                  aria-label={`حذف نوع فایل ${t}`}
                   onClick={() => setTypes(types.filter((x) => x !== t))}
                 >
                   ×
@@ -391,13 +400,13 @@ export default function ProductForm({ editing, onDone }: Props) {
         )}
         {suggestions.length > 0 && (
           <p className="mt-1 flex flex-wrap items-center gap-1 text-[11px] text-ink-muted">
-            <span>Pick:</span>
+            <span>انتخاب:</span>
             {suggestions.slice(0, 10).map((t) => (
               <button
                 key={t}
                 type="button"
                 className="chip !px-1.5 !py-0 !text-[10.5px]"
-                aria-label={`Add file type ${t}`}
+                aria-label={`افزودن نوع فایل ${t}`}
                 onClick={() => {
                   setTypes((x) => addChips(x, t));
                   setErrors((x) => ({ ...x, fileTypes: undefined }));
@@ -414,7 +423,7 @@ export default function ProductForm({ editing, onDone }: Props) {
         aria-describedby={errors.licenses ? `${id}-licenses-err` : undefined}
       >
         <legend className="label" id={`${id}-licenses`} tabIndex={-1}>
-          Licences (leave a price empty to use the default ratio)
+          لایسنس‌ها (اگر قیمتی خالی بماند، از نسبت پیش‌فرض استفاده می‌شود)
         </legend>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {LICENSE_TYPES.map((t) => (
@@ -425,14 +434,15 @@ export default function ProductForm({ editing, onDone }: Props) {
                   checked={lic[t].on}
                   onChange={(e) => setLic({ ...lic, [t]: { ...lic[t], on: e.target.checked } })}
                 />
-                {t}
+                {licenseLabel(t)}
               </label>
               <input
                 className="field !py-1 text-[12px]"
                 type="number"
                 min={0}
                 step="0.01"
-                aria-label={`${t} licence price`}
+                dir="ltr"
+                aria-label={`قیمت لایسنس ${licenseLabel(t)}`}
                 placeholder={String(
                   defaultLicenses(Number.isFinite(priceNum) ? priceNum : 0).find((d) => d.type === t)
                     ?.price ?? 0,
@@ -448,7 +458,7 @@ export default function ProductForm({ editing, onDone }: Props) {
       </fieldset>
       <div>
         <label htmlFor={`${id}-file`} className="label">
-          Downloadable file (any type, max {formatBytes(MAX_FILE_BYTES)})
+          فایل قابل دانلود (هر فرمتی، حداکثر {formatBytes(MAX_FILE_BYTES)})
         </label>
         <input
           className="field !py-1.5 text-[12px]"
@@ -469,25 +479,23 @@ export default function ProductForm({ editing, onDone }: Props) {
           }}
           {...aria('file')}
         />
-        <p className="mt-1 text-[11px] text-ink-muted">
-          Stored as-is in this browser. Very large files depend on the browser&rsquo;s storage quota.
-        </p>
+        <p className="mt-1 text-[11px] text-ink-muted">فایل دقیقاً همان‌طور که هست ذخیره می‌شود.</p>
         {err('file')}
         {file ? (
           <p className="mt-1 text-[11px] text-ink" data-testid="file-info">
-            {file.name} · {formatBytes(file.size)}
+            <bdi>{file.name}</bdi> · {formatBytes(file.size)}
           </p>
         ) : (
           existingFile && (
             <p className="mt-1 text-[11px] text-ink-muted" data-testid="file-info">
-              Current: {existingFile.name} · {formatBytes(existingFile.size)}
+              فایل فعلی: <bdi>{existingFile.name}</bdi> · {formatBytes(existingFile.size)}
             </p>
           )
         )}
       </div>
       <div>
         <label htmlFor={`${id}-images`} className="label">
-          Preview images (any image, up to {MAX_IMAGES}, optional)
+          تصاویر پیش‌نمایش (هر فرمت تصویری، حداکثر {MAX_IMAGES}، اختیاری)
         </label>
         <input
           className="field !py-1.5 text-[12px]"
@@ -498,8 +506,8 @@ export default function ProductForm({ editing, onDone }: Props) {
           {...aria('images')}
         />
         <p className="mt-1 text-[11px] text-ink-muted">
-          JPG, PNG, WebP, AVIF, BMP, ICO, HEIC (where supported) are resized to 1600px; SVG and animated GIF
-          are kept as uploaded.
+          JPG، PNG، WebP، AVIF، BMP، ICO و HEIC (در صورت پشتیبانی) به ۱۶۰۰ پیکسل کوچک می‌شوند؛ SVG و GIF متحرک
+          همان‌طور که آپلود شده‌اند می‌مانند.
         </p>
         {err('images')}
         {pending.some((x) => x.error) && (
@@ -514,14 +522,18 @@ export default function ProductForm({ editing, onDone }: Props) {
           </ul>
         )}
         {(keptImages.length > 0 || readyImages.length > 0) && (
-          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Preview images">
+          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="تصاویر پیش‌نمایش">
             {keptImages.map((d, i) => (
               <li key={d} className="relative w-16">
-                <ProductImage product={{ title, images: [d] }} alt={`Saved image ${i + 1}`} sizes="64px" />
+                <ProductImage
+                  product={{ title, images: [d] }}
+                  alt={`تصویر ذخیره‌شدهٔ ${i + 1}`}
+                  sizes="64px"
+                />
                 <button
                   type="button"
-                  className="absolute -right-1 -top-1 rounded-full bg-[#9e2f19] px-1 text-[10px] text-white"
-                  aria-label={`Remove saved image ${i + 1}`}
+                  className="absolute -end-1 -top-1 rounded-full bg-[#9e2f19] px-1 text-[10px] text-white"
+                  aria-label={`حذف تصویر ذخیره‌شدهٔ ${i + 1}`}
                   onClick={() => setKeptImages(keptImages.filter((x) => x !== d))}
                 >
                   ×
@@ -533,7 +545,7 @@ export default function ProductForm({ editing, onDone }: Props) {
                 {/* eslint-disable-next-line @next/next/no-img-element -- local object URL preview (SVG stays in <img>, never inline) */}
                 <img
                   src={x.url}
-                  alt={`New image ${i + 1}: ${x.name}`}
+                  alt={`تصویر جدید ${i + 1}: ${x.name}`}
                   className="h-10 w-16 rounded border border-[#8f8770] object-cover"
                 />
               </li>
@@ -543,29 +555,35 @@ export default function ProductForm({ editing, onDone }: Props) {
       </div>
       {keptImages.length + readyImages.length === 0 && (
         <div className="sm:col-span-2">
-          <p className="label">Default preview (generated because no image is uploaded)</p>
+          <p className="label">پیش‌نمایش پیش‌فرض (چون تصویری آپلود نشده، خودکار ساخته شده)</p>
           <span className="inset-img block w-[200px] overflow-hidden" data-testid="default-preview">
-            <ProductImage product={previewProduct} alt="Generated default preview" sizes="200px" />
+            <ProductImage product={previewProduct} alt="پیش‌نمایش پیش‌فرض ساخته‌شده" sizes="200px" />
           </span>
         </div>
       )}
       <div className="flex flex-wrap gap-4 text-[12px] text-ink sm:col-span-2">
         <label className="flex items-center gap-1.5">
           <input type="checkbox" checked={published} onChange={(e) => setPublishedFlag(e.target.checked)} />
-          Published (visible in the shop)
+          منتشرشده (در فروشگاه دیده می‌شود)
         </label>
         <label className="flex items-center gap-1.5">
           <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} />
-          Show in the home slider
+          نمایش در اسلایدر صفحهٔ اصلی
         </label>
       </div>
       <div className="flex flex-wrap gap-2 sm:col-span-2">
         <button type="submit" className="btn" disabled={busy || decoding}>
-          {busy ? 'Saving…' : decoding ? 'Preparing images…' : editing ? 'Save changes' : 'Add product'}
+          {busy
+            ? 'در حال ذخیره…'
+            : decoding
+              ? 'در حال آماده‌سازی تصاویر…'
+              : editing
+                ? 'ذخیرهٔ تغییرات'
+                : 'افزودن محصول'}
         </button>
         {editing && (
           <button type="button" className="btn-ghost" onClick={onDone}>
-            Cancel editing
+            لغو ویرایش
           </button>
         )}
       </div>

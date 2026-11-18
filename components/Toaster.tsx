@@ -16,7 +16,7 @@ export default function Toaster() {
           type="button"
           key={t.id}
           onClick={() => dismiss(t.id)}
-          className="fade-in pointer-events-auto rounded-full border border-[#23221a] bg-olive-dark px-4 py-2 text-left text-[12px] font-semibold text-ink-light shadow-lg"
+          className="fade-in pointer-events-auto rounded-full border border-[#23221a] bg-olive-dark px-4 py-2 text-start text-[12px] font-semibold text-ink-light shadow-lg"
         >
           {t.text}
         </button>

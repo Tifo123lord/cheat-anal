@@ -11,7 +11,7 @@ export default function NewsletterForm({ compact = false }: { compact?: boolean 
   if (done) {
     return (
       <p className="text-[12px] font-semibold text-[color:var(--link-strong)]" role="status">
-        Thanks! Look out for fresh files every Friday.
+        ممنون! هر جمعه منتظر فایل‌های تازه باش.
       </p>
     );
   }
@@ -21,7 +21,7 @@ export default function NewsletterForm({ compact = false }: { compact?: boolean 
       onSubmit={(e) => {
         e.preventDefault();
         if (!isEmail(email)) {
-          setError('Please enter a valid email address.');
+          setError('لطفاً یک ایمیل معتبر وارد کن.');
           return;
         }
         setError('');
@@ -29,7 +29,7 @@ export default function NewsletterForm({ compact = false }: { compact?: boolean 
       }}
     >
       <label htmlFor={`${id}-e`} className={compact ? 'sr-only' : 'mb-1 block text-[12px]'}>
-        Weekly picks and freebies in your inbox.
+        منتخب‌های هفته و فایل‌های رایگان، مستقیم در ایمیلت.
       </label>
       <div className="flex gap-1.5">
         <input
@@ -37,13 +37,14 @@ export default function NewsletterForm({ compact = false }: { compact?: boolean 
           type="email"
           className="field !py-1.5 text-[12px]"
           placeholder="you@example.com"
+          dir="ltr"
           value={email}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${id}-err` : undefined}
           onChange={(e) => setEmail(e.target.value)}
         />
         <button type="submit" className="btn shrink-0 !px-3">
-          Join
+          عضویت
         </button>
       </div>
       {error && (

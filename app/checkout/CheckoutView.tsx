@@ -9,9 +9,10 @@ import EmptyState from '@/components/EmptyState';
 import { Container } from '@/components/Layout';
 import { cartRows, totalsFor } from '@/lib/cart-view';
 import { money } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import { licenseKey, orderNumber } from '@/lib/keys';
 import type { Order } from '@/lib/types';
-import { telegramOrderLink, telegramProfile, TELEGRAM_USERNAME } from '@/lib/telegram';
+import { telegramProfile, TELEGRAM_USERNAME } from '@/lib/telegram';
 import { isEmail, type Errors } from '@/lib/validation';
 import TelegramIcon from '@/components/TelegramIcon';
 import { useRequireLogin } from '@/components/useRequireLogin';
@@ -45,9 +46,9 @@ export default function CheckoutView() {
 
   const validate = (): Errors<Field> => {
     const e: Errors<Field> = {};
-    if (form.name.trim().length < 2) e.name = 'Enter your name.';
-    if (!isEmail(form.email)) e.email = 'Enter a valid email.';
-    if (!form.terms) e.terms = 'Please accept the licence terms.';
+    if (form.name.trim().length < 2) e.name = 'نامت را وارد کن.';
+    if (!isEmail(form.email)) e.email = 'یک ایمیل معتبر وارد کن.';
+    if (!form.terms) e.terms = 'لطفاً شرایط لایسنس را بپذیر.';
     return e;
   };
 
@@ -61,8 +62,6 @@ export default function CheckoutView() {
       return;
     }
     setBusy(true);
-    // Opened now, inside the click, so the browser does not block it; pointed at Telegram once the order is saved.
-    const tab = window.open('', '_blank');
     const id = orderNumber();
     const items = rows.map((r) => ({
       kind: r.line.kind,
@@ -90,19 +89,14 @@ export default function CheckoutView() {
     };
     addOrder(order).then(
       () => {
-        if (tab) {
-          tab.opener = null;
-          tab.location.href = telegramOrderLink(order);
-        }
         setPlaced(true);
         clear();
         router.push(`/checkout/success/?order=${encodeURIComponent(id)}`);
       },
       (ex: unknown) => {
-        tab?.close();
         setBusy(false);
         setErrors({
-          terms: `Could not save the order: ${ex instanceof Error ? ex.message : 'server error'}.`,
+          terms: `ثبت سفارش انجام نشد: ${ex instanceof Error ? ex.message : 'خطای سرور'}.`,
         });
       },
     );
@@ -123,7 +117,7 @@ export default function CheckoutView() {
     return (
       <Container className="mt-3 md:mt-[14px]">
         <div className="frame on-paper p-4 text-[13px] text-ink" role="status">
-          Please sign in to buy. Redirecting to sign in…
+          برای خرید باید وارد حسابت شوی. در حال انتقال به صفحهٔ ورود…
         </div>
       </Container>
     );
@@ -133,10 +127,10 @@ export default function CheckoutView() {
     return (
       <Container className="mt-3 md:mt-[14px]">
         <div className="frame on-paper p-4">
-          <EmptyState title="Nothing to check out yet">
-            Your cart is empty.{' '}
+          <EmptyState title="هنوز چیزی برای پرداخت نیست">
+            سبد خریدت خالی است.{' '}
             <Link href="/shop/" className="link">
-              Browse the shop
+              گشتی در فروشگاه بزن
             </Link>
             .
           </EmptyState>
@@ -150,19 +144,19 @@ export default function CheckoutView() {
       <div className="grid grid-cols-1 gap-[14px] lg:grid-cols-[630px_1fr] lg:gap-[18px]">
         <form noValidate onSubmit={submit} className="frame on-paper p-3 sm:p-4" aria-labelledby="co-h">
           <h1 id="co-h" className="page-title">
-            Checkout
+            پرداخت
           </h1>
           <p className="mb-3 text-[12px] text-ink">
-            Pay on Telegram: place the order, send the ready-made message to{' '}
-            <a href={telegramProfile()} className="link" target="_blank" rel="noopener noreferrer">
+            پرداخت از طریق تلگرام: سفارش را ثبت کن، در صفحهٔ بعد متن سفارش را کپی کن و آن را برای{' '}
+            <a href={telegramProfile()} className="link" target="_blank" rel="noopener noreferrer" dir="ltr">
               @{TELEGRAM_USERNAME}
             </a>{' '}
-            and your downloads open in My downloads as soon as the payment is confirmed.
+            بفرست و به محض تأیید پرداخت، فایل‌ها در «دانلودهای من» برایت باز می‌شوند.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="co-name" className="label">
-                Your name
+                نام تو
               </label>
               <input
                 id="co-name"
@@ -176,12 +170,13 @@ export default function CheckoutView() {
             </div>
             <div>
               <label htmlFor="co-email" className="label">
-                Email
+                ایمیل
               </label>
               <input
                 id="co-email"
                 type="email"
                 className="field"
+                dir="ltr"
                 autoComplete="email"
                 value={form.email}
                 onChange={(e) => set('email', e.target.value)}
@@ -200,15 +195,15 @@ export default function CheckoutView() {
                   {...aria('terms')}
                 />
                 <span>
-                  I agree to the{' '}
+                  با{' '}
                   <Link href="/info/licenses/" className="link">
-                    licence terms
+                    شرایط لایسنس
                   </Link>{' '}
-                  and{' '}
+                  و{' '}
                   <Link href="/info/refunds/" className="link">
-                    refund policy
-                  </Link>
-                  .
+                    سیاست بازگشت وجه
+                  </Link>{' '}
+                  موافقم.
                 </span>
               </label>
               {err('terms')}
@@ -216,20 +211,20 @@ export default function CheckoutView() {
           </div>
           <button type="submit" className="btn mt-4 w-full !py-2.5 !text-[14px]" disabled={busy || !hydrated}>
             <TelegramIcon size={15} />{' '}
-            {busy ? 'Opening Telegram…' : `Buy on Telegram · ${money(totals.total)}`}
+            {busy ? 'در حال ثبت سفارش…' : `ثبت سفارش و پرداخت در تلگرام · ${money(totals.total)}`}
           </button>
-          <button type="button" className="btn-ghost mt-2 w-full" disabled title="Coming soon">
-            Online card payment (coming soon)
+          <button type="button" className="btn-ghost mt-2 w-full" disabled title="به‌زودی">
+            پرداخت آنلاین با کارت (به‌زودی)
           </button>
           {Object.keys(errors).length > 0 && (
             <p className="error-text" role="alert">
-              Please fix the highlighted fields.
+              لطفاً فیلدهای مشخص‌شده را اصلاح کن.
             </p>
           )}
         </form>
 
-        <aside className="frame on-paper h-fit space-y-3 p-3 sm:p-4" aria-label="Order summary">
-          <h2 className="widget-title">Your order</h2>
+        <aside className="frame on-paper h-fit space-y-3 p-3 sm:p-4" aria-label="خلاصهٔ سفارش">
+          <h2 className="widget-title">سفارش تو</h2>
           {!hydrated ? (
             <div className="skeleton h-20 w-full" />
           ) : (
@@ -237,9 +232,10 @@ export default function CheckoutView() {
               {rows.map((r) => (
                 <li key={`${r.line.kind}-${r.line.id}`} className="flex justify-between gap-2">
                   <span className="min-w-0 truncate">
-                    {r.title} <span className="text-ink-muted">({r.line.license})</span>
+                    <bdi>{r.title}</bdi>{' '}
+                    <span className="text-ink-muted">({licenseLabel(r.line.license)})</span>
                   </span>
-                  <span className="font-semibold">{money(r.price)}</span>
+                  <span className="shrink-0 font-semibold">{money(r.price)}</span>
                 </li>
               ))}
             </ul>

@@ -17,6 +17,7 @@ import {
   type SortKey,
 } from '@/lib/filters';
 import { plural } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import EmptyState from './EmptyState';
 import FiltersPanel from './FiltersPanel';
 import { CloseIcon, FilterIcon } from './Icons';
@@ -28,7 +29,7 @@ import ProductGrid, { GridSkeleton } from './ProductGrid';
 const PER_PAGE = 12;
 
 export default function ShopView({
-  title = 'Shop all files',
+  title = 'همهٔ فایل‌ها',
   defaultSort,
 }: {
   title?: string;
@@ -77,14 +78,19 @@ export default function ShopView({
       clear: { compatibility: filters.compatibility.filter((x) => x !== t) },
     })),
     ...filters.licenses.map((t) => ({
-      label: `${t} licence`,
+      label: `لایسنس ${licenseLabel(t)}`,
       clear: { licenses: filters.licenses.filter((x) => x !== t) },
     })),
-    ...(filters.minPrice !== null ? [{ label: `from $${filters.minPrice}`, clear: { minPrice: null } }] : []),
+    ...(filters.minPrice !== null ? [{ label: `از $${filters.minPrice}`, clear: { minPrice: null } }] : []),
     ...(filters.maxPrice !== null
-      ? [{ label: filters.maxPrice === 0 ? 'Free' : `to $${filters.maxPrice}`, clear: { maxPrice: null } }]
+      ? [
+          {
+            label: filters.maxPrice === 0 ? 'رایگان' : `تا $${filters.maxPrice}`,
+            clear: { maxPrice: null },
+          },
+        ]
       : []),
-    ...(filters.minRating > 0 ? [{ label: `${filters.minRating}+ leaves`, clear: { minRating: 0 } }] : []),
+    ...(filters.minRating > 0 ? [{ label: `${filters.minRating}+ برگ`, clear: { minRating: 0 } }] : []),
   ];
 
   const aside = (
@@ -93,7 +99,7 @@ export default function ShopView({
         id="filters-h"
         className="border-b border-[#bcb399] px-3 py-2.5 font-display text-[15px] font-bold text-ink"
       >
-        Filter files
+        فیلتر فایل‌ها
       </h2>
       <FiltersPanel filters={filters} onChange={update} idPrefix="side" />
     </aside>
@@ -106,7 +112,7 @@ export default function ShopView({
           <div>
             <h1 className="page-title !text-[19px]">{title}</h1>
             <p className="text-[12px] text-ink-muted" aria-live="polite">
-              {plural(results.length, 'file')} found
+              {plural(results.length, 'فایل')} پیدا شد
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -116,10 +122,10 @@ export default function ShopView({
               onClick={() => setSheet(true)}
               aria-haspopup="dialog"
             >
-              <FilterIcon size={13} /> Filters{active ? ` (${active})` : ''}
+              <FilterIcon size={13} /> فیلترها{active ? ` (${active})` : ''}
             </button>
             <label htmlFor="sort" className="text-[12px] font-bold text-ink">
-              Sort
+              مرتب‌سازی
             </label>
             <select
               id="sort"
@@ -136,14 +142,14 @@ export default function ShopView({
           </div>
         </div>
         {chips.length > 0 && (
-          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Active filters">
+          <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="فیلترهای فعال">
             {chips.map((c) => (
               <li key={c.label}>
                 <button
                   type="button"
                   onClick={() => update({ ...filters, ...c.clear, page: 1 })}
                   className="inline-flex items-center gap-1 rounded-full border border-[#8f8770] bg-paper-light px-2 py-0.5 text-[11px] font-semibold text-ink hover:bg-white"
-                  aria-label={`Remove filter ${c.label}`}
+                  aria-label={`حذف فیلتر ${c.label}`}
                 >
                   {c.label} <CloseIcon size={10} />
                 </button>
@@ -154,25 +160,25 @@ export default function ShopView({
       </div>
 
       {items.length ? (
-        <ProductGrid items={items} label="Search results" />
+        <ProductGrid items={items} label="نتایج جست‌وجو" />
       ) : catalogueEmpty && !hydrated ? (
         <GridSkeleton count={2} />
       ) : catalogueEmpty ? (
         <div className="frame on-paper" data-testid="shop-empty">
           <EmptyState title={NO_FILES_TITLE}>
-            The shop is empty for now. New files appear here as soon as they are published.
+            فعلاً فروشگاه خالی است. فایل‌های جدید به محض انتشار همین‌جا نمایش داده می‌شوند.
           </EmptyState>
         </div>
       ) : (
         <div className="frame on-paper">
-          <EmptyState title="Nothing sprouted here">
-            No files match these filters. Try removing one, or{' '}
+          <EmptyState title="اینجا چیزی سبز نشد">
+            هیچ فایلی با این فیلترها جور نیست. یکی را بردار، یا{' '}
             <button
               type="button"
               className="link"
               onClick={() => update({ ...parseFilters(new URLSearchParams()) })}
             >
-              clear everything
+              همه را پاک کن
             </button>
             .
           </EmptyState>
@@ -182,11 +188,11 @@ export default function ShopView({
         <Pagination page={page} pages={pages} onPage={(p) => update({ ...filters, page: p })} />
       </div>
 
-      <Modal open={sheet} onClose={() => setSheet(false)} title="Filter files" variant="sheet">
+      <Modal open={sheet} onClose={() => setSheet(false)} title="فیلتر فایل‌ها" variant="sheet">
         <FiltersPanel filters={filters} onChange={update} idPrefix="sheet" />
         <div className="sticky bottom-0 bg-paper px-3 pb-3 pt-1">
           <button type="button" className="btn w-full" onClick={() => setSheet(false)}>
-            Show {plural(results.length, 'file')}
+            نمایش {plural(results.length, 'فایل')}
           </button>
         </div>
       </Modal>

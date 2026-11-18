@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { fileNote } from '@/lib/admin-products';
 import { getCategory } from '@/lib/catalog';
+import { licenseLabel } from '@/lib/i18n';
 import { formatDate, money } from '@/lib/format';
 import { licensePrice, listLicensePrice } from '@/lib/pricing';
 import { combineRating } from '@/lib/rating';
@@ -20,9 +21,9 @@ import { CartIcon, HeartIcon } from './Icons';
 import LeafRating from './LeafRating';
 
 const LICENSE_NOTES: Record<LicenseType, string> = {
-  Personal: 'Your own non-commercial projects.',
-  Commercial: 'One commercial or client project.',
-  Extended: 'Products you sell to many end users.',
+  Personal: 'برای پروژه‌های غیرتجاری خودت.',
+  Commercial: 'برای یک پروژهٔ تجاری یا یک مشتری.',
+  Extended: 'برای محصولاتی که به کاربران زیادی می‌فروشی.',
 };
 
 export default function BuyBox({ product, author }: { product: Product; author?: Author }) {
@@ -40,20 +41,20 @@ export default function BuyBox({ product, author }: { product: Product; author?:
   const list = listLicensePrice(product, license);
 
   const rows: [string, string][] = [
-    ['Format', product.fileTypes.join(', ')],
-    ['File size', product.fileSize],
-    ['Version', product.version],
-    ['Last update', formatDate(product.updatedAt)],
-    ['Released', formatDate(product.createdAt)],
-    ['Compatibility', product.compatibility.join(', ')],
-    ['Category', getCategory(product.category)?.name ?? product.category],
+    ['فرمت', product.fileTypes.join('، ')],
+    ['حجم فایل', product.fileSize],
+    ['نسخه', product.version],
+    ['آخرین به‌روزرسانی', formatDate(product.updatedAt)],
+    ['تاریخ انتشار', formatDate(product.createdAt)],
+    ['سازگاری', product.compatibility.join('، ')],
+    ['دسته‌بندی', getCategory(product.category)?.name ?? product.category],
   ];
 
   return (
     <div className="space-y-[14px]">
       <section className="frame on-paper p-3" aria-labelledby="buy-h">
         <h2 id="buy-h" className="sr-only">
-          Buy this file
+          خرید این فایل
         </h2>
         <div className="flex flex-wrap gap-1">
           {product.badges.map((b) => (
@@ -62,13 +63,13 @@ export default function BuyBox({ product, author }: { product: Product; author?:
         </div>
         <p className="mt-1 font-display text-[28px] font-bold leading-none text-ink">
           {money(price)}
-          {list !== price && <s className="ml-2 text-[14px] font-normal text-ink-muted">{money(list)}</s>}
+          {list !== price && <s className="ms-2 text-[14px] font-normal text-ink-muted">{money(list)}</s>}
         </p>
         <div className="mt-1">
           <LeafRating rating={average} votes={votes} />
         </div>
         <fieldset className="mt-3">
-          <legend className="label">Choose a licence</legend>
+          <legend className="label">انتخاب لایسنس</legend>
           <div className="space-y-1.5">
             {product.licenses.map((l) => (
               <label
@@ -84,7 +85,7 @@ export default function BuyBox({ product, author }: { product: Product; author?:
                     onChange={() => setLicense(l.type)}
                   />
                   <span>
-                    <span className="block text-[13px] font-bold">{l.type}</span>
+                    <span className="block text-[13px] font-bold">{licenseLabel(l.type)}</span>
                     <span className="block text-[11px] text-ink-muted">{LICENSE_NOTES[l.type]}</span>
                   </span>
                 </span>
@@ -99,16 +100,17 @@ export default function BuyBox({ product, author }: { product: Product; author?:
             className="btn !py-2"
             onClick={() => {
               add({ kind: 'product', id: product.id, license });
-              toast(`Added with ${license} licence`);
+              toast(`با لایسنس ${licenseLabel(license)} به سبد اضافه شد`);
             }}
           >
-            <CartIcon size={14} /> {hydrated && inCart ? `Update cart (${license})` : 'Add to cart'}
+            <CartIcon size={14} />{' '}
+            {hydrated && inCart ? `به‌روزرسانی سبد (${licenseLabel(license)})` : 'افزودن به سبد خرید'}
           </button>
           <button
             type="button"
             className={`btn-ghost !px-3 ${wished ? '!bg-sale !text-white' : ''}`}
             aria-pressed={wished}
-            aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+            aria-label={wished ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها'}
             onClick={() => toggle(product.id)}
           >
             <HeartIcon size={15} filled={wished} />
@@ -121,33 +123,34 @@ export default function BuyBox({ product, author }: { product: Product; author?:
               router.push('/checkout/');
             }}
           >
-            Buy now
+            همین حالا بخر
           </button>
         </div>
         <p className="mt-2 text-[11px] text-ink-muted">
-          Instant download · lifetime updates · 14-day refund if broken
+          دانلود فوری · به‌روزرسانی مادام‌العمر · بازگشت وجه ۱۴ روزه در صورت خرابی
         </p>
       </section>
 
       <section className="frame on-paper p-3" aria-labelledby="info-h">
         <h2 id="info-h" className="widget-title mb-2">
-          File info
+          مشخصات فایل
         </h2>
         <table className="w-full text-[12px]">
           <tbody>
             {rows.map(([k, v]) => (
               <tr key={k} className="border-b border-[#c2b99f] last:border-b-0">
-                <th scope="row" className="py-1 pr-2 text-left font-semibold text-ink-muted">
+                <th scope="row" className="py-1 pe-2 text-start font-semibold text-ink-muted">
                   {k}
                 </th>
-                <td className="py-1 text-right text-ink">{v}</td>
+                <td className="py-1 text-end text-ink">{v}</td>
               </tr>
             ))}
           </tbody>
         </table>
         {product.fileExt !== undefined && (
           <p className="mt-2 text-[11px] text-ink-muted" data-testid="file-note">
-            You download: {fileNote(product.fileExt, product.fileSize)}, exactly as uploaded.
+            چیزی که دانلود می‌کنی: {fileNote(product.fileExt, product.fileSize)}، دقیقاً همان‌طور که آپلود
+            شده.
           </p>
         )}
       </section>
@@ -155,7 +158,7 @@ export default function BuyBox({ product, author }: { product: Product; author?:
       {author && (
         <section className="frame on-paper p-3" aria-labelledby="author-h">
           <h2 id="author-h" className="widget-title mb-2">
-            About the author
+            دربارهٔ سازنده
           </h2>
           <div className="flex items-center gap-2">
             <Avatar seed={author.avatarSeed} name={author.name} size={40} />
@@ -165,8 +168,8 @@ export default function BuyBox({ product, author }: { product: Product; author?:
               </Link>
               <p className="text-[11px] text-ink-muted">
                 {author.location}
-                {author.sales > 0 ? ` · ${author.sales.toLocaleString('en-US')} sales` : ''}
-                {author.rating > 0 ? ` · ${author.rating.toFixed(1)} avg` : ''}
+                {author.sales > 0 ? ` · ${author.sales.toLocaleString('en-US')} فروش` : ''}
+                {author.rating > 0 ? ` · میانگین ${author.rating.toFixed(1)}` : ''}
               </p>
             </div>
           </div>

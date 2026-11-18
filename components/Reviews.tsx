@@ -36,13 +36,13 @@ export default function Reviews({ product }: { product: Product }) {
     e.preventDefault();
     const n = name.trim() || user?.name || '';
     const errs: typeof errors = {};
-    if (rating < 1) errs.rating = 'Pick between 1 and 5 leaves.';
-    if (n.length < 2) errs.name = 'Please add your name (2+ characters).';
-    if (text.trim().length < 10) errs.text = 'Tell other buyers a little more (10+ characters).';
+    if (rating < 1) errs.rating = 'بین ۱ تا ۵ برگ انتخاب کن.';
+    if (n.length < 2) errs.name = 'لطفاً نامت را بنویس (حداقل ۲ کاراکتر).';
+    if (text.trim().length < 10) errs.text = 'کمی بیشتر برای بقیهٔ خریداران بنویس (حداقل ۱۰ کاراکتر).';
     setErrors(errs);
     if (Object.keys(errs).length) return;
     if (!user) {
-      setErrors({ text: 'Sign in to post a review.' });
+      setErrors({ text: 'برای ثبت نظر وارد حسابت شو.' });
       return;
     }
     addReview({
@@ -56,9 +56,10 @@ export default function Reviews({ product }: { product: Product }) {
       () => {
         setRating(0);
         setText('');
-        toast('Thanks! Your review is live.');
+        toast('ممنون! نظرت منتشر شد.');
       },
-      (ex: unknown) => setErrors({ text: `Could not post: ${ex instanceof Error ? ex.message : 'server error'}.` }),
+      (ex: unknown) =>
+        setErrors({ text: `ثبت نظر انجام نشد: ${ex instanceof Error ? ex.message : 'خطای سرور'}.` }),
     );
   };
 
@@ -70,19 +71,19 @@ export default function Reviews({ product }: { product: Product }) {
             {summary.average.toFixed(1)}
           </p>
           <LeafRow rating={summary.average} size={16} />
-          <p className="text-[11px] text-ink-muted">{summary.votes} votes</p>
+          <p className="text-[11px] text-ink-muted">{summary.votes} رأی</p>
         </div>
-        <ul className="space-y-1" aria-label="Rating distribution of written reviews">
+        <ul className="space-y-1" aria-label="توزیع امتیاز نظرهای ثبت‌شده">
           {dist.map((c, i) => (
             <li key={i} className="flex items-center gap-2 text-[11px] text-ink">
-              <span className="w-12">{5 - i} leaves</span>
+              <span className="w-12">{5 - i} برگ</span>
               <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#c9c0a6]">
                 <span
                   className="block h-full bg-leaf"
                   style={{ width: `${list.length ? (c / list.length) * 100 : 0}%` }}
                 />
               </span>
-              <span className="w-5 text-right">{c}</span>
+              <span className="w-5 text-end">{c}</span>
             </li>
           ))}
         </ul>
@@ -92,11 +93,15 @@ export default function Reviews({ product }: { product: Product }) {
         {list.map((r) => (
           <li key={r.id} className="rounded-md border border-[#bcb399] bg-paper-light/40 p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[13px] font-bold text-ink">{r.name}</p>
+              <p className="text-[13px] font-bold text-ink" dir="auto">
+                {r.name}
+              </p>
               <p className="text-[11px] text-ink-muted">{formatDate(r.date)}</p>
             </div>
             <LeafRow rating={r.rating} size={13} />
-            <p className="mt-1 text-[13px] text-ink">{r.text}</p>
+            <p className="mt-1 text-[13px] text-ink" dir="auto">
+              {r.text}
+            </p>
           </li>
         ))}
       </ul>
@@ -108,10 +113,10 @@ export default function Reviews({ product }: { product: Product }) {
         aria-labelledby={`${id}-h`}
       >
         <h3 id={`${id}-h`} className="mb-2 font-display text-[15px] font-bold text-ink">
-          Write a review
+          نوشتن نظر
         </h3>
         <div className="mb-2">
-          <span className="label">Your rating</span>
+          <span className="label">امتیاز تو</span>
           <LeafInput
             value={rating}
             onChange={setRating}
@@ -127,13 +132,13 @@ export default function Reviews({ product }: { product: Product }) {
         </div>
         <div className="mb-2">
           <label htmlFor={`${id}-n`} className="label">
-            Name
+            نام
           </label>
           <input
             id={`${id}-n`}
             className="field"
             value={name}
-            placeholder={user?.name ?? 'Your name'}
+            placeholder={user?.name ?? 'نام تو'}
             onChange={(e) => setName(e.target.value)}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? `${id}-en` : undefined}
@@ -146,7 +151,7 @@ export default function Reviews({ product }: { product: Product }) {
         </div>
         <div className="mb-2">
           <label htmlFor={`${id}-t`} className="label">
-            Review
+            متن نظر
           </label>
           <textarea
             id={`${id}-t`}
@@ -163,7 +168,7 @@ export default function Reviews({ product }: { product: Product }) {
           )}
         </div>
         <button type="submit" className="btn">
-          Submit review
+          ثبت نظر
         </button>
       </form>
     </div>

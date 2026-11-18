@@ -50,7 +50,7 @@ export const getBundle = (id: string): Bundle | undefined => bundles.find((b) =>
 export const getPost = (slug: string): Post | undefined => posts.find((p) => p.slug === slug);
 
 export const authorName = (id: string): string =>
-  authorById.get(id)?.name ?? (id === 'leafpress-studio' ? 'Cheat & Anal Studio' : 'Unknown author');
+  authorById.get(id)?.name ?? (id === 'leafpress-studio' ? 'Cheat & Anal Studio' : 'سازندهٔ ناشناس');
 
 export const productsByAuthor = (authorId: string): Product[] =>
   allProducts().filter((p) => p.authorId === authorId);
@@ -111,7 +111,7 @@ export const maxPrice = (): number => {
 export const isRetiredSeedId = (id: string): boolean => /^p\d{2}$/.test(id);
 
 /** Copy for a list with nothing in it yet. */
-export const NO_FILES_TITLE = 'No files yet';
+export const NO_FILES_TITLE = 'هنوز فایلی نیست';
 
 /** Products of one category from a list (seeded + admin), newest first. */
 export const productsInCategory = (list: Product[], categoryId: string): Product[] =>
@@ -119,6 +119,6 @@ export const productsInCategory = (list: Product[], categoryId: string): Product
     .filter((p) => p.category === categoryId)
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
 
-/** Empty-state line for a category page, e.g. "No cheats yet — check back soon". */
+/** Empty-state line for a category page, e.g. "هنوز در «چیت‌ها» فایلی نیست — به‌زودی سر بزن". */
 export const categoryEmptyText = (c: Pick<Category, 'name'>): string =>
-  `No ${c.name.toLowerCase()} yet — check back soon`;
+  `هنوز در «${c.name}» فایلی نیست — به‌زودی دوباره سر بزن`;

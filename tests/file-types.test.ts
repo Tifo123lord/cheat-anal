@@ -96,7 +96,7 @@ describe('free-form file types in products and shop filters', () => {
     expect(dll.fileExt).toBe('dll');
     expect(dll.fileSize).toBe('4.0 KB');
     expect(validateInput(input, true).fileTypes).toBeUndefined();
-    expect(validateInput({ ...input, fileTypes: ['  ', '.'] }, true).fileTypes).toMatch(/at least one/);
+    expect(validateInput({ ...input, fileTypes: ['  ', '.'] }, true).fileTypes).toMatch(/دست‌کم یک نوع فایل/);
   });
 
   it('keeps fileExt on edit when no new file is uploaded', () => {
@@ -133,15 +133,15 @@ describe('size limit, storage and download type', () => {
     expect(fileProblem(200 * MB)).toBeNull();
     expect(fileProblem(1)).toBeNull();
     expect(fileProblem(200 * MB + 1)).not.toBeNull();
-    expect(fileProblem(201 * MB)).toBe('This file is 201.0 MB; the limit is 200.0 MB.');
-    expect(fileProblem(350 * MB)).toBe('This file is 350.0 MB; the limit is 200.0 MB.');
+    expect(fileProblem(201 * MB)).toBe('حجم این فایل 201.0 MB است؛ سقف مجاز 200.0 MB است.');
+    expect(fileProblem(350 * MB)).toBe('حجم این فایل 350.0 MB است؛ سقف مجاز 200.0 MB است.');
   });
 
   it('recognises quota errors and gives a friendly message', () => {
     const quota = { name: 'QuotaExceededError', message: 'The quota has been exceeded.' };
     expect(isQuotaError(quota)).toBe(true);
     expect(isQuotaError(new Error('boom'))).toBe(false);
-    expect(storageErrorMessage(quota)).toMatch(/run out of storage space/);
+    expect(storageErrorMessage(quota)).toMatch(/فضای ذخیره‌سازی سرور برای آپلود پر شده/);
     expect(storageErrorMessage(new Error('boom'))).toMatch(/boom/);
   });
 
@@ -152,8 +152,8 @@ describe('size limit, storage and download type', () => {
   });
 
   it('describes the file on the product page', () => {
-    expect(fileNote('dll', '4.0 KB')).toBe('.dll file · 4.0 KB');
-    expect(fileNote('', '1 B')).toBe('No extension file · 1 B');
+    expect(fileNote('dll', '4.0 KB')).toBe('فایل .dll · 4.0 KB');
+    expect(fileNote('', '1 B')).toBe('فایل بدون پسوند · 1 B');
   });
 });
 

@@ -12,10 +12,10 @@ import ReviewQueue from './ReviewQueue';
 
 type Tab = 'orders' | 'products' | 'queue' | 'password';
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'orders', label: 'Orders' },
-  { id: 'products', label: 'Products' },
-  { id: 'queue', label: 'Review queue' },
-  { id: 'password', label: 'Admin password' },
+  { id: 'orders', label: 'سفارش‌ها' },
+  { id: 'products', label: 'محصولات' },
+  { id: 'queue', label: 'صف بررسی' },
+  { id: 'password', label: 'رمز عبور مدیر' },
 ];
 
 export default function AdminView() {
@@ -37,12 +37,12 @@ export default function AdminView() {
       <Container className="mt-3 md:mt-[14px]">
         <section className="frame on-paper p-5 text-ink" aria-labelledby="adm-h">
           <h1 id="adm-h" className="page-title">
-            Admins only
+            فقط برای مدیرها
           </h1>
           <p className="text-[13px]">
-            You are signed in as {user.email}, which is not an admin account.{' '}
+            با <bdi>{user.email}</bdi> وارد شده‌ای که حساب مدیر نیست.{' '}
             <Link href="/" className="link">
-              Back to the shop
+              بازگشت به فروشگاه
             </Link>
             .
           </p>
@@ -55,10 +55,11 @@ export default function AdminView() {
     <Container className="mt-3 md:mt-[14px]">
       <section className="frame on-paper p-3 sm:p-5" aria-labelledby="adm-h">
         <h1 id="adm-h" className="page-title">
-          Admin panel
+          پنل مدیریت
         </h1>
         <p className="text-[12px] text-ink-muted">
-          Signed in as {user.email}. Products and files are stored on the server, so every visitor sees them.
+          با <bdi>{user.email}</bdi> وارد شده‌ای. محصولات و فایل‌ها روی سرور ذخیره می‌شوند و همهٔ
+          بازدیدکننده‌ها آن‌ها را می‌بینند.
         </p>
         {user.defaultPassword && (
           <div
@@ -66,15 +67,15 @@ export default function AdminView() {
             className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-[#c9a54a] bg-[#f3e6b8] p-2.5 text-[12px] text-ink"
           >
             <span>
-              <strong>You are using the demo admin password.</strong> Anyone who has read the README can sign
-              in with it. Please change it.
+              <strong>از رمز عبور نمایشی مدیر استفاده می‌کنی.</strong> هر کسی README را خوانده باشد می‌تواند
+              با آن وارد شود. لطفاً عوضش کن.
             </span>
             <button type="button" className="btn" onClick={() => setTab('password')}>
-              Change password
+              تغییر رمز عبور
             </button>
           </div>
         )}
-        <div role="tablist" aria-label="Admin sections" className="mt-3 flex flex-wrap gap-1.5">
+        <div role="tablist" aria-label="بخش‌های مدیریت" className="mt-3 flex flex-wrap gap-1.5">
           {TABS.map((t) => (
             <button
               key={t.id}

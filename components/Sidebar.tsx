@@ -13,25 +13,25 @@ export default function Sidebar() {
   const tags = allTags();
   const max = tags[0]?.count ?? 1;
   return (
-    <CreamFrame as="aside" label="Sidebar" className="overflow-hidden">
+    <CreamFrame as="aside" label="ستون کناری" className="overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-[#bcb399] px-3 py-2.5 text-[10px] font-bold uppercase leading-tight text-ink">
         <a href={asset('/feed.xml')} className="flex items-center gap-1.5 hover:underline">
           <span className="rounded bg-[#e0892f] p-1 text-white">
             <RssIcon size={12} />
           </span>
-          Subscribe
+          اشتراک
           <br />
-          to RSS
+          RSS
         </a>
         <span className="flex items-center gap-1.5">
-          Follow us
+          ما را دنبال
           <br />
-          on social
+          کنید
           <span className="flex gap-1">
             {[
-              { I: ChatIcon, l: 'Community chat' },
-              { I: CameraIcon, l: 'Photo feed' },
-              { I: VideoIcon, l: 'Video channel' },
+              { I: ChatIcon, l: 'گفت‌وگوی جامعه' },
+              { I: CameraIcon, l: 'صفحهٔ عکس' },
+              { I: VideoIcon, l: 'کانال ویدیو' },
             ].map(({ I, l }) => (
               <Link
                 key={l}
@@ -46,7 +46,7 @@ export default function Sidebar() {
         </span>
       </div>
 
-      <nav aria-label="Categories" className="border-b border-[#bcb399] px-3 py-2.5">
+      <nav aria-label="دسته‌بندی‌ها" className="border-b border-[#bcb399] px-3 py-2.5">
         <ul className="grid grid-cols-7 gap-1.5">
           {categories.map((c) => (
             <li key={c.id}>
@@ -69,11 +69,11 @@ export default function Sidebar() {
         <PromoBanner kind="navkit" />
       </div>
 
-      <SidebarWidget title="Newsletter" id="sb-news">
+      <SidebarWidget title="خبرنامه" id="sb-news">
         <NewsletterForm />
       </SidebarWidget>
 
-      <SidebarWidget title="Authors" id="sb-authors">
+      <SidebarWidget title="سازنده‌ها" id="sb-authors">
         <ol className="space-y-2">
           {topAuthors()
             .slice(0, 5)
@@ -81,10 +81,8 @@ export default function Sidebar() {
               <li key={a.id}>
                 <Link href={`/authors/${a.id}/`} className="flex items-center gap-2 hover:underline">
                   <Avatar seed={a.avatarSeed} name={a.name} size={26} />
-                  <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">{a.name}</span>
-                  {a.sales > 0 && (
-                    <span className="text-[11px] text-ink-muted">{compact(a.sales)} sales</span>
-                  )}
+                  <bdi className="min-w-0 flex-1 truncate text-[12px] font-semibold">{a.name}</bdi>
+                  {a.sales > 0 && <span className="text-[11px] text-ink-muted">{compact(a.sales)} فروش</span>}
                 </Link>
               </li>
             ))}
@@ -92,7 +90,7 @@ export default function Sidebar() {
       </SidebarWidget>
 
       {tags.length > 0 && (
-        <SidebarWidget title="Tags" id="sb-tags">
+        <SidebarWidget title="برچسب‌ها" id="sb-tags">
           <ul className="flex flex-wrap gap-x-2 gap-y-1">
             {tags.slice(0, 22).map((t) => (
               <li key={t.tag}>
@@ -111,7 +109,7 @@ export default function Sidebar() {
 
       <p className="px-3 pb-4 pt-3 text-center text-[11px] font-bold">
         <Link href="/sell/#advertise" className="hover:underline">
-          Advertise with Cheat &amp; Anal
+          تبلیغ در Cheat &amp; Anal
         </Link>
       </p>
     </CreamFrame>

@@ -1,3 +1,4 @@
+import { licenseLabel } from './i18n';
 import { buildZip } from './zip';
 
 export function saveBlob(blob: Blob, filename: string): void {
@@ -26,14 +27,14 @@ export function downloadDummyZip(f: DummyFile): void {
     `${f.title}`,
     '='.repeat(f.title.length),
     '',
-    'Thanks for downloading from Cheat & Anal!',
-    'This is a demo store, so this archive holds placeholder files only.',
+    'ممنون که از Cheat & Anal دانلود کردی!',
+    'این یک فروشگاه نمایشی است و این فایل فشرده فقط فایل‌های نمونه دارد.',
     '',
-    `Licence: ${f.license}`,
-    `Licence key: ${f.licenseKey}`,
-    f.buyer ? `Licensed to: ${f.buyer}` : '',
+    `لایسنس: ${licenseLabel(f.license)}`,
+    `کلید لایسنس: ${f.licenseKey}`,
+    f.buyer ? `صادرشده برای: ${f.buyer}` : '',
     '',
-    'Digital files, grown with care.',
+    'فایل‌های دیجیتال، با حوصله و دقت.',
   ].join('\n');
   const licence = `CHEAT & ANAL ${f.license.toUpperCase()} LICENCE\nKey: ${f.licenseKey}\nItem: ${f.title}\n`;
   const bytes = buildZip([

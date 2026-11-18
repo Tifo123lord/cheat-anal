@@ -36,7 +36,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           id={titleId}
           className="min-w-0 truncate font-serif text-[13.5px] font-bold leading-tight text-[color:var(--link-strong)]"
         >
-          <Link href={href} className="hover:underline">
+          <Link href={href} className="hover:underline" dir="auto">
             {name}
             <span className="sr-only"> — {kind}</span>
           </Link>
@@ -44,7 +44,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         <p className="shrink-0 text-[12px] font-bold text-ink">
           {product.salePrice !== undefined ? (
             <>
-              <span className="sr-only">Sale price </span>
+              <span className="sr-only">قیمت با تخفیف </span>
               <span className="text-[#9e2f19]">{money(product.salePrice)}</span>{' '}
               <s className="text-[10px] font-normal text-ink-muted">{money(product.price)}</s>
             </>
@@ -59,18 +59,18 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           <ProductImage product={product} priority={priority} alt="" />
         </Link>
         {product.badges.length > 0 && (
-          <div className="absolute left-1.5 top-1.5 flex gap-1">
+          <div className="absolute start-1.5 top-1.5 flex gap-1">
             {product.badges.map((b) => (
               <Badge key={b} type={b} />
             ))}
           </div>
         )}
-        <div className="absolute bottom-1.5 right-1.5 flex gap-1">
+        <div className="absolute bottom-1.5 end-1.5 flex gap-1">
           <button
             type="button"
             onClick={() => openQuickView(product.id)}
             className="rounded-full border border-[#23221a] bg-olive-dark/90 p-1.5 text-ink-light hover:bg-olive"
-            aria-label={`Quick view ${name}`}
+            aria-label={`نمایش سریع ${name}`}
           >
             <EyeIcon size={13} />
           </button>
@@ -78,11 +78,11 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             type="button"
             onClick={() => {
               toggle(product.id);
-              toast(wished ? 'Removed from wishlist' : 'Saved to wishlist');
+              toast(wished ? 'از علاقه‌مندی‌ها حذف شد' : 'به علاقه‌مندی‌ها اضافه شد');
             }}
             aria-pressed={wished}
             className={`rounded-full border border-[#23221a] p-1.5 hover:bg-olive ${wished ? 'bg-sale text-white' : 'bg-olive-dark/90 text-ink-light'}`}
-            aria-label={wished ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
+            aria-label={wished ? `حذف ${name} از علاقه‌مندی‌ها` : `افزودن ${name} به علاقه‌مندی‌ها`}
           >
             <HeartIcon size={13} filled={wished} />
           </button>
@@ -91,12 +91,12 @@ export default function ProductCard({ product, priority = false }: { product: Pr
 
       <div className="mt-1.5 flex items-center justify-between gap-2 px-0.5 text-[11px] text-ink-muted">
         <span className="truncate">
-          by <span className="font-semibold text-ink">{authorName(product.authorId)}</span>
+          از <bdi className="font-semibold text-ink">{authorName(product.authorId)}</bdi>
         </span>
-        <span className="shrink-0">{compact(product.sales)} sales</span>
+        <span className="shrink-0">{compact(product.sales)} فروش</span>
       </div>
       <div className="mt-1 flex items-center justify-between gap-1 px-0.5">
-        <ul className="flex min-w-0 flex-wrap gap-1" aria-label="File types">
+        <ul className="flex min-w-0 flex-wrap gap-1" aria-label="نوع فایل‌ها">
           {product.fileTypes.slice(0, 3).map((t) => (
             <li key={t} className="chip">
               {t}
@@ -107,14 +107,18 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           type="button"
           onClick={() => {
             add({ kind: 'product', id: product.id, license: 'Personal' });
-            toast(`${name} added to cart`);
+            toast(`«${name}» به سبد خرید اضافه شد`);
           }}
           className={`shrink-0 rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${inCart ? 'border-leaf-dark bg-paper-light text-[color:var(--link-strong)]' : 'border-[#6e0713] bg-leaf text-white hover:brightness-110'}`}
-          aria-label={inCart ? `${name} is in your cart, add again to update` : `Add ${name} to cart`}
+          aria-label={
+            inCart
+              ? `${name} در سبد خرید است؛ برای به‌روزرسانی دوباره اضافه کن`
+              : `افزودن ${name} به سبد خرید`
+          }
         >
           <span className="inline-flex items-center gap-1">
             {inCart ? <CheckIcon size={11} /> : <CartIcon size={11} />}
-            {inCart ? 'In cart' : 'Add to cart'}
+            {inCart ? 'در سبد' : 'افزودن به سبد'}
           </span>
         </button>
       </div>

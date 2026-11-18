@@ -196,31 +196,34 @@ describe('empty states render', () => {
   it('new releases, category pages and free files show their empty panels', () => {
     expect(render(h(NewReleases))).toContain('data-testid="new-releases-empty"');
     const cat = render(
-      h(CategoryProducts, { categoryId: 'cheats', emptyTitle: 'No cheats yet — check back soon' }),
+      h(CategoryProducts, {
+        categoryId: 'cheats',
+        emptyTitle: 'هنوز در «چیت‌ها» فایلی نیست — به‌زودی دوباره سر بزن',
+      }),
     );
     expect(cat).toContain('data-testid="category-empty"');
-    expect(cat).toContain('No cheats yet');
+    expect(cat).toContain('هنوز در «چیت‌ها» فایلی نیست');
     expect(render(h(FreeFiles))).toContain('data-testid="free-empty"');
   });
 
   it('bundles and author pages show empty panels without stats', () => {
-    expect(render(h(BundlesPage))).toContain('No bundles yet');
+    expect(render(h(BundlesPage))).toContain('هنوز بسته‌ای نیست');
     const author = render(h(AuthorPage, { params: { id: authors[0].id } }));
     expect(author).toContain('data-testid="author-empty"');
     const list = render(h(AuthorsPage));
-    expect(list).not.toMatch(/Top authors|\d+ sales/);
-    expect(list).toContain('0 files');
+    expect(list).not.toMatch(/Top authors|\d+ sales|\d+ فروش/);
+    expect(list).toContain('0 فایل');
   });
 
   it('the sidebar has no sales counts and hides the empty tag cloud', () => {
     const html = render(h(Sidebar));
-    expect(html).not.toMatch(/\d+ sales/);
+    expect(html).not.toMatch(/\d+ فروش/);
     expect(html).not.toContain('sb-tags');
-    expect(html).toContain('Authors');
+    expect(html).toContain('سازنده‌ها');
   });
 
   it('the placeholder product page renders "File not found"; old seeded slugs are gone', () => {
-    expect(render(h(ProductPage, { params: { slug: PLACEHOLDER_SLUG } }))).toContain('File not found');
+    expect(render(h(ProductPage, { params: { slug: PLACEHOLDER_SLUG } }))).toContain('فایل پیدا نشد');
     expect(() => render(h(ProductPage, { params: { slug: 'canopy-agency-landing-template' } }))).toThrow();
   });
 });

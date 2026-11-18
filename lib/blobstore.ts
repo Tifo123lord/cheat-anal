@@ -24,7 +24,7 @@ export async function getBlob(key: string): Promise<Blob | undefined> {
     return res.ok ? res.blob() : undefined;
   }
   const r = await sb().storage.from(FILE_BUCKET).download(key);
-  if (r.error) throw new Error('You do not have access to this file, or it was removed.');
+  if (r.error) throw new Error('به این فایل دسترسی نداری یا فایل حذف شده است.');
   return r.data ?? undefined;
 }
 

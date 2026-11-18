@@ -65,7 +65,7 @@ export default function ProductImage({
       <span className={`relative block aspect-[16/10] w-full overflow-hidden ${className}`}>
         <Image
           src={blobUrl ?? src}
-          alt={alt ?? `Preview of ${product.title}`}
+          alt={alt ?? `پیش‌نمایش ${product.title}`}
           fill
           sizes={sizes ?? '(max-width: 768px) 100vw, 300px'}
           unoptimized
@@ -77,7 +77,7 @@ export default function ProductImage({
   return (
     <Image
       src={src}
-      alt={alt ?? `Preview of ${product.title}`}
+      alt={alt ?? `پیش‌نمایش ${product.title}`}
       width={320}
       height={200}
       sizes={sizes ?? '(max-width: 768px) 100vw, 300px'}

@@ -36,18 +36,18 @@ export default function ProductGallery({ product }: { product: Product }) {
             index={active}
             priority
             sizes="(max-width: 768px) 100vw, 610px"
-            alt={`${product.title}, preview ${active + 1} of ${product.images.length}`}
+            alt={`${product.title}، پیش‌نمایش ${active + 1} از ${product.images.length}`}
           />
         </div>
       </div>
       <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-        <ul className="flex gap-2" aria-label="Choose preview">
+        <ul className="flex gap-2" aria-label="انتخاب پیش‌نمایش">
           {product.images.map((_, i) => (
             <li key={i}>
               <button
                 type="button"
                 onClick={() => setActive(i)}
-                aria-label={`Show preview ${i + 1}`}
+                aria-label={`نمایش پیش‌نمایش ${i + 1}`}
                 aria-pressed={i === active}
                 className={`block w-[72px] overflow-hidden rounded-sm border-2 sm:w-[88px] ${i === active ? 'border-leaf-dark' : 'border-[#a49b82] opacity-80 hover:opacity-100'}`}
               >
@@ -58,10 +58,10 @@ export default function ProductGallery({ product }: { product: Product }) {
         </ul>
         <div className="flex gap-2">
           <button type="button" className="btn-ghost" onClick={() => setLightbox(true)}>
-            <SearchIcon size={13} /> Zoom
+            <SearchIcon size={13} /> بزرگ‌نمایی
           </button>
           <button type="button" className="btn-olive" onClick={() => setLive(true)}>
-            <EyeIcon size={13} /> Live preview
+            <EyeIcon size={13} /> پیش‌نمایش زنده
           </button>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function ProductGallery({ product }: { product: Product }) {
       <Modal
         open={lightbox}
         onClose={() => setLightbox(false)}
-        title={`${product.title}: preview ${active + 1}`}
+        title={`${product.title}: پیش‌نمایش ${active + 1}`}
         wide
       >
         <div className="inset-img overflow-hidden">
@@ -90,13 +90,16 @@ export default function ProductGallery({ product }: { product: Product }) {
         </div>
       </Modal>
 
-      <Modal open={live} onClose={() => setLive(false)} title="Live preview" wide>
+      <Modal open={live} onClose={() => setLive(false)} title="پیش‌نمایش زنده" wide>
         <div className="overflow-hidden rounded-md border border-[#5d5847] bg-[#23221a]">
           <div className="flex items-center gap-2 border-b border-[#3a382b] px-3 py-2">
             <span className="h-2.5 w-2.5 rounded-full bg-[#e86a5c]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#e8c25c]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#7fc25c]" />
-            <span className="ml-2 min-w-0 flex-1 truncate rounded-full bg-[#3a382b] px-3 py-0.5 text-[11px] text-[#d9d4c2]">
+            <span
+              dir="ltr"
+              className="ms-2 min-w-0 flex-1 truncate rounded-full bg-[#3a382b] px-3 py-0.5 text-[11px] text-[#d9d4c2]"
+            >
               preview.cheat-anal.example/{product.slug}
             </span>
           </div>
@@ -109,7 +112,8 @@ export default function ProductGallery({ product }: { product: Product }) {
           </div>
         </div>
         <p className="mt-2 text-[12px] text-ink-muted">
-          This is an interactive demo of the file as it ships. Purchase to download the editable source.
+          این یک نمایش تعاملی از فایل، همان‌طور که تحویل داده می‌شود، است. برای دانلود سورس قابل ویرایش، آن را
+          بخر.
         </p>
       </Modal>
     </div>

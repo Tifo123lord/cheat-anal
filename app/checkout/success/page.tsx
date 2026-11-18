@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Container } from '@/components/Layout';
 import SuccessView from './SuccessView';
 
-export const metadata: Metadata = { title: 'Order complete', robots: { index: false } };
+export const metadata: Metadata = { title: 'سفارش ثبت شد', robots: { index: false } };
 
 export default function SuccessPage() {
   return (

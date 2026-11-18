@@ -16,7 +16,7 @@ describe('brand', () => {
 
   it('no longer shows the old name in catalogue or page copy', () => {
     for (const p of products) expect(p.description).not.toMatch(/leaf ?press/i);
-    expect(INFO_PAGES.find((p) => p.slug === 'about')?.title).toBe('About Cheat & Anal');
+    expect(INFO_PAGES.find((p) => p.slug === 'about')?.title).toBe('دربارهٔ Cheat & Anal');
   });
 
   it('keeps the demo and admin logins unchanged so existing accounts still work', () => {

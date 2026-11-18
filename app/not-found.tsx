@@ -9,7 +9,8 @@ export default function NotFound() {
           viewBox="0 0 240 160"
           className="mx-auto h-auto w-[240px]"
           role="img"
-          aria-label="A hand-drawn leaf drifting away from an empty branch"
+          direction="ltr"
+          aria-label="برگی دست‌کشیده که از یک شاخهٔ خالی دور می‌شود"
         >
           <path
             d="M20 130 C 70 120, 110 128, 150 116"
@@ -53,16 +54,16 @@ export default function NotFound() {
             404
           </text>
         </svg>
-        <h1 className="page-title mt-2">This page blew away</h1>
+        <h1 className="page-title mt-2">این صفحه را باد برده</h1>
         <p className="mt-1 text-[13px] text-ink">
-          The link may be old, or the file was moved to a new branch.
+          شاید لینک قدیمی باشد یا فایل به شاخهٔ دیگری منتقل شده باشد.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
           <Link href="/" className="btn">
-            Back home
+            بازگشت به خانه
           </Link>
           <Link href="/shop/" className="btn-ghost">
-            Browse the shop
+            گشتی در فروشگاه
           </Link>
         </div>
       </div>

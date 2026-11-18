@@ -9,6 +9,7 @@ import { Container } from '@/components/Layout';
 import ProductImage from '@/components/ProductImage';
 import { cartRows, totalsFor } from '@/lib/cart-view';
 import { money } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import type { LicenseType } from '@/lib/types';
 import { useCart } from '@/store/cart';
 import { useHydrated } from '@/store/hydration';
@@ -27,7 +28,7 @@ export default function CartView() {
       <div className="grid grid-cols-1 gap-[14px] lg:grid-cols-[630px_1fr] lg:gap-[18px]">
         <section className="frame on-paper p-3 sm:p-4" aria-labelledby="cart-h">
           <h1 id="cart-h" className="page-title">
-            Your cart
+            سبد خرید
           </h1>
           {!hydrated ? (
             <div className="mt-3 space-y-3" aria-busy="true">
@@ -36,16 +37,16 @@ export default function CartView() {
               ))}
             </div>
           ) : rows.length === 0 ? (
-            <EmptyState title="Your cart is empty">
-              Find something lovely in the{' '}
+            <EmptyState title="سبد خریدت خالی است">
+              یک چیز دوست‌داشتنی در{' '}
               <Link href="/shop/" className="link">
-                shop
+                فروشگاه
               </Link>{' '}
-              or grab a{' '}
+              پیدا کن یا یک{' '}
               <Link href="/free-files/" className="link">
-                free file
-              </Link>
-              .
+                فایل رایگان
+              </Link>{' '}
+              بردار.
             </EmptyState>
           ) : (
             <ul className="mt-3 divide-y divide-[#bcb399]">
@@ -65,13 +66,14 @@ export default function CartView() {
                   <div className="min-w-0 flex-1">
                     <Link
                       href={r.href}
+                      dir="auto"
                       className="block truncate font-serif text-[14px] font-bold text-[color:var(--link-strong)] hover:underline"
                     >
                       {r.title}
                     </Link>
                     <p className="text-[11px] text-ink-muted">{r.subtitle}</p>
                     <label className="mt-1 flex items-center gap-2 text-[12px] text-ink">
-                      Licence
+                      لایسنس
                       <select
                         className="field !w-auto !px-2 !py-1 text-[12px]"
                         value={r.line.license}
@@ -79,18 +81,18 @@ export default function CartView() {
                       >
                         {r.licenses.map((l) => (
                           <option key={l} value={l}>
-                            {l}
+                            {licenseLabel(l)}
                           </option>
                         ))}
                       </select>
                     </label>
                   </div>
-                  <p className="w-16 text-right text-[14px] font-bold text-ink">{money(r.price)}</p>
+                  <p className="w-28 text-end text-[14px] font-bold text-ink">{money(r.price)}</p>
                   <button
                     type="button"
                     onClick={() => remove(r.line.kind, r.line.id)}
                     className="rounded-full p-1.5 text-ink hover:bg-paper-dark"
-                    aria-label={`Remove ${r.title} from cart`}
+                    aria-label={`حذف ${r.title} از سبد خرید`}
                   >
                     <CloseIcon size={14} />
                   </button>
@@ -99,21 +101,21 @@ export default function CartView() {
             </ul>
           )}
         </section>
-        <aside className="frame on-paper h-fit space-y-3 p-3 sm:p-4" aria-label="Order summary">
-          <h2 className="widget-title">Order summary</h2>
+        <aside className="frame on-paper h-fit space-y-3 p-3 sm:p-4" aria-label="خلاصهٔ سفارش">
+          <h2 className="widget-title">خلاصهٔ سفارش</h2>
           <CouponForm />
           <CartSummary totals={totals} />
           {hydrated && rows.length > 0 ? (
             <Link href="/checkout/" className="btn w-full !py-2">
-              Proceed to checkout
+              ادامه و پرداخت
             </Link>
           ) : (
             <button type="button" className="btn w-full !py-2" disabled>
-              Proceed to checkout
+              ادامه و پرداخت
             </button>
           )}
           <p className="text-[11px] text-ink-muted">
-            Prices in USD. Tax is an estimate and is finalised at checkout.
+            قیمت‌ها به دلار آمریکاست. مالیات تخمینی است و هنگام پرداخت نهایی می‌شود.
           </p>
         </aside>
       </div>

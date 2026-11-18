@@ -35,17 +35,17 @@ export default function HomeGrid({ items: seeded }: { items: Product[] }) {
       // No slider above when the store is empty, so the panel lines up with the top of the sidebar.
       <section aria-labelledby="latest-h">
         <h2 id="latest-h" className="sr-only">
-          Latest files
+          تازه‌ترین فایل‌ها
         </h2>
         {/* Admin uploads load from localStorage after hydration; avoid flashing the empty panel first. */}
         {hydrated ? (
           <div className="frame on-paper" data-testid="home-empty">
             <EmptyState title={NO_FILES_TITLE}>
-              New files appear here as soon as they are published. Meanwhile, read the{' '}
+              فایل‌های جدید به محض انتشار همین‌جا نمایش داده می‌شوند. تا آن موقع{' '}
               <Link href="/journal/" className="link">
-                journal
-              </Link>
-              .
+                مجله
+              </Link>{' '}
+              را بخوان.
             </EmptyState>
           </div>
         ) : (
@@ -58,7 +58,7 @@ export default function HomeGrid({ items: seeded }: { items: Product[] }) {
   return (
     <section aria-labelledby="latest-h" className="mt-4">
       <h2 id="latest-h" className="sr-only">
-        Latest files
+        تازه‌ترین فایل‌ها
       </h2>
       <ul className="grid grid-cols-1 gap-[14px] md:grid-cols-2">
         {list.map((p, i) => (
@@ -79,7 +79,7 @@ export default function HomeGrid({ items: seeded }: { items: Product[] }) {
         />
         {canLoadMore && (
           <button type="button" className="btn-olive" onClick={() => setExtra((x) => x + 1)}>
-            Load more files
+            فایل‌های بیشتر
           </button>
         )}
       </div>

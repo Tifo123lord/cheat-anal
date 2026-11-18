@@ -8,10 +8,10 @@ import { Container } from '@/components/Layout';
 import { slugFor } from '@/lib/cart-view';
 import { downloadDummyZip } from '@/lib/download';
 import { money2 } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import { useHydrated } from '@/store/hydration';
 import { useLibrary } from '@/store/library';
-import TelegramIcon from '@/components/TelegramIcon';
-import { telegramOrderLink, TELEGRAM_USERNAME } from '@/lib/telegram';
+import TelegramOrderBox from '@/components/TelegramOrderBox';
 
 export default function SuccessView() {
   const params = useSearchParams();
@@ -26,39 +26,44 @@ export default function SuccessView() {
         {!hydrated ? (
           <div className="skeleton h-40 w-full" aria-busy="true" />
         ) : !order ? (
-          <EmptyState title="We couldn't find that order">
-            It may have been placed in another browser. Your purchases live in{' '}
+          <EmptyState title="این سفارش پیدا نشد">
+            شاید در مرورگر دیگری ثبت شده باشد. خریدهایت در{' '}
             <Link href="/library/" className="link">
-              My downloads
-            </Link>
-            .
+              دانلودهای من
+            </Link>{' '}
+            هستند.
           </EmptyState>
         ) : order.status !== 'paid' ? (
           <div data-testid="order-pending">
-            <h1 className="page-title">Order placed: one step left</h1>
+            <h1 className="page-title">سفارش ثبت شد؛ فقط یک قدم مانده</h1>
             <p className="text-[13px] text-ink">
-              Order number <strong data-testid="order-number">{order.id}</strong> · {money2(order.total)}
+              شمارهٔ سفارش{' '}
+              <bdi className="font-bold" data-testid="order-number">
+                {order.id}
+              </bdi>{' '}
+              · {money2(order.total)}
             </p>
             <p className="mt-2 text-[13px] text-ink">
               {order.status === 'cancelled'
-                ? 'This order was cancelled.'
-                : `Send the order message to @${TELEGRAM_USERNAME} on Telegram and pay there. As soon as the payment is confirmed, your files open in My downloads.`}
+                ? 'این سفارش لغو شده است.'
+                : 'برای پرداخت، متن سفارش را کپی کن و در تلگرام بفرست. به محض تأیید پرداخت، فایل‌هایت در «دانلودهای من» باز می‌شوند.'}
             </p>
             <ul className="mt-3 text-[12px] text-ink">
               {order.items.map((i) => (
                 <li key={i.id}>
-                  {i.title} <span className="text-ink-muted">({i.license})</span> · {money2(i.price)}
+                  <bdi>{i.title}</bdi> <span className="text-ink-muted">({licenseLabel(i.license)})</span> ·{' '}
+                  {money2(i.price)}
                 </li>
               ))}
             </ul>
+            {order.status !== 'cancelled' && (
+              <div className="mt-4">
+                <TelegramOrderBox order={order} />
+              </div>
+            )}
             <div className="mt-4 flex flex-wrap gap-2">
-              {order.status !== 'cancelled' && (
-                <a href={telegramOrderLink(order)} target="_blank" rel="noopener noreferrer" className="btn">
-                  <TelegramIcon size={14} /> Open Telegram chat
-                </a>
-              )}
               <Link href="/library/" className="btn-olive">
-                Go to my downloads
+                رفتن به دانلودهای من
               </Link>
             </div>
           </div>
@@ -69,10 +74,15 @@ export default function SuccessView() {
                 <CheckIcon size={22} />
               </span>
               <div>
-                <h1 className="page-title">Thank you, {order.name.split(' ')[0]}!</h1>
+                <h1 className="page-title">
+                  ممنون، <bdi>{order.name.split(' ')[0]}</bdi>!
+                </h1>
                 <p className="text-[13px] text-ink">
-                  Order number <strong data-testid="order-number">{order.id}</strong> · {money2(order.total)}{' '}
-                  · receipt sent to {order.email}
+                  شمارهٔ سفارش{' '}
+                  <bdi className="font-bold" data-testid="order-number">
+                    {order.id}
+                  </bdi>{' '}
+                  · {money2(order.total)} · رسید به <bdi>{order.email}</bdi> فرستاده شد
                 </p>
               </div>
             </div>
@@ -80,9 +90,14 @@ export default function SuccessView() {
               {order.items.map((i) => (
                 <li key={i.id} className="flex flex-wrap items-center justify-between gap-2 p-3">
                   <div className="min-w-0">
-                    <p className="truncate text-[13px] font-bold text-ink">{i.title}</p>
+                    <p className="truncate text-[13px] font-bold text-ink" dir="auto">
+                      {i.title}
+                    </p>
                     <p className="text-[11px] text-ink-muted">
-                      {i.license} licence · key <code className="font-mono text-ink">{i.licenseKey}</code>
+                      لایسنس {licenseLabel(i.license)} · کلید{' '}
+                      <code className="font-mono text-ink" dir="ltr">
+                        {i.licenseKey}
+                      </code>
                     </p>
                   </div>
                   <button
@@ -99,17 +114,17 @@ export default function SuccessView() {
                       count(order.id, i.id);
                     }}
                   >
-                    <DownloadIcon size={13} /> Download
+                    <DownloadIcon size={13} /> دانلود
                   </button>
                 </li>
               ))}
             </ul>
             <div className="mt-4 flex flex-wrap gap-2">
               <Link href="/library/" className="btn-olive">
-                Go to my downloads
+                رفتن به دانلودهای من
               </Link>
               <Link href={`/library/invoice/?order=${encodeURIComponent(order.id)}`} className="btn-ghost">
-                View invoice
+                مشاهدهٔ فاکتور
               </Link>
             </div>
           </>

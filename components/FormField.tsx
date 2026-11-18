@@ -19,6 +19,8 @@ export default function FormField({ id, label, error, hint, ...input }: Props) {
         className="field"
         aria-invalid={Boolean(error)}
         aria-describedby={describedBy}
+        // Emails and passwords are Latin text: keep them left-to-right inside the RTL page.
+        dir={input.type === 'email' || input.type === 'password' ? 'ltr' : undefined}
         {...input}
       />
       {error ? (

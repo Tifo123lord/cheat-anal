@@ -60,10 +60,12 @@ describe('accounts', () => {
     expect(JSON.stringify(r.users)).not.toContain('mossy-path-9');
     const ok = await loginUser(r.users, 'IVY@example.com', 'mossy-path-9');
     expect(typeof ok).toBe('object');
-    expect(await loginUser(r.users, 'ivy@example.com', 'wrong-pass')).toMatch(/do not match/);
+    expect(await loginUser(r.users, 'ivy@example.com', 'wrong-pass')).toMatch(/ایمیل یا رمز عبور درست نیست/);
   });
   it('rejects duplicates and short passwords', async () => {
-    expect((await registerUser(SEED_USERS, 'Dup', DEMO_USER.email, 'longenough')).error).toMatch(/already/);
+    expect((await registerUser(SEED_USERS, 'Dup', DEMO_USER.email, 'longenough')).error).toMatch(
+      /قبلاً حساب ساخته شده/,
+    );
     expect((await registerUser(SEED_USERS, 'Ivy', 'a@b.co', 'short')).error).toMatch(/8/);
   });
   it('seeds exactly one admin with the demo password flag', async () => {
@@ -88,7 +90,7 @@ describe('accounts', () => {
     expect(typeof (await loginUser(next, ADMIN_USER.email, 'new-admin-pass'))).toBe('object');
     expect(typeof (await loginUser(next, ADMIN_USER.email, ADMIN_USER.password))).toBe('string');
     expect(await changeUserPassword(SEED_USERS, ADMIN_USER.email, 'nope-nope', 'whatever1')).toMatch(
-      /current/,
+      /رمز عبور فعلی درست نیست/,
     );
   });
   it('withSeeds restores a missing admin and drops legacy users without a salt', () => {

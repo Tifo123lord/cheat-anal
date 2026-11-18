@@ -21,8 +21,8 @@ describe('rating calculation', () => {
   });
 
   it('formats the gallery-style label', () => {
-    expect(ratingLabel(3.5, 1)).toBe('Rating: 3.5 / 5 (1 vote)');
-    expect(ratingLabel(4.2, 37)).toBe('Rating: 4.2 / 5 (37 votes)');
+    expect(ratingLabel(3.5, 1)).toBe('امتیاز: 3.5 از 5 (1 رأی)');
+    expect(ratingLabel(4.2, 37)).toBe('امتیاز: 4.2 از 5 (37 رأی)');
   });
 
   it('builds a 5→1 distribution', () => {

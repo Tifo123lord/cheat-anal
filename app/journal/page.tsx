@@ -6,8 +6,8 @@ import { authorName, posts } from '@/lib/catalog';
 import { formatDate } from '@/lib/format';
 
 export const metadata: Metadata = {
-  title: 'Journal',
-  description: 'Notes from the Cheat & Anal greenhouse: craft, licensing, reviews and greener downloads.',
+  title: 'مجله',
+  description: 'یادداشت‌هایی از گلخانهٔ Cheat & Anal: مهارت، لایسنس، نقد و بررسی و دانلودهای سبزتر.',
   alternates: { canonical: '/journal/' },
 };
 
@@ -15,8 +15,8 @@ export default function JournalPage() {
   return (
     <TwoColumn>
       <div className="frame on-paper mb-[14px] p-3">
-        <h1 className="page-title !text-[19px]">Journal</h1>
-        <p className="text-[12px] text-ink-muted">Notes from the greenhouse.</p>
+        <h1 className="page-title !text-[19px]">مجله</h1>
+        <p className="text-[12px] text-ink-muted">یادداشت‌هایی از گلخانه.</p>
       </div>
       <ul className="space-y-[14px]">
         {posts.map((p) => (
@@ -27,9 +27,9 @@ export default function JournalPage() {
               </div>
               <div className="p-1">
                 <p className="text-[11px] text-ink-muted">
-                  {formatDate(p.date)} · {authorName(p.authorId)}
+                  {formatDate(p.date)} · <bdi>{authorName(p.authorId)}</bdi>
                 </p>
-                <h2 className="font-serif text-[16px] font-bold leading-tight">
+                <h2 className="font-serif text-[16px] font-bold leading-tight" dir="auto">
                   <Link
                     href={`/journal/${p.slug}/`}
                     className="text-[color:var(--link-strong)] hover:underline"
@@ -37,7 +37,9 @@ export default function JournalPage() {
                     {p.title}
                   </Link>
                 </h2>
-                <p className="mt-1 text-[12.5px] text-ink">{p.excerpt}</p>
+                <p className="mt-1 text-[12.5px] text-ink" dir="auto">
+                  {p.excerpt}
+                </p>
               </div>
             </article>
           </li>

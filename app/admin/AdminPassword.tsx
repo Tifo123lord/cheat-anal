@@ -21,32 +21,32 @@ export default function AdminPassword() {
       onSubmit={async (e) => {
         e.preventDefault();
         const errs: typeof err = {};
-        if (!v.current) errs.current = 'Enter the current password.';
+        if (!v.current) errs.current = 'رمز عبور فعلی را وارد کن.';
         const p = passwordProblem(v.next);
         if (p) errs.next = p;
-        if (v.confirm !== v.next) errs.confirm = 'Passwords do not match.';
+        if (v.confirm !== v.next) errs.confirm = 'رمزهای عبور یکسان نیستند.';
         if (!Object.keys(errs).length) {
           setBusy(true);
           const msg = await changePassword(v.current, v.next);
           setBusy(false);
           if (msg) {
-            if (/current/i.test(msg)) errs.current = msg;
+            if (/current|فعلی/i.test(msg)) errs.current = msg;
             else errs.next = msg;
           }
         }
         setErr(errs);
         if (!Object.keys(errs).length) {
           setV({ current: '', next: '', confirm: '' });
-          toast('Admin password changed');
+          toast('رمز عبور مدیر تغییر کرد');
         }
       }}
     >
       <h2 id="adm-pw-h" className="widget-title">
-        Change admin password
+        تغییر رمز عبور مدیر
       </h2>
       <FormField
         id="adm-pw-cur"
-        label="Current password"
+        label="رمز عبور فعلی"
         type="password"
         autoComplete="current-password"
         value={v.current}
@@ -55,7 +55,7 @@ export default function AdminPassword() {
       />
       <FormField
         id="adm-pw-new"
-        label="New password (8+ characters)"
+        label="رمز عبور جدید (حداقل ۸ کاراکتر)"
         type="password"
         autoComplete="new-password"
         value={v.next}
@@ -64,7 +64,7 @@ export default function AdminPassword() {
       />
       <FormField
         id="adm-pw-confirm"
-        label="Repeat new password"
+        label="تکرار رمز عبور جدید"
         type="password"
         autoComplete="new-password"
         value={v.confirm}
@@ -72,7 +72,7 @@ export default function AdminPassword() {
         error={err.confirm}
       />
       <button type="submit" className="btn" disabled={busy}>
-        {busy ? 'Saving…' : 'Change password'}
+        {busy ? 'در حال ذخیره…' : 'تغییر رمز عبور'}
       </button>
     </form>
   );

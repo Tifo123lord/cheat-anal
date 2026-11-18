@@ -1,3 +1,4 @@
+import { badgeLabel } from '@/lib/i18n';
 import type { Badge as BadgeType } from '@/lib/types';
 
 const STYLES: Record<BadgeType, string> = {
@@ -12,7 +13,7 @@ export default function Badge({ type }: { type: BadgeType }) {
     <span
       className={`inline-block rounded-sm border px-1.5 py-[1px] text-[9px] font-extrabold tracking-wider shadow-[0_1px_2px_rgba(0,0,0,.4)] ${STYLES[type]}`}
     >
-      {type}
+      {badgeLabel(type)}
     </span>
   );
 }

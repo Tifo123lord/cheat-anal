@@ -21,7 +21,7 @@ export function leafFills(rating: number, count = 5): number[] {
 }
 
 export function ratingLabel(average: number, votes: number): string {
-  return `Rating: ${average.toFixed(1)} / 5 (${votes} ${votes === 1 ? 'vote' : 'votes'})`;
+  return `امتیاز: ${average.toFixed(1)} از 5 (${votes} رأی)`;
 }
 
 /** Counts per star (5..1) for a distribution bar. */

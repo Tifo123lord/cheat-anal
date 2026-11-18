@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Lora, Open_Sans, Quicksand } from 'next/font/google';
+import { Lora, Open_Sans, Quicksand, Vazirmatn } from 'next/font/google';
 import localFont from 'next/font/local';
 import Aurora from '@/components/Aurora';
 import Footer from '@/components/Footer';
@@ -33,6 +33,8 @@ const brand = localFont({
   display: 'swap',
   fallback: ['Impact', 'system-ui', 'sans-serif'],
 });
+/** Persian UI face (variable weight). Latin glyphs keep their own faces through the font stacks. */
+const fa = Vazirmatn({ subsets: ['arabic', 'latin'], variable: '--font-fa', display: 'swap' });
 const serif = Lora({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-serif', display: 'swap' });
 
 export const metadata: Metadata = {
@@ -42,19 +44,20 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   appleWebApp: { title: SITE.shortName },
   keywords: [
-    'templates',
-    'UI kits',
-    'fonts',
-    'icons',
-    'mockups',
-    '3D assets',
-    'presets',
-    'ebooks',
-    'source code',
+    'قالب وب‌سایت',
+    'کیت رابط کاربری',
+    'فونت',
+    'آیکون',
+    'ماکاپ',
+    'فایل سه‌بعدی',
+    'پریست',
+    'کتاب الکترونیکی',
+    'سورس‌کد',
   ],
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
+    locale: 'fa_IR',
     siteName: SITE.name,
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
@@ -96,13 +99,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable} ${brand.variable}`}>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={`${fa.variable} ${display.variable} ${body.variable} ${serif.variable} ${brand.variable}`}
+    >
       <body className="relative min-h-screen">
         <a
           href="#main"
-          className="sr-only z-50 rounded bg-paper px-3 py-2 text-ink focus:not-sr-only focus:fixed focus:left-2 focus:top-2"
+          className="sr-only z-50 rounded bg-paper px-3 py-2 text-ink focus:not-sr-only focus:fixed focus:start-2 focus:top-2"
         >
-          Skip to content
+          رفتن به محتوای اصلی
         </a>
         <Aurora />
         <SiteHeader />

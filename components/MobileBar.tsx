@@ -19,28 +19,28 @@ export default function MobileBar() {
   return (
     <>
       <nav
-        aria-label="Quick actions"
+        aria-label="دسترسی سریع"
         className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-[#23221a] bg-gradient-to-b from-olive to-olive-dark pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <div className="flex">
           <button type="button" className={item} onClick={() => setSearch(true)}>
             <SearchIcon size={18} />
-            Search
+            جست‌وجو
           </button>
           <Link href="/cart/" className={`${item} relative`}>
             <CartIcon size={18} />
-            Cart{hydrated && count > 0 ? ` (${count})` : ''}
+            سبد خرید{hydrated && count > 0 ? ` (${count})` : ''}
           </Link>
           <Link href={hydrated && user ? '/account/' : '/login/'} className={item}>
             <UserIcon size={18} />
-            Account
+            حساب کاربری
           </Link>
         </div>
       </nav>
-      <Modal open={search} onClose={() => setSearch(false)} title="Search files" variant="sheet">
+      <Modal open={search} onClose={() => setSearch(false)} title="جست‌وجوی فایل‌ها" variant="sheet">
         <SearchBox variant="panel" onNavigate={() => setSearch(false)} autoFocus />
         <p className="mt-2 pb-24 text-[12px] text-ink-muted">
-          Try “font”, “icons”, “mockup” or an author’s name.
+          مثلاً «font»، «icons»، «mockup» یا نام یک سازنده را امتحان کن.
         </p>
       </Modal>
     </>

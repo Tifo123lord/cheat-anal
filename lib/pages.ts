@@ -8,111 +8,111 @@ export interface InfoPage {
 export const INFO_PAGES: InfoPage[] = [
   {
     slug: 'about',
-    title: 'About Cheat & Anal',
-    description: 'A small marketplace for careful digital files.',
+    title: 'دربارهٔ Cheat & Anal',
+    description: 'بازارچه‌ای کوچک برای فایل‌های دیجیتال باکیفیت.',
     sections: [
       {
-        heading: 'Grown with care',
-        body: 'Cheat & Anal started as a shared folder between a few friends who made templates and fonts. Today it is a home for independent authors who care about the details.',
+        heading: 'با حوصله و دقت',
+        body: 'Cheat & Anal از یک پوشهٔ مشترک بین چند دوست شروع شد که قالب و فونت می‌ساختند. امروز خانه‌ای است برای سازنده‌های مستقلی که به جزئیات اهمیت می‌دهند.',
       },
       {
-        heading: 'What we believe',
-        body: 'Fewer, better files. Honest licences. Fair pay for authors. Lighter downloads for a lighter footprint.',
+        heading: 'به چه چیزی باور داریم',
+        body: 'فایل‌های کمتر اما بهتر. لایسنس‌های شفاف. درآمد منصفانه برای سازنده‌ها. دانلودهای سبک‌تر برای ردپای سبک‌تر.',
       },
     ],
   },
   {
     slug: 'licenses',
-    title: 'Licenses',
-    description: 'Personal, Commercial and Extended licences explained.',
+    title: 'لایسنس‌ها',
+    description: 'توضیح لایسنس‌های شخصی، تجاری و گسترده.',
     sections: [
       {
-        heading: 'Personal',
-        body: 'Use the file in your own non-commercial projects, such as a personal site, a gift or a school project.',
+        heading: 'شخصی',
+        body: 'استفاده از فایل در پروژه‌های غیرتجاری خودت، مثل سایت شخصی، یک هدیه یا پروژهٔ دانشگاهی.',
       },
       {
-        heading: 'Commercial',
-        body: 'Use the file in one commercial project, for yourself or a single client. The end product may be sold, but not the file itself.',
+        heading: 'تجاری',
+        body: 'استفاده از فایل در یک پروژهٔ تجاری، برای خودت یا یک مشتری. محصول نهایی را می‌شود فروخت، اما خود فایل را نه.',
       },
       {
-        heading: 'Extended',
-        body: 'Use the file in a product sold to many end users, such as a template, an app or a print-on-demand design.',
+        heading: 'گسترده',
+        body: 'استفاده از فایل در محصولی که به تعداد زیادی کاربر نهایی فروخته می‌شود، مثل قالب، اپلیکیشن یا طرح‌های چاپ سفارشی.',
       },
     ],
   },
   {
     slug: 'refunds',
-    title: 'Refunds',
-    description: 'Our 14-day refund policy.',
+    title: 'بازگشت وجه',
+    description: 'سیاست بازگشت وجه ۱۴ روزهٔ ما.',
     sections: [
       {
-        heading: 'When we refund',
-        body: 'If a file is broken, missing parts, or not as described, we refund within 14 days of purchase.',
+        heading: 'چه زمانی پول را برمی‌گردانیم',
+        body: 'اگر فایل خراب باشد، بخشی از آن کم باشد یا با توضیحاتش نخواند، تا ۱۴ روز بعد از خرید پول را برمی‌گردانیم.',
       },
       {
-        heading: 'How to ask',
-        body: 'Write to us through the Help Center with your order number. We usually reply within one working day.',
+        heading: 'چطور درخواست بدهم',
+        body: 'از طریق مرکز راهنما با شمارهٔ سفارشت برایمان بنویس. معمولاً ظرف یک روز کاری جواب می‌دهیم.',
       },
     ],
   },
   {
     slug: 'help',
-    title: 'Help Center',
-    description: 'Answers to common questions about buying and selling.',
+    title: 'مرکز راهنما',
+    description: 'پاسخ پرسش‌های رایج دربارهٔ خرید و فروش.',
     sections: [
       {
-        heading: 'Where are my files?',
-        body: 'Every purchase appears in My downloads with its licence key. You can download again at any time.',
+        heading: 'فایل‌هایم کجا هستند؟',
+        body: 'هر خرید همراه کلید لایسنسش در «دانلودهای من» ظاهر می‌شود و هر وقت بخواهی می‌توانی دوباره دانلودش کنی.',
       },
       {
-        heading: 'Can I change my licence?',
-        body: 'Yes. Buy the higher licence and we refund the difference of the original purchase on request.',
+        heading: 'می‌توانم لایسنسم را عوض کنم؟',
+        body: 'بله. لایسنس بالاتر را بخر و در صورت درخواست، مبلغ خرید قبلی را برمی‌گردانیم.',
       },
       {
-        heading: 'Is this a real store?',
-        body: 'This is a demo. No payments are taken and downloads are placeholder archives.',
+        heading: 'این یک فروشگاه واقعی است؟',
+        body: 'این یک نسخهٔ نمایشی است. هیچ پولی دریافت نمی‌شود و دانلودها فایل‌های نمونه هستند.',
       },
     ],
   },
   {
     slug: 'contact',
-    title: 'Contact',
-    description: 'Get in touch with the Cheat & Anal team.',
+    title: 'تماس با ما',
+    description: 'با تیم Cheat & Anal در تماس باش.',
     sections: [
-      { heading: 'Email', body: 'hello@cheat-anal.example. We read every message.' },
+      { heading: 'ایمیل', body: 'hello@cheat-anal.example — همهٔ پیام‌ها را می‌خوانیم.' },
       {
-        heading: 'Community',
-        body: 'Join the author community chat and the weekly newsletter for news, tips and freebies.',
+        heading: 'جامعهٔ کاربران',
+        body: 'برای خبرها، نکته‌ها و فایل‌های رایگان به گفت‌وگوی جامعهٔ سازنده‌ها و خبرنامهٔ هفتگی بپیوند.',
       },
     ],
   },
   {
     slug: 'terms',
-    title: 'Terms of use',
-    description: 'The rules for using Cheat & Anal.',
+    title: 'شرایط استفاده',
+    description: 'قوانین استفاده از Cheat & Anal.',
     sections: [
       {
-        heading: 'Using the store',
-        body: 'Be kind, respect authors’ licences and do not redistribute files.',
+        heading: 'استفاده از فروشگاه',
+        body: 'مهربان باش، به لایسنس سازنده‌ها احترام بگذار و فایل‌ها را دوباره منتشر نکن.',
       },
       {
-        heading: 'Authors',
-        body: 'Authors must own the rights to everything they upload, including fonts and images inside their files.',
+        heading: 'سازنده‌ها',
+        body: 'سازنده‌ها باید حقوق همهٔ چیزهایی را که آپلود می‌کنند داشته باشند، از جمله فونت‌ها و تصاویر داخل فایل‌هایشان.',
       },
     ],
   },
   {
     slug: 'privacy',
-    title: 'Privacy',
-    description: 'How Cheat & Anal handles your data.',
+    title: 'حریم خصوصی',
+    description: 'Cheat & Anal با اطلاعات تو چه می‌کند.',
     sections: [
       {
-        heading: 'In this demo',
-        body: 'Your cart, wishlist, library, reviews and demo account are stored only in your browser’s local storage. Nothing is sent to a server.',
+        heading: 'در این نسخهٔ نمایشی',
+        body: 'سبد خرید، علاقه‌مندی‌ها، کتابخانه، نظرها و حساب نمایشی‌ات فقط در حافظهٔ محلی مرورگرت ذخیره می‌شوند و چیزی به سرور فرستاده نمی‌شود.',
       },
       {
-        heading: 'Clearing data',
-        body: 'Clear site data in your browser settings to remove everything Cheat & Anal stored.',
+        heading: 'پاک کردن اطلاعات',
+        body: 'برای حذف همهٔ چیزهایی که Cheat & Anal ذخیره کرده، اطلاعات سایت را از تنظیمات مرورگرت پاک کن.',
       },
     ],
   },

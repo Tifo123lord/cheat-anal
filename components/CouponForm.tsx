@@ -13,10 +13,10 @@ export default function CouponForm() {
     return (
       <p className="flex items-center justify-between gap-2 text-[12px] text-ink" role="status">
         <span>
-          Coupon <strong>{coupon}</strong> applied.
+          کد تخفیف <strong>{coupon}</strong> اعمال شد.
         </span>
         <button type="button" className="link" onClick={() => setCoupon('')}>
-          Remove
+          حذف
         </button>
       </p>
     );
@@ -28,7 +28,7 @@ export default function CouponForm() {
         e.preventDefault();
         const c = findCoupon(code);
         if (!c) {
-          setError(code.trim() ? 'That code is not valid. Try LEAF15.' : 'Enter a coupon code.');
+          setError(code.trim() ? 'این کد معتبر نیست. LEAF15 را امتحان کن.' : 'کد تخفیف را وارد کن.');
           return;
         }
         setError('');
@@ -37,7 +37,7 @@ export default function CouponForm() {
       }}
     >
       <label htmlFor="coupon" className="label">
-        Coupon code
+        کد تخفیف
       </label>
       <div className="flex gap-2">
         <input
@@ -50,7 +50,7 @@ export default function CouponForm() {
           placeholder="LEAF15"
         />
         <button type="submit" className="btn-olive shrink-0">
-          Apply
+          اعمال
         </button>
       </div>
       {error ? (
@@ -59,7 +59,7 @@ export default function CouponForm() {
         </p>
       ) : (
         <p id="coupon-hint" className="mt-1 text-[11px] text-ink-muted">
-          Tip: LEAF15 takes 15% off.
+          نکته: کد LEAF15 پانزده درصد تخفیف می‌دهد.
         </p>
       )}
     </form>

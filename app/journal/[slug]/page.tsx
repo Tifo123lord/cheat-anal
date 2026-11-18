@@ -14,7 +14,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const p = getPost(params.slug);
-  if (!p) return { title: 'Post not found' };
+  if (!p) return { title: 'مطلب پیدا نشد' };
   return {
     title: p.title,
     description: p.excerpt,
@@ -31,14 +31,16 @@ export default function PostPage({ params }: { params: { slug: string } }) {
       <article className="frame on-paper p-4 sm:p-6">
         <p className="text-[12px] text-ink-muted">
           <Link href="/journal/" className="link">
-            Journal
+            مجله
           </Link>{' '}
-          · {formatDate(post.date)} · by{' '}
+          · {formatDate(post.date)} · از{' '}
           <Link href={`/authors/${post.authorId}/`} className="link">
-            {authorName(post.authorId)}
+            <bdi>{authorName(post.authorId)}</bdi>
           </Link>
         </p>
-        <h1 className="mt-1 font-serif text-[24px] font-bold leading-tight text-ink">{post.title}</h1>
+        <h1 className="product-title mt-1 font-serif text-[24px] font-bold leading-tight text-ink" dir="auto">
+          {post.title}
+        </h1>
         <div className="inset-img my-4 overflow-hidden">
           <ProductImage
             product={{ images: [post.art], title: post.title }}
@@ -47,7 +49,7 @@ export default function PostPage({ params }: { params: { slug: string } }) {
             sizes="(max-width: 768px) 100vw, 600px"
           />
         </div>
-        <div className="prose-paper text-ink">
+        <div className="prose-paper text-ink" dir="auto">
           {post.body.map((para) => (
             <p key={para.slice(0, 24)}>{para}</p>
           ))}

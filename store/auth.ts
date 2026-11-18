@@ -25,9 +25,13 @@ interface AuthState {
 }
 
 const friendly = (msg: string): string => {
-  if (/invalid login credentials/i.test(msg)) return 'That email and password do not match.';
-  if (/already registered|already exists/i.test(msg)) return 'An account with this email already exists.';
-  if (/rate limit/i.test(msg)) return 'Too many attempts. Wait a minute and try again.';
+  if (/invalid login credentials/i.test(msg)) return 'ایمیل یا رمز عبور درست نیست.';
+  if (/already registered|already exists/i.test(msg)) return 'با این ایمیل قبلاً حساب ساخته شده است.';
+  if (/rate limit/i.test(msg)) return 'تلاش‌ها بیش از حد بود. یک دقیقه صبر کن و دوباره امتحان کن.';
+  if (/email not confirmed/i.test(msg)) return 'هنوز ایمیلت را تأیید نکرده‌ای. صندوق ایمیلت را بررسی کن.';
+  if (/password should be/i.test(msg)) return 'رمز عبور به اندازهٔ کافی قوی نیست.';
+  if (/failed to fetch|network/i.test(msg))
+    return 'اتصال به سرور برقرار نشد. اینترنتت را بررسی کن و دوباره امتحان کن.';
   return msg;
 };
 
@@ -50,7 +54,7 @@ export const useAuth = create<AuthState>()((set, get) => ({
     set({ user: u ? await loadProfile(u.id, u.email ?? '') : null });
   },
   register: async (name, email, password) => {
-    if (name.trim().length < 2) return 'Tell us your name.';
+    if (name.trim().length < 2) return 'لطفاً نامت را وارد کن.';
     const pwErr = passwordProblem(password);
     if (pwErr) return pwErr;
     const { data, error } = await sb().auth.signUp({
@@ -59,13 +63,13 @@ export const useAuth = create<AuthState>()((set, get) => ({
       options: { data: { name: name.trim() } },
     });
     if (error) return friendly(error.message);
-    if (!data.user || !data.session) return 'Check your inbox to confirm your email, then sign in.';
+    if (!data.user || !data.session) return 'ایمیلت را برای تأیید حساب بررسی کن و بعد وارد شو.';
     set({ user: await loadProfile(data.user.id, data.user.email ?? normEmail(email)) });
     return null;
   },
   login: async (email, password) => {
     const { data, error } = await sb().auth.signInWithPassword({ email: normEmail(email), password });
-    if (error || !data.user) return friendly(error?.message ?? 'Sign-in failed.');
+    if (error || !data.user) return friendly(error?.message ?? 'ورود انجام نشد.');
     set({ user: await loadProfile(data.user.id, data.user.email ?? normEmail(email)) });
     return null;
   },
@@ -81,12 +85,12 @@ export const useAuth = create<AuthState>()((set, get) => ({
   },
   changePassword: async (current, next) => {
     const u = get().user;
-    if (!u) return 'Please sign in again.';
+    if (!u) return 'لطفاً دوباره وارد شو.';
     const check = await sb().auth.signInWithPassword({ email: u.email, password: current });
-    if (check.error) return 'Your current password is not correct.';
+    if (check.error) return 'رمز عبور فعلی درست نیست.';
     const pwErr = passwordProblem(next);
     if (pwErr) return pwErr;
-    if (next === current) return 'Choose a password different from the current one.';
+    if (next === current) return 'رمز عبور جدید باید با رمز فعلی فرق داشته باشد.';
     const { error } = await sb().auth.updateUser({ password: next });
     return error ? friendly(error.message) : null;
   },

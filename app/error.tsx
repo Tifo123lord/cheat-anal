@@ -18,16 +18,16 @@ export default function ErrorBoundary({
   return (
     <Container className="mt-3">
       <div role="alert" className="frame on-paper mx-auto max-w-[560px] p-6 text-center">
-        <h1 className="page-title">Something wilted</h1>
+        <h1 className="page-title">یه چیزی پژمرده شد</h1>
         <p className="mt-1 text-[13px] text-ink">
-          An unexpected error stopped this page from loading. Your cart and downloads are safe.
+          یک خطای غیرمنتظره جلوی بارگذاری این صفحه را گرفت. سبد خرید و دانلودهایت سالم‌اند.
         </p>
         <div className="mt-4 flex justify-center gap-2">
           <button type="button" className="btn" onClick={reset}>
-            Try again
+            دوباره امتحان کن
           </button>
           <Link href="/" className="btn-ghost">
-            Go home
+            رفتن به خانه
           </Link>
         </div>
       </div>

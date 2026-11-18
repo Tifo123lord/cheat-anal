@@ -35,7 +35,7 @@ html {
 body {
   background: var(--bg-night);
   color: var(--text-light);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body), var(--font-fa), Tahoma, system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.5;
   overflow-x: hidden;
@@ -75,16 +75,24 @@ a {
   }
 }
 
-/* Brand display face (Rubik Glitch, single weight): H1 page headings, .page-title, hero titles
-   and section headings only. Body copy keeps --font-body. */
+/* Page headings are Persian, so they use Vazirmatn (heavy). The Latin-only brand face (Rubik Glitch)
+   is kept for the English wordmark only (.brand-wordmark). */
 h1,
 .page-title,
 .brand-heading {
+  font-family: var(--font-fa), Tahoma, system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  overflow-wrap: anywhere;
+}
+.brand-wordmark {
   font-family: var(--font-brand), Impact, system-ui, sans-serif !important;
   font-weight: 400 !important;
   font-synthesis: none;
-  letter-spacing: 0.01em;
-  overflow-wrap: anywhere;
+}
+
+/* Letter-spacing breaks the joined Persian script, so tracking is turned off for the Persian UI. */
+html[lang='fa'] body * {
+  letter-spacing: normal !important;
 }
 
 @layer components {
@@ -138,7 +146,7 @@ h1,
       0 4px 12px rgba(0, 0, 0, 0.6);
   }
   .nav-link {
-    font-family: var(--font-body), system-ui, sans-serif;
+    font-family: var(--font-fa), var(--font-body), system-ui, sans-serif;
     font-stretch: condensed;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -212,7 +220,7 @@ h1,
     color: #9e2f19;
   }
   .widget-title {
-    font-family: var(--font-display), system-ui, sans-serif;
+    font-family: var(--font-display), var(--font-fa), system-ui, sans-serif;
     @apply text-[13px] font-bold uppercase tracking-wide;
     color: var(--olive-dark);
   }
@@ -299,6 +307,15 @@ h1,
 @keyframes drawerin {
   from {
     transform: translateX(-100%);
+  }
+}
+/* In RTL the drawer sits on the right edge, so it slides in from the right. */
+[dir='rtl'] .drawer-enter {
+  animation-name: drawerin-rtl;
+}
+@keyframes drawerin-rtl {
+  from {
+    transform: translateX(100%);
   }
 }
 .sheet-enter {

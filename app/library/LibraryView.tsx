@@ -12,13 +12,13 @@ import { downloadMime } from '@/lib/admin-products';
 import { getBlob } from '@/lib/blobstore';
 import { downloadDummyZip, saveBlob } from '@/lib/download';
 import { formatDate, money2 } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import { useHydrated } from '@/store/hydration';
 import { useAdminCatalog } from '@/store/admin-catalog';
 import { useLibrary } from '@/store/library';
 import { useUI } from '@/store/ui';
 import { useRequireLogin } from '@/components/useRequireLogin';
-import TelegramIcon from '@/components/TelegramIcon';
-import { telegramOrderLink } from '@/lib/telegram';
+import TelegramOrderBox from '@/components/TelegramOrderBox';
 
 const imagesFor = (kind: 'product' | 'bundle', id: string): string[] =>
   kind === 'product'
@@ -51,7 +51,7 @@ export default function LibraryView() {
           saveBlob(out, file.name);
           count(orderId, item.id);
         })
-        .catch(() => toast('This file is not stored in this browser any more.'))
+        .catch(() => toast('این فایل دیگر در دسترس نیست.'))
         .finally(() => setPreparing(null));
       return;
     }
@@ -83,10 +83,10 @@ export default function LibraryView() {
     <Container className="mt-3 md:mt-[14px]">
       <section className="frame on-paper p-3 sm:p-5" aria-labelledby="lib-h">
         <h1 id="lib-h" className="page-title">
-          My downloads
+          دانلودهای من
         </h1>
         <p className="text-[12px] text-ink-muted">
-          Every file you buy lives here with its licence key. Re-download as often as you like.
+          هر فایلی که می‌خری همراه کلید لایسنسش اینجاست. هر چند بار که خواستی دوباره دانلودش کن.
         </p>
         {!hydrated || !user ? (
           <div className="mt-4 space-y-3" aria-busy="true">
@@ -94,16 +94,16 @@ export default function LibraryView() {
             <div className="skeleton h-24 w-full" />
           </div>
         ) : orders.length === 0 ? (
-          <EmptyState title="No downloads yet">
-            When you buy a file it appears here.{' '}
+          <EmptyState title="هنوز دانلودی نداری">
+            هر فایلی که بخری اینجا نمایش داده می‌شود.{' '}
             <Link href="/shop/" className="link">
-              Start browsing
+              گشت‌وگذار را شروع کن
             </Link>{' '}
-            or pick up a{' '}
+            یا یک{' '}
             <Link href="/free-files/" className="link">
-              free file
-            </Link>
-            .
+              فایل رایگان
+            </Link>{' '}
+            بردار.
           </EmptyState>
         ) : (
           <ol className="mt-4 space-y-4">
@@ -111,19 +111,25 @@ export default function LibraryView() {
               <li key={o.id} className="rounded-md border border-[#a49b82] bg-paper-light/50">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#bcb399] px-3 py-2 text-[12px] text-ink">
                   <span>
-                    Order <strong>{o.id}</strong> · {formatDate(o.createdAt)} · {money2(o.total)} ·{' '}
+                    سفارش <bdi className="font-bold">{o.id}</bdi> · {formatDate(o.createdAt)} ·{' '}
+                    {money2(o.total)} ·{' '}
                     <strong data-testid="order-status">
                       {o.status === 'paid'
-                        ? 'Paid'
+                        ? 'پرداخت‌شده'
                         : o.status === 'cancelled'
-                          ? 'Cancelled'
-                          : 'Awaiting payment'}
+                          ? 'لغوشده'
+                          : 'در انتظار پرداخت'}
                     </strong>
                   </span>
                   <Link href={`/library/invoice/?order=${encodeURIComponent(o.id)}`} className="link">
-                    View invoice
+                    مشاهدهٔ فاکتور
                   </Link>
                 </div>
+                {(o.status ?? 'pending') === 'pending' && (
+                  <div className="border-b border-[#bcb399] p-3">
+                    <TelegramOrderBox order={o} compact />
+                  </div>
+                )}
                 <ul className="divide-y divide-[#c9c0a6]">
                   {o.items.map((i) => {
                     const key = `${o.id}-${i.id}`;
@@ -137,11 +143,13 @@ export default function LibraryView() {
                           />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[13px] font-bold text-ink">{i.title}</p>
-                          <p className="text-[11px] text-ink-muted">{i.license} licence</p>
+                          <p className="truncate text-[13px] font-bold text-ink" dir="auto">
+                            {i.title}
+                          </p>
+                          <p className="text-[11px] text-ink-muted">لایسنس {licenseLabel(i.license)}</p>
                           <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[11px] text-ink">
-                            <span className="sr-only">Licence key</span>
-                            <code className="rounded bg-[#efe9da] px-1.5 py-0.5 font-mono">
+                            <span className="sr-only">کلید لایسنس</span>
+                            <code className="rounded bg-[#efe9da] px-1.5 py-0.5 font-mono" dir="ltr">
                               {i.licenseKey}
                             </code>
                             <button
@@ -151,34 +159,20 @@ export default function LibraryView() {
                             >
                               {copied === i.licenseKey ? (
                                 <span className="inline-flex items-center gap-0.5">
-                                  <CheckIcon size={10} /> Copied
+                                  <CheckIcon size={10} /> کپی شد
                                 </span>
                               ) : (
-                                'Copy'
+                                'کپی'
                               )}
                             </button>
                           </p>
                         </div>
                         {o.status !== 'paid' ? (
-                          <div className="text-right text-[11px] text-ink-muted">
-                            {o.status === 'cancelled' ? (
-                              'Cancelled'
-                            ) : (
-                              <>
-                                <a
-                                  href={telegramOrderLink(o)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="btn"
-                                >
-                                  <TelegramIcon size={13} /> Pay on Telegram
-                                </a>
-                                <p className="mt-1">Download opens after payment</p>
-                              </>
-                            )}
+                          <div className="text-end text-[11px] text-ink-muted">
+                            {o.status === 'cancelled' ? 'لغوشده' : 'دانلود بعد از پرداخت باز می‌شود'}
                           </div>
                         ) : (
-                          <div className="text-right">
+                          <div className="text-end">
                             <button
                               type="button"
                               className="btn"
@@ -187,11 +181,13 @@ export default function LibraryView() {
                               aria-live="polite"
                             >
                               <DownloadIcon size={13} />{' '}
-                              {preparing === key ? 'Preparing…' : i.downloads ? 'Download again' : 'Download'}
+                              {preparing === key
+                                ? 'در حال آماده‌سازی…'
+                                : i.downloads
+                                  ? 'دانلود دوباره'
+                                  : 'دانلود'}
                             </button>
-                            <p className="mt-1 text-[11px] text-ink-muted">
-                              Downloaded {i.downloads} {i.downloads === 1 ? 'time' : 'times'}
-                            </p>
+                            <p className="mt-1 text-[11px] text-ink-muted">{i.downloads} بار دانلود شده</p>
                           </div>
                         )}
                       </li>

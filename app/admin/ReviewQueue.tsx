@@ -9,6 +9,12 @@ import { useStudio, type SubmissionStatus } from '@/store/studio';
 import { useUI } from '@/store/ui';
 
 const TABS: SubmissionStatus[] = ['pending', 'approved', 'rejected', 'draft'];
+const LABEL: Record<SubmissionStatus, string> = {
+  pending: 'در حال بررسی',
+  approved: 'تأییدشده',
+  rejected: 'ردشده',
+  draft: 'پیش‌نویس',
+};
 
 export default function ReviewQueue() {
   const hydrated = useHydrated();
@@ -22,12 +28,12 @@ export default function ReviewQueue() {
   return (
     <section aria-labelledby="rq-h">
       <h2 id="rq-h" className="widget-title">
-        Author review queue
+        صف بررسی فایل‌های سازنده‌ها
       </h2>
       <p className="text-[12px] text-ink-muted">
-        Approve or reject files submitted from the author dashboard in this browser.
+        فایل‌هایی را که از داشبورد سازنده در این مرورگر ارسال شده‌اند تأیید یا رد کن.
       </p>
-      <div role="group" aria-label="Filter by status" className="mt-3 flex flex-wrap gap-1.5">
+      <div role="group" aria-label="فیلتر بر اساس وضعیت" className="mt-3 flex flex-wrap gap-1.5">
         {TABS.map((t) => (
           <button
             key={t}
@@ -36,18 +42,17 @@ export default function ReviewQueue() {
             onClick={() => setTab(t)}
             className={tab === t ? 'btn' : 'btn-ghost'}
           >
-            {t[0].toUpperCase() + t.slice(1)} (
-            {hydrated ? submissions.filter((s) => s.status === t).length : 0})
+            {LABEL[t]} ({hydrated ? submissions.filter((s) => s.status === t).length : 0})
           </button>
         ))}
       </div>
       {!hydrated ? (
         <div className="skeleton mt-4 h-32 w-full" aria-busy="true" />
       ) : list.length === 0 ? (
-        <EmptyState title={`No ${tab} files`}>
+        <EmptyState title={`فایل «${LABEL[tab]}» وجود ندارد`}>
           {tab === 'pending'
-            ? 'Submit a file from the author dashboard and it will appear here for review.'
-            : 'Nothing here yet.'}
+            ? 'از داشبورد سازنده یک فایل ارسال کن تا برای بررسی اینجا نمایش داده شود.'
+            : 'فعلاً چیزی اینجا نیست.'}
         </EmptyState>
       ) : (
         <ul className="mt-4 space-y-3">
@@ -55,21 +60,25 @@ export default function ReviewQueue() {
             <li key={s.id} className="rounded-md border border-[#a49b82] bg-paper-light/50 p-3 text-ink">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <h3 className="font-serif text-[15px] font-bold">{s.title}</h3>
+                  <h3 className="font-serif text-[15px] font-bold" dir="auto">
+                    {s.title}
+                  </h3>
                   <p className="text-[11px] text-ink-muted">
-                    {s.author} · {getCategory(s.category)?.name ?? '—'} · ${s.price} ·{' '}
+                    <bdi>{s.author}</bdi> · {getCategory(s.category)?.name ?? '—'} · ${s.price} ·{' '}
                     {formatDate(s.createdAt)}
                   </p>
-                  <p className="mt-1 text-[12px]">{s.description || <em>No description</em>}</p>
+                  <p className="mt-1 text-[12px]" dir="auto">
+                    {s.description || <em>بدون توضیحات</em>}
+                  </p>
                   <p className="mt-1 text-[11px] text-ink-muted">
-                    Previews: {s.previewNames.join(', ') || '—'} · File: {s.fileName || '—'} · Tags:{' '}
-                    {s.tags.join(', ') || '—'}
+                    پیش‌نمایش‌ها: <bdi>{s.previewNames.join(', ') || '—'}</bdi> · فایل:{' '}
+                    <bdi>{s.fileName || '—'}</bdi> · برچسب‌ها: <bdi>{s.tags.join(', ') || '—'}</bdi>
                   </p>
                 </div>
                 {s.status === 'pending' && (
                   <div className="w-full space-y-2 sm:w-[220px]">
                     <label htmlFor={`note-${s.id}`} className="label">
-                      Note to author (optional)
+                      یادداشت برای سازنده (اختیاری)
                     </label>
                     <input
                       id={`note-${s.id}`}
@@ -83,26 +92,26 @@ export default function ReviewQueue() {
                         className="btn flex-1"
                         onClick={() => {
                           setStatus(s.id, 'approved', notes[s.id] || undefined);
-                          toast(`Approved “${s.title}”`);
+                          toast(`«${s.title}» تأیید شد`);
                         }}
                       >
-                        Approve
+                        تأیید
                       </button>
                       <button
                         type="button"
                         className="btn-ghost flex-1 !border-sale !text-[#9e2f19]"
                         onClick={() => {
-                          setStatus(s.id, 'rejected', notes[s.id] || 'Needs changes');
-                          toast(`Rejected “${s.title}”`);
+                          setStatus(s.id, 'rejected', notes[s.id] || 'نیاز به اصلاح دارد');
+                          toast(`«${s.title}» رد شد`);
                         }}
                       >
-                        Reject
+                        رد
                       </button>
                     </div>
                   </div>
                 )}
                 {s.status !== 'pending' && s.note && (
-                  <p className="text-[11px] text-ink-muted">Note: {s.note}</p>
+                  <p className="text-[11px] text-ink-muted">یادداشت: {s.note}</p>
                 )}
               </div>
             </li>

@@ -14,8 +14,8 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const c = getCategory(params.slug);
-  if (!c) return { title: 'Category not found' };
-  const description = c.description ?? `Browse ${c.name.toLowerCase()} on Cheat & Anal.`;
+  if (!c) return { title: 'دسته‌بندی پیدا نشد' };
+  const description = c.description ?? `${c.name} را در Cheat & Anal ببین.`;
   return {
     title: c.name,
     description,
@@ -42,7 +42,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
             {category.description && <p className="text-[12px] text-ink-muted">{category.description}</p>}
             <p className="mt-0.5 text-[12px]">
               <Link href={`/shop/?category=${category.id}`} className="link">
-                Filter {category.name.toLowerCase()} in the shop
+                فیلتر «{category.name}» در فروشگاه
               </Link>
             </p>
           </div>

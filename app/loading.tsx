@@ -10,7 +10,7 @@ export default function Loading() {
         </div>
       }
     >
-      <div className="frame mb-[14px] p-3" aria-busy="true" aria-label="Loading">
+      <div className="frame mb-[14px] p-3" aria-busy="true" aria-label="در حال بارگذاری">
         <div className="skeleton h-6 w-1/3" />
       </div>
       <GridSkeleton count={4} />

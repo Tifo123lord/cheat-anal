@@ -2,6 +2,7 @@
 
 import { allCompatibility, allFileTypes, categories, maxPrice } from '@/lib/catalog';
 import { DEFAULT_FILTERS, type Filters } from '@/lib/filters';
+import { licenseLabel } from '@/lib/i18n';
 import { LICENSE_TYPES, type LicenseType } from '@/lib/types';
 import { LeafRow } from './LeafRating';
 
@@ -16,7 +17,7 @@ const toggle = <T,>(list: T[], v: T): T[] => (list.includes(v) ? list.filter((x)
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <fieldset className="border-b border-[#bcb399] px-3 py-3 last:border-b-0">
-      <legend className="widget-title float-left mb-2 w-full">{title}</legend>
+      <legend className="widget-title float-start mb-2 w-full">{title}</legend>
       <div className="clear-both">{children}</div>
     </fieldset>
   );
@@ -31,7 +32,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
   const software = allCompatibility();
   return (
     <div className="text-[12.5px] text-ink">
-      <Group title="Category">
+      <Group title="دسته‌بندی">
         <ul className="grid grid-cols-1 gap-0.5">
           {categories.map((c) => (
             <li key={c.id}>
@@ -48,7 +49,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
         </ul>
       </Group>
       {types.length > 0 && (
-        <Group title="File type">
+        <Group title="نوع فایل">
           <ul className="flex flex-wrap gap-1.5">
             {types.map((t) => (
               <li key={t}>
@@ -68,14 +69,14 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           </ul>
         </Group>
       )}
-      <Group title="Price">
+      <Group title="قیمت">
         <div className="space-y-2">
           <div className="flex justify-between text-[12px] font-semibold" aria-live="polite">
             <span>${minV}</span>
             <span>${maxV}</span>
           </div>
           <label htmlFor={`${idPrefix}-min`} className="sr-only">
-            Minimum price
+            حداقل قیمت
           </label>
           <input
             id={`${idPrefix}-min`}
@@ -91,7 +92,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
             className="w-full accent-[#c20e24]"
           />
           <label htmlFor={`${idPrefix}-max`} className="sr-only">
-            Maximum price
+            حداکثر قیمت
           </label>
           <input
             id={`${idPrefix}-max`}
@@ -112,12 +113,12 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
               checked={f.maxPrice === 0}
               onChange={() => set({ maxPrice: f.maxPrice === 0 ? null : 0, minPrice: null })}
             />
-            Free files only
+            فقط فایل‌های رایگان
           </label>
         </div>
       </Group>
       {software.length > 0 && (
-        <Group title="Software">
+        <Group title="نرم‌افزار">
           <ul className="grid grid-cols-2 gap-0.5">
             {software.map((c) => (
               <li key={c}>
@@ -134,7 +135,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           </ul>
         </Group>
       )}
-      <Group title="Rating">
+      <Group title="امتیاز">
         <ul className="space-y-0.5">
           {[0, 4.5, 4, 3.5].map((r) => (
             <li key={r}>
@@ -146,7 +147,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
                   onChange={() => set({ minRating: r })}
                 />
                 {r === 0 ? (
-                  'Any rating'
+                  'همهٔ امتیازها'
                 ) : (
                   <>
                     <LeafRow rating={r} size={13} /> {r}+
@@ -157,7 +158,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           ))}
         </ul>
       </Group>
-      <Group title="Licence">
+      <Group title="لایسنس">
         <ul className="space-y-0.5">
           {LICENSE_TYPES.map((l: LicenseType) => (
             <li key={l}>
@@ -167,7 +168,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
                   checked={f.licenses.includes(l)}
                   onChange={() => set({ licenses: toggle(f.licenses, l) })}
                 />
-                {l} available
+                لایسنس {licenseLabel(l)}
               </label>
             </li>
           ))}
@@ -179,7 +180,7 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
           className="btn-ghost w-full"
           onClick={() => onChange({ ...DEFAULT_FILTERS, q: f.q, sort: f.sort })}
         >
-          Clear filters
+          پاک کردن فیلترها
         </button>
       </div>
     </div>

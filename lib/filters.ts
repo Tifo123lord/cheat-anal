@@ -4,11 +4,11 @@ import type { LicenseType, Product } from './types';
 export type SortKey = 'newest' | 'price-asc' | 'price-desc' | 'popular' | 'rating';
 
 export const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: 'newest', label: 'Newest' },
-  { value: 'popular', label: 'Most popular' },
-  { value: 'rating', label: 'Top rated' },
-  { value: 'price-asc', label: 'Price: low to high' },
-  { value: 'price-desc', label: 'Price: high to low' },
+  { value: 'newest', label: 'جدیدترین' },
+  { value: 'popular', label: 'محبوب‌ترین' },
+  { value: 'rating', label: 'بیشترین امتیاز' },
+  { value: 'price-asc', label: 'قیمت: ارزان به گران' },
+  { value: 'price-desc', label: 'قیمت: گران به ارزان' },
 ];
 
 export interface Filters {

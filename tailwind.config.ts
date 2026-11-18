@@ -19,9 +19,12 @@ const config: Config = {
         sale: 'var(--sale)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'ui-rounded', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        // Latin glyphs use the original faces; Persian glyphs fall through to Vazirmatn (--font-fa).
+        display: ['var(--font-display)', 'var(--font-fa)', 'ui-rounded', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-body)', 'var(--font-fa)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'var(--font-fa)', 'Georgia', 'serif'],
+        fa: ['var(--font-fa)', 'Tahoma', 'sans-serif'],
+        brand: ['var(--font-brand)', 'Impact', 'system-ui', 'sans-serif'],
       },
       maxWidth: { site: '930px' },
       boxShadow: {

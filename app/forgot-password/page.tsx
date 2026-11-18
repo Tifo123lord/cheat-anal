@@ -2,11 +2,15 @@ import type { Metadata } from 'next';
 import { PaperPage } from '@/components/Layout';
 import ForgotForm from './ForgotForm';
 
-export const metadata: Metadata = { title: 'Forgot password', robots: { index: false } };
+export const metadata: Metadata = { title: 'فراموشی رمز عبور', robots: { index: false } };
 
 export default function ForgotPage() {
   return (
-    <PaperPage title="Forgot your password?" intro="We'll send you a link to choose a new one." wide={false}>
+    <PaperPage
+      title="رمز عبورت را فراموش کرده‌ای؟"
+      intro="یک لینک برایت می‌فرستیم تا رمز جدیدی انتخاب کنی."
+      wide={false}
+    >
       <ForgotForm />
     </PaperPage>
   );

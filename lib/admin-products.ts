@@ -58,23 +58,24 @@ export const splitList = (s: string): string[] =>
 
 export function validateInput(i: AdminProductInput, hasFile: boolean): InputErrors {
   const e: InputErrors = {};
-  if (i.title.trim().length < 3) e.title = 'Give the file a title (3+ characters).';
-  if (i.description.trim().length < 20) e.description = 'Write at least 20 characters.';
-  if (!i.category) e.category = 'Choose a category.';
-  if (!Number.isFinite(i.price) || i.price < 0) e.price = 'Price must be 0 or more.';
+  if (i.title.trim().length < 3) e.title = 'برای فایل یک عنوان بنویس (حداقل ۳ کاراکتر).';
+  if (i.description.trim().length < 20) e.description = 'دست‌کم ۲۰ کاراکتر توضیح بنویس.';
+  if (!i.category) e.category = 'یک دسته‌بندی انتخاب کن.';
+  if (!Number.isFinite(i.price) || i.price < 0) e.price = 'قیمت باید ۰ یا بیشتر باشد.';
   if (i.salePrice !== null && (!Number.isFinite(i.salePrice) || i.salePrice < 0 || i.salePrice >= i.price))
-    e.salePrice = 'Sale price must be lower than the price.';
-  if (!i.fileTypes.some((t) => normalizeChip(t))) e.fileTypes = 'Add at least one file type (e.g. DLL, ZIP).';
-  if (!i.licenses.length) e.licenses = 'Offer at least one licence.';
+    e.salePrice = 'قیمت تخفیفی باید از قیمت اصلی کمتر باشد.';
+  if (!i.fileTypes.some((t) => normalizeChip(t)))
+    e.fileTypes = 'دست‌کم یک نوع فایل اضافه کن (مثلاً DLL یا ZIP).';
+  if (!i.licenses.length) e.licenses = 'دست‌کم یک لایسنس ارائه کن.';
   else if (i.licenses.some((l) => !Number.isFinite(l.price) || l.price < 0))
-    e.licenses = 'Licence prices must be 0 or more.';
-  if (!hasFile) e.file = 'Upload the downloadable file.';
+    e.licenses = 'قیمت لایسنس‌ها باید ۰ یا بیشتر باشد.';
+  if (!hasFile) e.file = 'فایل قابل دانلود را آپلود کن.';
   return e;
 }
 
 export function fileProblem(size: number): string | null {
   return size > MAX_FILE_BYTES
-    ? `This file is ${formatBytes(size)}; the limit is ${formatBytes(MAX_FILE_BYTES)}.`
+    ? `حجم این فایل ${formatBytes(size)} است؛ سقف مجاز ${formatBytes(MAX_FILE_BYTES)} است.`
     : null;
 }
 
@@ -92,13 +93,13 @@ export function isQuotaError(ex: unknown): boolean {
 /** Friendly inline message for a failed upload or save on the server. */
 export function storageErrorMessage(ex: unknown): string {
   if (isQuotaError(ex))
-    return 'The server has run out of storage space for uploads. Delete older products or use a smaller file.';
-  return `Could not upload to the server: ${ex instanceof Error ? ex.message : 'unknown error'}.`;
+    return 'فضای ذخیره‌سازی سرور برای آپلود پر شده است. محصولات قدیمی‌تر را حذف کن یا فایل کوچک‌تری بفرست.';
+  return `آپلود روی سرور انجام نشد: ${ex instanceof Error ? ex.message : 'خطای ناشناخته'}.`;
 }
 
-/** Product-page note for a downloadable file, e.g. ".dll file · 12.0 KB". */
+/** Product-page note for a downloadable file, e.g. "فایل .dll · 12.0 KB". */
 export function fileNote(ext: string | undefined, size: string): string {
-  return `${ext ? `.${ext}` : 'No extension'} file · ${size}`;
+  return `فایل ${ext ? `.${ext}` : 'بدون پسوند'} · ${size}`;
 }
 
 export function formatBytes(n: number): string {

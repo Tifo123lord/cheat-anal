@@ -19,7 +19,7 @@ export default function Accordion({ items }: { items: { q: string; a: string }[]
                 aria-expanded={isOpen}
                 aria-controls={`${base}-p${i}`}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-[13px] font-bold text-ink hover:bg-paper-light"
+                className="flex w-full items-center justify-between gap-2 px-3 py-2 text-start text-[13px] font-bold text-ink hover:bg-paper-light"
               >
                 {it.q}
                 <ChevronDown

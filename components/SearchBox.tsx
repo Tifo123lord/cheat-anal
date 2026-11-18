@@ -59,7 +59,7 @@ export default function SearchBox({
       }}
     >
       <label htmlFor={`${id}-in`} className="sr-only">
-        Search files
+        جست‌وجوی فایل‌ها
       </label>
       <input
         ref={inputRef}
@@ -72,7 +72,7 @@ export default function SearchBox({
         aria-activedescendant={active >= 0 ? `${id}-opt-${active}` : undefined}
         autoComplete="off"
         data-autofocus={autoFocus || undefined}
-        placeholder="Search files…"
+        placeholder="جست‌وجوی فایل‌ها…"
         value={q}
         onChange={(e) => {
           setQ(e.target.value);
@@ -96,14 +96,14 @@ export default function SearchBox({
         }}
         className={
           variant === 'nav'
-            ? 'h-[25px] w-full rounded-full border border-[#2b2a1d] bg-[#efeadb] pl-3 pr-7 text-[12px] text-ink shadow-[inset_0_1px_3px_rgba(0,0,0,.45)] placeholder:text-[#6b6754]'
-            : 'field pr-9'
+            ? 'h-[25px] w-full rounded-full border border-[#2b2a1d] bg-[#efeadb] ps-3 pe-7 text-[12px] text-ink shadow-[inset_0_1px_3px_rgba(0,0,0,.45)] placeholder:text-[#6b6754]'
+            : 'field pe-9'
         }
       />
       <button
         type="submit"
-        aria-label="Search"
-        className={`absolute top-1/2 -translate-y-1/2 text-[#4a4733] ${variant === 'nav' ? 'right-2' : 'right-3'}`}
+        aria-label="جست‌وجو"
+        className={`absolute top-1/2 -translate-y-1/2 text-[#4a4733] ${variant === 'nav' ? 'end-2' : 'end-3'}`}
       >
         <SearchIcon size={variant === 'nav' ? 12 : 16} />
       </button>
@@ -111,11 +111,13 @@ export default function SearchBox({
         <ul
           id={listId}
           role="listbox"
-          aria-label="Suggestions"
-          className="frame on-paper absolute right-0 top-[calc(100%+6px)] z-40 w-full min-w-[260px] overflow-hidden p-1 text-ink"
+          aria-label="پیشنهادها"
+          className="frame on-paper absolute end-0 top-[calc(100%+6px)] z-40 w-full min-w-[260px] overflow-hidden p-1 text-ink"
         >
           {results.length === 0 && (
-            <li className="px-2 py-2 text-[12px] text-ink-muted">No files match “{q}”.</li>
+            <li className="px-2 py-2 text-[12px] text-ink-muted">
+              فایلی با «<bdi>{q}</bdi>» پیدا نشد.
+            </li>
           )}
           {results.map((p, i) => (
             <li
@@ -133,7 +135,7 @@ export default function SearchBox({
               <span className="w-[52px] shrink-0 overflow-hidden rounded-sm border border-[#8f8770]">
                 <ProductImage product={p} alt="" sizes="52px" />
               </span>
-              <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">{p.title}</span>
+              <bdi className="min-w-0 flex-1 truncate text-[12px] font-semibold">{p.title}</bdi>
               <span className="shrink-0 text-[12px] font-bold">{money(p.salePrice ?? p.price)}</span>
             </li>
           ))}
@@ -144,7 +146,7 @@ export default function SearchBox({
               className="border-t border-[#b3aa91] px-2 pt-1 text-[11px]"
             >
               <button type="submit" className="link">
-                See all results for “{q}”
+                همهٔ نتایج برای «<bdi>{q}</bdi>»
               </button>
             </li>
           )}

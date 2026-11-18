@@ -23,12 +23,12 @@ export function cartRows(lines: CartLine[]): CartRow[] {
       return [
         {
           line,
-          title: `${b.title} bundle`,
+          title: `بستهٔ ${b.title}`,
           href: '/bundles/',
           price: linePrice(line, lookups),
           licenses: ['Personal', 'Commercial', 'Extended'],
           images: first?.images ?? ['gradient:1'],
-          subtitle: `${b.productIds.length} files`,
+          subtitle: `${b.productIds.length} فایل`,
         },
       ];
     }

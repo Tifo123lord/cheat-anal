@@ -9,7 +9,20 @@ export interface MonthStat {
   net: number;
 }
 
-const MONTHS = ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
+const MONTHS = [
+  'دسامبر',
+  'ژانویه',
+  'فوریه',
+  'مارس',
+  'آوریل',
+  'مه',
+  'ژوئن',
+  'ژوئیه',
+  'اوت',
+  'سپتامبر',
+  'اکتبر',
+  'نوامبر',
+];
 
 /**
  * Sales history for an author account (Dec 2025 – Nov 2026). The store ships with no seeded files,

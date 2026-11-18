@@ -35,8 +35,10 @@ export default function Tabs({ tabs, label }: { tabs: TabDef[]; label: string })
             tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
             onKeyDown={(e) => {
-              if (e.key === 'ArrowRight') move(i + 1);
-              else if (e.key === 'ArrowLeft') move(i - 1);
+              // Arrow keys follow the reading direction: in RTL, ArrowLeft moves to the next tab.
+              const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
+              if (e.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) move(i + 1);
+              else if (e.key === (rtl ? 'ArrowRight' : 'ArrowLeft')) move(i - 1);
               else if (e.key === 'Home') move(0);
               else if (e.key === 'End') move(tabs.length - 1);
             }}

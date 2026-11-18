@@ -23,21 +23,21 @@ export default function NewReleases() {
   return (
     <>
       <div className="frame on-paper mb-[14px] p-3">
-        <h1 className="page-title !text-[19px]">New releases</h1>
+        <h1 className="page-title !text-[19px]">تازه‌ها</h1>
         <p className="text-[12px] text-ink-muted">
-          The twelve freshest files, newest first.
-          {newest[0] ? ` Latest release: ${formatDate(newest[0].createdAt)}.` : ''}{' '}
+          دوازده فایل تازه، از جدیدترین.
+          {newest[0] ? ` آخرین انتشار: ${formatDate(newest[0].createdAt)}.` : ''}{' '}
           <Link href="/shop/?sort=newest" className="link">
-            Browse everything by date
+            همه را بر اساس تاریخ ببین
           </Link>
         </p>
       </div>
       {newest.length ? (
-        <ProductGrid items={newest} label="New releases" />
+        <ProductGrid items={newest} label="تازه‌ها" />
       ) : hydrated ? (
         <div className="frame on-paper" data-testid="new-releases-empty">
           <EmptyState title={NO_FILES_TITLE}>
-            New releases show up here as soon as they are published.
+            فایل‌های تازه به محض انتشار همین‌جا نمایش داده می‌شوند.
           </EmptyState>
         </div>
       ) : (

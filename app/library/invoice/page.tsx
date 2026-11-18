@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Container } from '@/components/Layout';
 import InvoiceView from './InvoiceView';
 
-export const metadata: Metadata = { title: 'Invoice', robots: { index: false } };
+export const metadata: Metadata = { title: 'فاکتور', robots: { index: false } };
 
 export default function InvoicePage() {
   return (

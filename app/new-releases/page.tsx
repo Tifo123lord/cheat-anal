@@ -3,8 +3,8 @@ import { TwoColumn } from '@/components/Layout';
 import NewReleases from './NewReleases';
 
 export const metadata: Metadata = {
-  title: 'New releases',
-  description: 'The newest digital files on Cheat & Anal, freshly reviewed and ready to download.',
+  title: 'تازه‌ها',
+  description: 'تازه‌ترین فایل‌های دیجیتال Cheat & Anal؛ تازه بررسی‌شده و آمادهٔ دانلود.',
   alternates: { canonical: '/new-releases/' },
 };
 

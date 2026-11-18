@@ -30,15 +30,15 @@ export default function ProductManager() {
     <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_1fr]">
       <section aria-labelledby="pm-list-h" className="min-w-0">
         <h2 id="pm-list-h" className="widget-title">
-          Your products ({records.length})
+          محصولات تو ({records.length})
         </h2>
         {records.length === 0 ? (
-          <EmptyState title="No products yet">
-            Add your first file with the form. Published files appear in the shop, search, the home grid and
-            checkout.
+          <EmptyState title="هنوز محصولی نیست">
+            اولین فایلت را با فرم اضافه کن. فایل‌های منتشرشده در فروشگاه، جست‌وجو، صفحهٔ اصلی و پرداخت نمایش
+            داده می‌شوند.
           </EmptyState>
         ) : (
-          <ul className="mt-2 space-y-2" aria-label="Admin products">
+          <ul className="mt-2 space-y-2" aria-label="محصولات مدیر">
             {records.map((r) => {
               const p = r.product;
               return (
@@ -51,7 +51,9 @@ export default function ProductManager() {
                     <ProductImage product={p} alt="" sizes="88px" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-serif text-[14px] font-bold">{p.title}</p>
+                    <p className="truncate font-serif text-[14px] font-bold" dir="auto">
+                      {p.title}
+                    </p>
                     <p className="text-[11px] text-ink-muted">
                       {getCategory(p.category)?.name ?? p.category} ·{' '}
                       {p.salePrice !== undefined ? (
@@ -61,21 +63,21 @@ export default function ProductManager() {
                       ) : (
                         money(p.price)
                       )}{' '}
-                      · {r.file ? `${r.file.name} (${formatBytes(r.file.size)})` : 'no file'}
+                      · {r.file ? <bdi>{`${r.file.name} (${formatBytes(r.file.size)})`}</bdi> : 'بدون فایل'}
                     </p>
                     <p className="mt-0.5 text-[11px]">
                       <span
                         className={`chip !py-0 ${r.published ? '!bg-[#d9e8b0]' : '!bg-[#eadfc6]'}`}
                         data-testid="admin-status"
                       >
-                        {r.published ? 'Published' : 'Unpublished'}
+                        {r.published ? 'منتشرشده' : 'منتشرنشده'}
                       </span>
-                      {r.featured && <span className="chip ml-1 !py-0">Slider</span>}
+                      {r.featured && <span className="chip ms-1 !py-0">اسلایدر</span>}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     <Link href={productHref(p)} className="btn-ghost !px-2 !py-1 text-[11px]">
-                      View
+                      مشاهده
                     </Link>
                     <button
                       type="button"
@@ -85,19 +87,21 @@ export default function ProductManager() {
                         setFormKey((k) => k + 1);
                       }}
                     >
-                      Edit
+                      ویرایش
                     </button>
                     <button
                       type="button"
                       className="btn-ghost !px-2 !py-1 text-[11px]"
                       onClick={() => {
                         publish(p.id, !r.published).then(
-                          () => toast(r.published ? `Unpublished “${p.title}”` : `Published “${p.title}”`),
-                          (ex: unknown) => toast(`Could not update: ${ex instanceof Error ? ex.message : 'error'}`),
+                          () =>
+                            toast(r.published ? `«${p.title}» از انتشار خارج شد` : `«${p.title}» منتشر شد`),
+                          (ex: unknown) =>
+                            toast(`به‌روزرسانی انجام نشد: ${ex instanceof Error ? ex.message : 'خطا'}`),
                         );
                       }}
                     >
-                      {r.published ? 'Unpublish' : 'Publish'}
+                      {r.published ? 'لغو انتشار' : 'انتشار'}
                     </button>
                     {confirmDelete === p.id ? (
                       <button
@@ -109,13 +113,14 @@ export default function ProductManager() {
                             () => {
                               void deleteBlobs(blobKeys(r)).catch(() => undefined);
                               if (editing?.product.id === p.id) done();
-                              toast(`Deleted “${p.title}”`);
+                              toast(`«${p.title}» حذف شد`);
                             },
-                            (ex: unknown) => toast(`Could not delete: ${ex instanceof Error ? ex.message : 'error'}`),
+                            (ex: unknown) =>
+                              toast(`حذف انجام نشد: ${ex instanceof Error ? ex.message : 'خطا'}`),
                           );
                         }}
                       >
-                        Confirm delete
+                        تأیید حذف
                       </button>
                     ) : (
                       <button
@@ -123,7 +128,7 @@ export default function ProductManager() {
                         className="btn-ghost !px-2 !py-1 text-[11px]"
                         onClick={() => setConfirmDelete(p.id)}
                       >
-                        Delete
+                        حذف
                       </button>
                     )}
                   </div>
@@ -135,7 +140,7 @@ export default function ProductManager() {
       </section>
       <section aria-labelledby="pm-form-h" className="min-w-0">
         <h2 id="pm-form-h" className="widget-title">
-          {editing ? `Edit “${editing.product.title}”` : 'Add a product'}
+          {editing ? `ویرایش «${editing.product.title}»` : 'افزودن محصول'}
         </h2>
         <ProductForm key={formKey} editing={editing} onDone={done} />
       </section>

@@ -51,10 +51,10 @@ export async function registerUser(
   password: string,
 ): Promise<Result> {
   const e = normEmail(email);
-  if (name.trim().length < 2) return { error: 'Tell us your name.' };
+  if (name.trim().length < 2) return { error: 'لطفاً نامت را وارد کن.' };
   const pwErr = passwordProblem(password);
   if (pwErr) return { error: pwErr };
-  if (users.some((u) => u.email === e)) return { error: 'An account with this email already exists.' };
+  if (users.some((u) => u.email === e)) return { error: 'با این ایمیل قبلاً حساب ساخته شده است.' };
   const salt = randomSalt();
   const user: User = {
     name: name.trim(),
@@ -69,8 +69,7 @@ export async function registerUser(
 
 export async function loginUser(users: User[], email: string, password: string): Promise<User | string> {
   const u = users.find((x) => x.email === normEmail(email));
-  if (!u || !(await verifyPassword(password, u.salt, u.passwordHash)))
-    return 'That email and password do not match.';
+  if (!u || !(await verifyPassword(password, u.salt, u.passwordHash))) return 'ایمیل یا رمز عبور درست نیست.';
   return u;
 }
 
@@ -81,12 +80,11 @@ export async function changeUserPassword(
   next: string,
 ): Promise<User[] | string> {
   const u = users.find((x) => x.email === email);
-  if (!u) return 'Please sign in again.';
-  if (!(await verifyPassword(current, u.salt, u.passwordHash)))
-    return 'Your current password is not correct.';
+  if (!u) return 'لطفاً دوباره وارد شو.';
+  if (!(await verifyPassword(current, u.salt, u.passwordHash))) return 'رمز عبور فعلی درست نیست.';
   const pwErr = passwordProblem(next);
   if (pwErr) return pwErr;
-  if (next === current) return 'Choose a password different from the current one.';
+  if (next === current) return 'رمز عبور جدید باید با رمز فعلی فرق داشته باشد.';
   const salt = randomSalt();
   const passwordHash = await hashPassword(next, salt);
   return users.map((x) => (x.email === email ? { ...x, salt, passwordHash, defaultPassword: false } : x));

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { authorName, getProduct, productHref } from '@/lib/catalog';
 import { money } from '@/lib/format';
+import { licenseLabel } from '@/lib/i18n';
 import { licensePrice } from '@/lib/pricing';
 import type { LicenseType } from '@/lib/types';
 import { useCart } from '@/store/cart';
@@ -20,7 +21,7 @@ export default function QuickView() {
     <Modal
       open={Boolean(product)}
       onClose={close}
-      title={product ? `Quick view: ${product.title}` : 'Quick view'}
+      title={product ? `نمایش سریع: ${product.title}` : 'نمایش سریع'}
       wide
     >
       {product && <QuickViewBody key={product.id} productId={product.id} onDone={close} />}
@@ -40,11 +41,15 @@ function QuickViewBody({ productId, onDone }: { productId: string; onDone: () =>
         <ProductImage product={product} priority sizes="(max-width: 768px) 100vw, 460px" />
       </div>
       <div className="text-ink">
-        <p className="text-[12px] text-ink-muted">by {authorName(product.authorId)}</p>
-        <p className="my-2 text-[13px]">{product.description}</p>
+        <p className="text-[12px] text-ink-muted">
+          از <bdi>{authorName(product.authorId)}</bdi>
+        </p>
+        <p className="my-2 text-[13px]" dir="auto">
+          {product.description}
+        </p>
         <LeafRating rating={product.rating} votes={product.votes} />
         <fieldset className="mt-3">
-          <legend className="label">Licence</legend>
+          <legend className="label">لایسنس</legend>
           {product.licenses.map((l) => (
             <label key={l.type} className="flex items-center justify-between gap-2 py-0.5 text-[13px]">
               <span className="flex items-center gap-2">
@@ -54,7 +59,7 @@ function QuickViewBody({ productId, onDone }: { productId: string; onDone: () =>
                   checked={license === l.type}
                   onChange={() => setLicense(l.type)}
                 />
-                {l.type}
+                {licenseLabel(l.type)}
               </span>
               <span className="font-bold">{money(licensePrice(product, l.type))}</span>
             </label>
@@ -67,14 +72,14 @@ function QuickViewBody({ productId, onDone }: { productId: string; onDone: () =>
             data-autofocus
             onClick={() => {
               add({ kind: 'product', id: product.id, license });
-              toast(`Added (${license} licence)`);
+              toast(`با لایسنس ${licenseLabel(license)} به سبد اضافه شد`);
               onDone();
             }}
           >
-            Add to cart · {money(licensePrice(product, license))}
+            افزودن به سبد · {money(licensePrice(product, license))}
           </button>
           <Link href={productHref(product)} className="btn-ghost" onClick={onDone}>
-            Full details
+            جزئیات کامل
           </Link>
         </div>
       </div>

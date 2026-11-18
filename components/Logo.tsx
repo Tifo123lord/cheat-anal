@@ -16,7 +16,7 @@ export default function Logo({ small = false }: { small?: boolean }) {
     <Link
       href="/"
       className="relative inline-block shrink-0 leading-none no-underline"
-      aria-label={`${SITE.name} home`}
+      aria-label={`صفحهٔ اصلی ${SITE.name}`}
     >
       <picture>
         <source

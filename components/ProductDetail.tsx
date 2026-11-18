@@ -46,11 +46,11 @@ export default function ProductDetail({ product, related }: { product: Product; 
     <Container className="mt-3 md:mt-[14px]">
       <div className="grid grid-cols-1 gap-[14px] lg:grid-cols-[630px_1fr] lg:gap-x-[18px]">
         <div className="min-w-0 lg:col-start-1 lg:row-start-1">
-          <nav aria-label="Breadcrumb" className="mb-2 text-[12px] text-[#cfc9b4]">
+          <nav aria-label="مسیر صفحه" className="mb-2 text-[12px] text-[#cfc9b4]">
             <ol className="flex flex-wrap gap-1">
               <li>
                 <Link href="/" className="hover:underline">
-                  Home
+                  خانه
                 </Link>{' '}
                 /
               </li>
@@ -60,17 +60,20 @@ export default function ProductDetail({ product, related }: { product: Product; 
                 </Link>{' '}
                 /
               </li>
-              <li aria-current="page" className="text-ink-light">
+              <li aria-current="page" className="text-ink-light" dir="auto">
                 {product.title}
               </li>
             </ol>
           </nav>
           <article className="frame on-paper p-3 sm:p-4">
-            <h1 className="font-serif text-[22px] font-bold leading-tight text-[color:var(--link-strong)]">
+            <h1
+              dir="auto"
+              className="product-title font-serif text-[22px] font-bold leading-tight text-[color:var(--link-strong)]"
+            >
               {product.title}
             </h1>
             <p className="mb-3 text-[12px] text-ink-muted">
-              by{' '}
+              از{' '}
               {author ? (
                 <Link href={`/authors/${product.authorId}/`} className="link">
                   {author.name}
@@ -78,27 +81,27 @@ export default function ProductDetail({ product, related }: { product: Product; 
               ) : (
                 <span className="font-bold">{authorLabel}</span>
               )}{' '}
-              · updated {formatDate(product.updatedAt)} · {product.sales.toLocaleString('en-US')} sales
+              · به‌روزرسانی {formatDate(product.updatedAt)} · {product.sales.toLocaleString('en-US')} فروش
             </p>
             <ProductGallery product={product} />
             <div className="mt-4">
               <Tabs
-                label="Product details"
+                label="جزئیات محصول"
                 tabs={[
                   {
                     id: 'description',
-                    label: 'Description',
+                    label: 'توضیحات',
                     content: (
                       <div className="prose-paper text-ink">
                         <p>{product.description}</p>
-                        <ul className="mb-3 list-disc space-y-1 pl-5 text-[13px]">
-                          <li>Formats: {product.fileTypes.join(', ')}</li>
-                          <li>Works with {product.compatibility.join(', ')}</li>
+                        <ul className="mb-3 list-disc space-y-1 ps-5 text-[13px]">
+                          <li>فرمت‌ها: {product.fileTypes.join('، ')}</li>
+                          <li>سازگار با {product.compatibility.join('، ')}</li>
                           <li>
-                            Version {product.version}, {product.fileSize}
+                            نسخهٔ {product.version}، {product.fileSize}
                           </li>
                         </ul>
-                        <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
+                        <ul className="flex flex-wrap gap-1.5" aria-label="برچسب‌ها">
                           {product.tags.map((t) => (
                             <li key={t}>
                               <Link
@@ -113,19 +116,19 @@ export default function ProductDetail({ product, related }: { product: Product; 
                       </div>
                     ),
                   },
-                  { id: 'reviews', label: 'Reviews', content: <Reviews product={product} /> },
+                  { id: 'reviews', label: 'نظرها', content: <Reviews product={product} /> },
                   {
                     id: 'changelog',
-                    label: 'Changelog',
+                    label: 'تغییرات نسخه‌ها',
                     content: (
                       <ol className="space-y-3">
                         {log.map((e) => (
-                          <li key={e.version} className="border-l-2 border-leaf pl-3">
+                          <li key={e.version} className="border-s-2 border-leaf ps-3">
                             <p className="text-[13px] font-bold text-ink">
                               v{e.version}{' '}
                               <span className="font-normal text-ink-muted">· {formatDate(e.date)}</span>
                             </p>
-                            <ul className="list-disc pl-5 text-[13px] text-ink">
+                            <ul className="list-disc ps-5 text-[13px] text-ink">
                               {e.notes.map((n) => (
                                 <li key={n}>{n}</li>
                               ))}
@@ -135,7 +138,7 @@ export default function ProductDetail({ product, related }: { product: Product; 
                       </ol>
                     ),
                   },
-                  { id: 'faq', label: 'FAQ', content: <Accordion items={PRODUCT_FAQ} /> },
+                  { id: 'faq', label: 'پرسش‌های پرتکرار', content: <Accordion items={PRODUCT_FAQ} /> },
                 ]}
               />
             </div>
@@ -147,7 +150,7 @@ export default function ProductDetail({ product, related }: { product: Product; 
         {relatedItems.length > 0 && (
           <section className="min-w-0 lg:col-start-1 lg:row-start-2" aria-labelledby="related-h">
             <h2 id="related-h" className="brand-heading mb-2 mt-2 text-[17px] text-ink-light">
-              You might also like
+              شاید این‌ها را هم بپسندی
             </h2>
             <ProductGrid items={relatedItems} />
           </section>

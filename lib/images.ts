@@ -71,7 +71,7 @@ export interface PreparedImage {
 }
 
 export const imageDecodeError = (name: string): string =>
-  `“${name}” could not be read as an image in this browser, so it was skipped.`;
+  `«${name}» در این مرورگر به‌عنوان تصویر خوانده نشد و کنار گذاشته شد.`;
 
 /** Load a blob through an <img> element (works for SVG and formats createImageBitmap rejects). */
 function loadImg(blob: Blob): Promise<HTMLImageElement> {
@@ -111,12 +111,12 @@ export async function resizeImage(file: Blob): Promise<Blob> {
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas is not available.');
+  if (!ctx) throw new Error('Canvas در دسترس نیست.');
   ctx.drawImage(d.src, 0, 0, width, height);
   d.done();
   const encode = (type: string): Promise<Blob | null> => new Promise((r) => canvas.toBlob(r, type, 0.86));
   const out = (await encode('image/webp')) ?? (await encode('image/jpeg'));
-  if (!out) throw new Error('Could not encode the image.');
+  if (!out) throw new Error('ذخیرهٔ تصویر ممکن نشد.');
   return out;
 }
 
@@ -126,13 +126,13 @@ export async function resizeImage(file: Blob): Promise<Blob> {
  * everything else is decoded and resized. Throws a user-facing message when it cannot be used.
  */
 export async function prepareImage(file: File): Promise<PreparedImage> {
-  if (!acceptsImageFile(file)) throw new Error(`“${file.name}” is not an image file, so it was skipped.`);
+  if (!acceptsImageFile(file)) throw new Error(`«${file.name}» فایل تصویری نیست و کنار گذاشته شد.`);
   const original =
     isSvgFile(file) || (isGifFile(file) && isAnimatedGif(new Uint8Array(await file.arrayBuffer())));
   if (original) {
     if (file.size > MAX_ORIGINAL_IMAGE_BYTES)
       throw new Error(
-        `“${file.name}” is ${formatBytes(file.size)}; SVG and animated GIF previews can be up to ${formatBytes(MAX_ORIGINAL_IMAGE_BYTES)}.`,
+        `حجم «${file.name}» ${formatBytes(file.size)} است؛ پیش‌نمایش‌های SVG و GIF متحرک حداکثر می‌توانند ${formatBytes(MAX_ORIGINAL_IMAGE_BYTES)} باشند.`,
       );
     const typed = new Blob([file], { type: isSvgFile(file) ? 'image/svg+xml' : 'image/gif' });
     try {

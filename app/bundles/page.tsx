@@ -6,8 +6,8 @@ import { TwoColumn } from '@/components/Layout';
 import { bundles } from '@/lib/catalog';
 
 export const metadata: Metadata = {
-  title: 'Bundles',
-  description: 'Hand-picked bundles of files at a fraction of the price.',
+  title: 'بسته‌ها',
+  description: 'بسته‌های دست‌چین فایل، با کسری از قیمت.',
   alternates: { canonical: '/bundles/' },
 };
 
@@ -15,10 +15,10 @@ export default function BundlesPage() {
   return (
     <TwoColumn>
       <div className="frame on-paper mb-[14px] p-3">
-        <h1 className="page-title !text-[19px]">Bundles</h1>
+        <h1 className="page-title !text-[19px]">بسته‌ها</h1>
         <p className="text-[12px] text-ink-muted">
-          Curated sets that work beautifully together. Prices shown for the Personal licence; switch licence
-          in your cart.
+          مجموعه‌هایی که کنار هم عالی کار می‌کنند. قیمت‌ها برای لایسنس شخصی است؛ لایسنس را می‌توانی در سبد
+          خرید عوض کنی.
         </p>
       </div>
       {bundles.length ? (
@@ -31,12 +31,12 @@ export default function BundlesPage() {
         </ul>
       ) : (
         <div className="frame on-paper" data-testid="bundles-empty">
-          <EmptyState title="No bundles yet">
-            Bundles of files will appear here once there are files to bundle. Meanwhile, browse the{' '}
+          <EmptyState title="هنوز بسته‌ای نیست">
+            وقتی فایل‌های کافی برای بسته‌بندی باشد، بسته‌ها همین‌جا ظاهر می‌شوند. تا آن موقع سری به{' '}
             <Link href="/shop/" className="link">
-              shop
-            </Link>
-            .
+              فروشگاه
+            </Link>{' '}
+            بزن.
           </EmptyState>
         </div>
       )}

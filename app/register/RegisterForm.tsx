@@ -29,12 +29,12 @@ export default function RegisterForm() {
         e.preventDefault();
         if (busy) return;
         const errs: Errors<F> = {};
-        if (v.name.trim().length < 2) errs.name = 'Tell us your name.';
-        if (!isEmail(v.email)) errs.email = 'Enter a valid email.';
+        if (v.name.trim().length < 2) errs.name = 'لطفاً نامت را وارد کن.';
+        if (!isEmail(v.email)) errs.email = 'یک ایمیل معتبر وارد کن.';
         const pwErr = passwordProblem(v.password);
         if (pwErr) errs.password = pwErr;
-        if (v.confirm !== v.password) errs.confirm = 'Passwords do not match.';
-        if (!v.terms) errs.terms = 'Please accept the terms.';
+        if (v.confirm !== v.password) errs.confirm = 'رمزهای عبور یکسان نیستند.';
+        if (!v.terms) errs.terms = 'لطفاً شرایط را بپذیر.';
         if (!Object.keys(errs).length) {
           setBusy(true);
           const msg = await register(v.name, v.email, v.password);
@@ -47,7 +47,7 @@ export default function RegisterForm() {
     >
       <FormField
         id="reg-name"
-        label="Name"
+        label="نام"
         autoComplete="name"
         value={v.name}
         onChange={(e) => set('name', e.target.value)}
@@ -55,7 +55,7 @@ export default function RegisterForm() {
       />
       <FormField
         id="reg-email"
-        label="Email"
+        label="ایمیل"
         type="email"
         autoComplete="email"
         value={v.email}
@@ -64,17 +64,17 @@ export default function RegisterForm() {
       />
       <FormField
         id="reg-password"
-        label="Password"
+        label="رمز عبور"
         type="password"
         autoComplete="new-password"
         value={v.password}
         onChange={(e) => set('password', e.target.value)}
         error={errors.password}
-        hint="At least 8 characters, including a number."
+        hint="دست‌کم ۸ کاراکتر، همراه با یک عدد."
       />
       <FormField
         id="reg-confirm"
-        label="Confirm password"
+        label="تکرار رمز عبور"
         type="password"
         autoComplete="new-password"
         value={v.confirm}
@@ -92,15 +92,15 @@ export default function RegisterForm() {
             aria-describedby={errors.terms ? 'reg-terms-err' : undefined}
           />
           <span>
-            I agree to the{' '}
+            با{' '}
             <Link href="/info/terms/" className="link">
-              terms
+              شرایط استفاده
             </Link>{' '}
-            and{' '}
+            و{' '}
             <Link href="/info/privacy/" className="link">
-              privacy notice
-            </Link>
-            .
+              سیاست حریم خصوصی
+            </Link>{' '}
+            موافقم.
           </span>
         </label>
         {errors.terms && (
@@ -115,12 +115,12 @@ export default function RegisterForm() {
         </p>
       )}
       <button type="submit" className="btn w-full !py-2" disabled={!hydrated || busy}>
-        {busy ? 'Creating…' : 'Create account'}
+        {busy ? 'در حال ساخت حساب…' : 'ساخت حساب'}
       </button>
       <p className="text-center text-[12px] text-ink">
-        Already have an account?{' '}
+        قبلاً ثبت‌نام کرده‌ای؟{' '}
         <Link href="/login/" className="link">
-          Sign in
+          وارد شو
         </Link>
       </p>
     </form>

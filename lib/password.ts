@@ -8,7 +8,7 @@ export const MIN_PASSWORD = 8;
 
 const subtle = (): SubtleCrypto => {
   const c = globalThis.crypto;
-  if (!c?.subtle) throw new Error('WebCrypto is not available in this browser.');
+  if (!c?.subtle) throw new Error('مرورگرت از WebCrypto پشتیبانی نمی‌کند.');
   return c.subtle;
 };
 
@@ -33,6 +33,6 @@ export async function verifyPassword(password: string, salt: string, hash: strin
 
 /** Returns an error message, or null when the password is acceptable. */
 export function passwordProblem(pw: string): string | null {
-  if (pw.length < MIN_PASSWORD) return `Use at least ${MIN_PASSWORD} characters.`;
+  if (pw.length < MIN_PASSWORD) return `رمز عبور باید دست‌کم ${MIN_PASSWORD} کاراکتر باشد.`;
   return null;
 }

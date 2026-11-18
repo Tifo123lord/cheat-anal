@@ -57,13 +57,15 @@ export default function AccountView() {
         <div className="min-w-0 space-y-[14px]">
           <section id="wishlist" className="frame on-paper p-3 sm:p-4" aria-labelledby="wl-h">
             <h2 id="wl-h" className="page-title !text-[19px]">
-              Wishlist
+              علاقه‌مندی‌ها
             </h2>
             {wish.length === 0 ? (
-              <EmptyState title="Nothing saved yet">Tap the heart on any file to save it here.</EmptyState>
+              <EmptyState title="هنوز چیزی ذخیره نکرده‌ای">
+                روی قلب هر فایل بزن تا اینجا ذخیره شود.
+              </EmptyState>
             ) : (
               <div className="mt-3">
-                <ProductGrid items={wish} label="Wishlist" />
+                <ProductGrid items={wish} label="علاقه‌مندی‌ها" />
               </div>
             )}
           </section>
@@ -71,16 +73,16 @@ export default function AccountView() {
         <aside className="min-w-0 space-y-[14px]">
           {!user ? (
             <section className="frame on-paper p-4 text-center">
-              <h1 className="page-title">Your account</h1>
+              <h1 className="page-title">حساب کاربری</h1>
               <p className="mt-1 text-[13px] text-ink">
-                Sign in to manage your profile. Your wishlist works without an account.
+                برای مدیریت پروفایلت وارد شو. علاقه‌مندی‌ها بدون حساب هم کار می‌کنند.
               </p>
               <div className="mt-3 flex justify-center gap-2">
                 <Link href="/login/" className="btn">
-                  Sign in
+                  ورود
                 </Link>
                 <Link href="/register/" className="btn-ghost">
-                  Register
+                  ثبت‌نام
                 </Link>
               </div>
             </section>
@@ -88,23 +90,25 @@ export default function AccountView() {
             <>
               <section className="frame on-paper p-4" aria-labelledby="acc-h">
                 <h1 id="acc-h" className="page-title">
-                  Account settings
+                  تنظیمات حساب
                 </h1>
-                <p className="text-[12px] text-ink-muted">{user.email}</p>
+                <p className="text-[12px] text-ink-muted">
+                  <bdi>{user.email}</bdi>
+                </p>
                 <form
                   noValidate
                   className="mt-3 space-y-3"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    if (name.trim().length < 2) return setNameErr('Name must be at least 2 characters.');
+                    if (name.trim().length < 2) return setNameErr('نام باید دست‌کم ۲ کاراکتر باشد.');
                     setNameErr('');
                     void update({ name: name.trim(), newsletter });
-                    toast('Profile saved');
+                    toast('پروفایل ذخیره شد');
                   }}
                 >
                   <FormField
                     id="acc-name"
-                    label="Display name"
+                    label="نام نمایشی"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     error={nameErr}
@@ -115,16 +119,16 @@ export default function AccountView() {
                       checked={newsletter}
                       onChange={(e) => setNewsletter(e.target.checked)}
                     />
-                    Weekly newsletter
+                    خبرنامهٔ هفتگی
                   </label>
                   <button type="submit" className="btn">
-                    Save profile
+                    ذخیرهٔ پروفایل
                   </button>
                 </form>
               </section>
               <section className="frame on-paper p-4" aria-labelledby="pw-h">
                 <h2 id="pw-h" className="widget-title">
-                  Change password
+                  تغییر رمز عبور
                 </h2>
                 <form
                   noValidate
@@ -132,7 +136,7 @@ export default function AccountView() {
                   onSubmit={async (e) => {
                     e.preventDefault();
                     const errs: typeof pwErr = {};
-                    if (!pw.current) errs.current = 'Enter your current password.';
+                    if (!pw.current) errs.current = 'رمز عبور فعلی را وارد کن.';
                     const nextErr = passwordProblem(pw.next);
                     if (nextErr) errs.next = nextErr;
                     if (!Object.keys(errs).length) {
@@ -142,13 +146,13 @@ export default function AccountView() {
                     setPwErr(errs);
                     if (!Object.keys(errs).length) {
                       setPw({ current: '', next: '' });
-                      toast('Password updated');
+                      toast('رمز عبور به‌روز شد');
                     }
                   }}
                 >
                   <FormField
                     id="pw-cur"
-                    label="Current password"
+                    label="رمز عبور فعلی"
                     type="password"
                     autoComplete="current-password"
                     value={pw.current}
@@ -157,7 +161,7 @@ export default function AccountView() {
                   />
                   <FormField
                     id="pw-new"
-                    label="New password"
+                    label="رمز عبور جدید"
                     type="password"
                     autoComplete="new-password"
                     value={pw.next}
@@ -165,19 +169,19 @@ export default function AccountView() {
                     error={pwErr.next}
                   />
                   <button type="submit" className="btn-olive">
-                    Update password
+                    به‌روزرسانی رمز عبور
                   </button>
                 </form>
               </section>
               <section className="frame on-paper space-y-2 p-4">
                 <p className="text-[12px] text-ink">
-                  {orders.length} {orders.length === 1 ? 'order' : 'orders'} ·{' '}
+                  {orders.length} سفارش ·{' '}
                   <Link href="/library/" className="link">
-                    My downloads
+                    دانلودهای من
                   </Link>{' '}
                   ·{' '}
                   <Link href="/dashboard/" className="link">
-                    Author dashboard
+                    داشبورد سازنده
                   </Link>
                 </p>
                 <button
@@ -188,7 +192,7 @@ export default function AccountView() {
                     router.push('/');
                   }}
                 >
-                  Sign out
+                  خروج
                 </button>
               </section>
             </>

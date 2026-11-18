@@ -28,16 +28,16 @@ export default function CategoryProducts({
   if (!items.length) {
     return (
       <div className="frame on-paper" data-testid="category-empty">
-        <EmptyState title={emptyTitle}>New files land here as soon as they are published.</EmptyState>
+        <EmptyState title={emptyTitle}>فایل‌های جدید به محض انتشار همین‌جا قرار می‌گیرند.</EmptyState>
       </div>
     );
   }
   return (
     <>
       <p className="sr-only" aria-live="polite">
-        {plural(items.length, 'file')} in this category
+        {plural(items.length, 'فایل')} در این دسته‌بندی
       </p>
-      <ProductGrid items={items} label="Files in this category" />
+      <ProductGrid items={items} label="فایل‌های این دسته‌بندی" />
     </>
   );
 }

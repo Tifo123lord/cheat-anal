@@ -65,7 +65,7 @@ export default function Modal({ open, onClose, title, children, variant = 'cente
     variant === 'sheet'
       ? 'sheet-enter fixed inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-xl'
       : variant === 'drawer'
-        ? 'drawer-enter fixed inset-y-0 left-0 w-[86%] max-w-[320px] overflow-y-auto rounded-r-xl'
+        ? 'drawer-enter fixed inset-y-0 start-0 w-[86%] max-w-[320px] overflow-y-auto rounded-e-xl'
         : `fade-in relative mx-auto my-[6vh] max-h-[88vh] w-[calc(100%-24px)] overflow-y-auto rounded-lg ${wide ? 'max-w-[820px]' : 'max-w-[640px]'}`;
 
   return (
@@ -84,7 +84,7 @@ export default function Modal({ open, onClose, title, children, variant = 'cente
             type="button"
             onClick={onClose}
             className="rounded-full p-1.5 text-ink hover:bg-paper-dark"
-            aria-label="Close"
+            aria-label="بستن"
           >
             <CloseIcon size={18} />
           </button>

@@ -1,80 +1,80 @@
 [
   {
     "id": "templates",
-    "name": "Website Templates",
+    "name": "قالب‌های وب‌سایت",
     "icon": "browser",
     "art": "browser"
   },
   {
     "id": "ui-kits",
-    "name": "UI Kits",
+    "name": "کیت‌های رابط کاربری",
     "icon": "layers",
     "art": "uikit"
   },
   {
     "id": "fonts",
-    "name": "Fonts",
+    "name": "فونت‌ها",
     "icon": "type",
     "art": "type"
   },
   {
     "id": "icons",
-    "name": "Icon Packs",
+    "name": "پک‌های آیکون",
     "icon": "grid",
     "art": "icons"
   },
   {
     "id": "mockups",
-    "name": "Mockups",
+    "name": "ماکاپ‌ها",
     "icon": "device",
     "art": "device"
   },
   {
     "id": "3d",
-    "name": "3D Assets",
+    "name": "فایل‌های سه‌بعدی",
     "icon": "cube",
     "art": "shape3d"
   },
   {
     "id": "presets",
-    "name": "Presets",
+    "name": "پریست‌ها",
     "icon": "sliders",
     "art": "gradient"
   },
   {
     "id": "ebooks",
-    "name": "Ebooks",
+    "name": "کتاب‌های الکترونیکی",
     "icon": "book",
     "art": "book"
   },
   {
     "id": "code",
-    "name": "Source Code",
+    "name": "سورس‌کد",
     "icon": "code",
     "art": "code"
   },
   {
     "id": "illustrations",
-    "name": "Illustrations",
+    "name": "تصویرسازی‌ها",
     "icon": "brush",
     "art": "illustration"
   },
   {
     "id": "textures",
-    "name": "Textures",
+    "name": "تکسچرها",
     "icon": "texture",
     "art": "texture"
   },
   {
     "id": "motion",
-    "name": "Motion",
+    "name": "موشن",
     "icon": "play",
     "art": "motion"
   },
   {
     "id": "cheats",
-    "name": "Cheats",
-    "description": "Configs, scripts and mods: dll, lua, cfg and more",
+    "name": "چیت‌ها",
+    "description": "کانفیگ، اسکریپت و ماد: dll، lua، cfg و بیشتر",
     "icon": "crosshair",
     "art": "code"
   }

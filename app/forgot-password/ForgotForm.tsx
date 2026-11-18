@@ -13,11 +13,11 @@ export default function ForgotForm() {
     return (
       <div role="status" className="space-y-3 text-[13px] text-ink">
         <p>
-          If an account exists for <strong>{email}</strong>, a reset link is on its way. (Demo: no email is
-          actually sent.)
+          اگر حسابی با <bdi className="font-bold">{email}</bdi> وجود داشته باشد، لینک بازیابی در راه است.
+          (نسخهٔ نمایشی: در واقع ایمیلی فرستاده نمی‌شود.)
         </p>
         <Link href="/login/" className="btn">
-          Back to sign in
+          بازگشت به صفحهٔ ورود
         </Link>
       </div>
     );
@@ -28,14 +28,14 @@ export default function ForgotForm() {
       className="space-y-3"
       onSubmit={(e) => {
         e.preventDefault();
-        if (!isEmail(email)) return setError('Enter the email you signed up with.');
+        if (!isEmail(email)) return setError('ایمیلی را که با آن ثبت‌نام کرده‌ای وارد کن.');
         setError('');
         setSent(true);
       }}
     >
       <FormField
         id="fp-email"
-        label="Email"
+        label="ایمیل"
         type="email"
         autoComplete="email"
         value={email}
@@ -43,11 +43,11 @@ export default function ForgotForm() {
         error={error}
       />
       <button type="submit" className="btn w-full !py-2">
-        Send reset link
+        ارسال لینک بازیابی
       </button>
       <p className="text-center text-[12px]">
         <Link href="/login/" className="link">
-          Back to sign in
+          بازگشت به صفحهٔ ورود
         </Link>
       </p>
     </form>

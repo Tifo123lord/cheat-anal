@@ -43,10 +43,10 @@ export default function ProductView() {
     return (
       <Container className="mt-3 md:mt-[14px]">
         <section className="frame on-paper p-5">
-          <EmptyState title="File not found">
-            This file is not available in this browser.{' '}
+          <EmptyState title="فایل پیدا نشد">
+            این فایل در دسترس نیست.{' '}
             <Link href="/shop/" className="link">
-              Browse the shop
+              گشتی در فروشگاه بزن
             </Link>
             .
           </EmptyState>
@@ -62,7 +62,7 @@ export default function ProductView() {
             role="status"
             className="rounded-md border border-[#c9a54a] bg-[#f3e6b8] p-2 text-[12px] text-ink"
           >
-            Preview: this file is unpublished and only visible to admins.
+            پیش‌نمایش: این فایل منتشر نشده و فقط مدیرها آن را می‌بینند.
           </p>
         </Container>
       )}

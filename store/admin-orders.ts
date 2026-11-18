@@ -23,7 +23,7 @@ export const useAdminOrders = create<AdminOrdersState>()((set) => ({
       ) as { data: Order; status: OrderStatus }[];
       set({ orders: rows.map((r) => ({ ...r.data, status: r.status })) });
     } catch (e) {
-      set({ error: e instanceof Error ? e.message : 'Could not load orders' });
+      set({ error: e instanceof Error ? e.message : 'بارگذاری سفارش‌ها انجام نشد' });
     } finally {
       set({ loading: false });
     }

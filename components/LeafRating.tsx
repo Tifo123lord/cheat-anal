@@ -46,7 +46,7 @@ export function LeafRow({ rating, size = 14 }: { rating: number; size?: number }
     <span
       className="leaf-row inline-flex items-center gap-[1px]"
       role="img"
-      aria-label={`${rating.toFixed(1)} out of 5 leaves`}
+      aria-label={`${rating.toFixed(1)} از ۵ برگ`}
     >
       {leafFills(rating).map((f, i) => (
         <Leaf key={i} fill={f} size={size} />
@@ -91,7 +91,7 @@ export function LeafInput({
   return (
     <div
       role="radiogroup"
-      aria-label="Your rating"
+      aria-label="امتیاز تو"
       aria-invalid={invalid || undefined}
       aria-describedby={describedBy}
       className="inline-flex items-center gap-1"
@@ -106,14 +106,16 @@ export function LeafInput({
             checked={value === n}
             onChange={() => onChange(n)}
             className="peer sr-only"
-            aria-label={`${n} ${n === 1 ? 'leaf' : 'leaves'}`}
+            aria-label={`${n} برگ`}
           />
           <span className="inline-block rounded peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-olive-dark">
             <Leaf fill={n <= shown ? 1 : 0} size={24} />
           </span>
         </label>
       ))}
-      <span className="ml-2 text-[12px] text-ink-muted">{value ? `${value} / 5` : 'Choose 1–5'}</span>
+      <span className="ms-2 text-[12px] text-ink-muted">
+        {value ? `${value} از 5` : 'از ۱ تا ۵ انتخاب کن'}
+      </span>
     </div>
   );
 }

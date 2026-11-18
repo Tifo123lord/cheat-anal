@@ -29,19 +29,19 @@ export default function SiteHeader() {
           <button
             type="button"
             className="rounded-md border border-[#3d3b28] bg-olive-dark/80 p-2 text-ink-light md:hidden"
-            aria-label="Open menu"
+            aria-label="باز کردن منو"
             aria-expanded={drawer}
             aria-controls="mobile-drawer"
             onClick={() => setDrawer(true)}
           >
             <MenuIcon size={20} />
           </button>
-          <div className="md:-mt-2 md:pl-6">
+          <div className="md:-mt-2 md:ps-6">
             <Logo />
           </div>
         </div>
         <nav
-          aria-label="Account"
+          aria-label="حساب کاربری"
           className="hidden items-center gap-3 self-start pt-3 text-[11px] text-ink-light/90 md:flex"
         >
           <Link
@@ -49,27 +49,27 @@ export default function SiteHeader() {
             className="inline-flex items-center gap-1 hover:text-white"
           >
             <UserIcon size={13} />
-            {hydrated && user ? user.name.split(' ')[0] : 'Sign in'}
+            {hydrated && user ? <bdi>{user.name.split(' ')[0]}</bdi> : 'ورود'}
           </Link>
           {hydrated && user?.role === 'admin' && (
             <Link
               href="/admin/"
               className="inline-flex items-center gap-1 font-bold text-[#ff8a96] hover:text-white"
             >
-              Admin
+              مدیریت
             </Link>
           )}
           <Link
             href="/account/#wishlist"
             className="inline-flex items-center gap-1 hover:text-white"
-            aria-label={`Wishlist, ${hydrated ? wish : 0} items`}
+            aria-label={`علاقه‌مندی‌ها، ${hydrated ? wish : 0} مورد`}
           >
             <HeartIcon size={13} /> {hydrated ? wish : 0}
           </Link>
           <Link
             href="/cart/"
             className="inline-flex items-center gap-1 hover:text-white"
-            aria-label={`Cart, ${hydrated ? count : 0} items`}
+            aria-label={`سبد خرید، ${hydrated ? count : 0} مورد`}
           >
             <CartIcon size={13} /> {hydrated ? count : 0}
           </Link>
@@ -77,11 +77,11 @@ export default function SiteHeader() {
         <Link
           href="/cart/"
           className="relative mt-3 rounded-md border border-[#3d3b28] bg-olive-dark/80 p-2 text-ink-light md:hidden"
-          aria-label={`Cart, ${hydrated ? count : 0} items`}
+          aria-label={`سبد خرید، ${hydrated ? count : 0} مورد`}
         >
           <CartIcon size={20} />
           {hydrated && count > 0 && (
-            <span className="absolute -right-1.5 -top-1.5 rounded-full bg-leaf px-1.5 text-[10px] font-bold text-white">
+            <span className="absolute -end-1.5 -top-1.5 rounded-full bg-leaf px-1.5 text-[10px] font-bold text-white">
               {count}
             </span>
           )}
@@ -90,7 +90,7 @@ export default function SiteHeader() {
 
       {/* 2. olive nav bar */}
       <div className="mx-auto hidden max-w-site px-3 md:block lg:px-0">
-        <nav aria-label="Main" className="navbar flex flex-wrap items-center gap-y-1 px-2.5 py-[7px]">
+        <nav aria-label="منوی اصلی" className="navbar flex flex-wrap items-center gap-y-1 px-2.5 py-[7px]">
           <ul className="flex flex-1 flex-wrap items-center">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
@@ -104,13 +104,13 @@ export default function SiteHeader() {
               </li>
             ))}
           </ul>
-          <div className="w-[170px] shrink-0 py-0.5 pr-1">
+          <div className="w-[170px] shrink-0 py-0.5 pe-1">
             <SearchBox />
           </div>
         </nav>
       </div>
 
-      <Modal open={drawer} onClose={() => setDrawer(false)} title="Menu" variant="drawer">
+      <Modal open={drawer} onClose={() => setDrawer(false)} title="منو" variant="drawer">
         <div id="mobile-drawer">
           <SearchBox variant="panel" onNavigate={() => setDrawer(false)} />
           <ul className="mt-3 divide-y divide-[#c2b99f]">
@@ -129,17 +129,17 @@ export default function SiteHeader() {
           </ul>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Link href="/library/" onClick={() => setDrawer(false)} className="btn-ghost">
-              My downloads
+              دانلودهای من
             </Link>
             <Link href="/dashboard/" onClick={() => setDrawer(false)} className="btn-ghost">
-              Author dashboard
+              داشبورد سازنده
             </Link>
             <Link href="/journal/" onClick={() => setDrawer(false)} className="btn-ghost">
-              Journal
+              مجله
             </Link>
             {hydrated && user?.role === 'admin' && (
               <Link href="/admin/" onClick={() => setDrawer(false)} className="btn-ghost">
-                Admin panel
+                پنل مدیریت
               </Link>
             )}
             <Link
@@ -147,11 +147,11 @@ export default function SiteHeader() {
               onClick={() => setDrawer(false)}
               className="btn-ghost"
             >
-              {user ? 'Account' : 'Sign in'}
+              {user ? 'حساب کاربری' : 'ورود'}
             </Link>
           </div>
           <button type="button" className="sr-only focus:not-sr-only" onClick={() => setDrawer(false)}>
-            <CloseIcon size={14} /> Close menu
+            <CloseIcon size={14} /> بستن منو
           </button>
         </div>
       </Modal>

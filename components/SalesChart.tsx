@@ -21,9 +21,15 @@ export default function SalesChart({ data }: { data: Point[] }) {
   const ticks = [0, 0.25, 0.5, 0.75, 1];
   return (
     <figure className="m-0">
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-labelledby="chart-t chart-d">
-        <title id="chart-t">Monthly sales and earnings</title>
-        <desc id="chart-d">Bars show units sold per month; the line shows net earnings in dollars.</desc>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="h-auto w-full"
+        role="img"
+        direction="ltr"
+        aria-labelledby="chart-t chart-d"
+      >
+        <title id="chart-t">فروش و درآمد ماهانه</title>
+        <desc id="chart-d">ستون‌ها تعداد فروش هر ماه و خط، درآمد خالص به دلار را نشان می‌دهد.</desc>
         {ticks.map((t) => (
           <g key={t}>
             <line
@@ -65,10 +71,10 @@ export default function SalesChart({ data }: { data: Point[] }) {
       </svg>
       <figcaption className="mt-1 flex gap-4 text-[11px] text-ink-muted">
         <span className="inline-flex items-center gap-1">
-          <span className="inline-block h-2.5 w-2.5 rounded-sm bg-leaf" /> Units sold
+          <span className="inline-block h-2.5 w-2.5 rounded-sm bg-leaf" /> تعداد فروش
         </span>
         <span className="inline-flex items-center gap-1">
-          <span className="inline-block h-0.5 w-4 bg-sale" /> Net earnings
+          <span className="inline-block h-0.5 w-4 bg-sale" /> درآمد خالص
         </span>
       </figcaption>
     </figure>

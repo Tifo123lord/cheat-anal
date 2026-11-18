@@ -24,16 +24,19 @@ export default function BundleCard({ bundle }: { bundle: Bundle }) {
       <div className="flex items-start justify-between gap-2">
         <h2
           id={`b-${bundle.id}`}
+          dir="auto"
           className="font-serif text-[17px] font-bold text-[color:var(--link-strong)]"
         >
           {bundle.title}
         </h2>
-        <p className="shrink-0 text-right">
+        <p className="shrink-0 text-end">
           <span className="block font-display text-[20px] font-bold text-ink">{money(price)}</span>
-          <s className="text-[11px] text-ink-muted">{money(value)} value</s>
+          <s className="text-[11px] text-ink-muted">ارزش {money(value)}</s>
         </p>
       </div>
-      <p className="text-[12px] text-ink">{bundle.description}</p>
+      <p className="text-[12px] text-ink" dir="auto">
+        {bundle.description}
+      </p>
       <ul className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
         {items.map((p) => (
           <li key={p.id}>
@@ -41,7 +44,10 @@ export default function BundleCard({ bundle }: { bundle: Bundle }) {
               <span className="inset-img block overflow-hidden">
                 <ProductImage product={p} alt="" sizes="140px" />
               </span>
-              <span className="mt-1 block truncate text-[11px] font-semibold text-ink hover:underline">
+              <span
+                dir="auto"
+                className="mt-1 block truncate text-[11px] font-semibold text-ink hover:underline"
+              >
                 {p.title.split(' — ')[0]}
               </span>
             </Link>
@@ -49,16 +55,18 @@ export default function BundleCard({ bundle }: { bundle: Bundle }) {
         ))}
       </ul>
       <div className="mt-3 flex items-center justify-between gap-2 border-t border-[#c2b99f] pt-2">
-        <span className="rounded bg-sale px-1.5 py-0.5 text-[11px] font-bold text-white">Save {save}%</span>
+        <span className="rounded bg-sale px-1.5 py-0.5 text-[11px] font-bold text-white">
+          {save}٪ صرفه‌جویی
+        </span>
         <button
           type="button"
           className="btn"
           onClick={() => {
             add({ kind: 'bundle', id: bundle.id, license: 'Personal' });
-            toast(`${bundle.title} bundle added to cart`);
+            toast(`بستهٔ «${bundle.title}» به سبد خرید اضافه شد`);
           }}
         >
-          {hydrated && inCart ? 'In cart ✓' : 'Add bundle to cart'}
+          {hydrated && inCart ? 'در سبد ✓' : 'افزودن بسته به سبد'}
         </button>
       </div>
     </article>
