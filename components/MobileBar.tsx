@@ -20,7 +20,7 @@ export default function MobileBar() {
     <>
       <nav
         aria-label="دسترسی سریع"
-        className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-[#23221a] bg-gradient-to-b from-olive to-olive-dark pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="no-print fixed inset-x-0 bottom-0 z-40 glass-olive pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <div className="flex">
           <button type="button" className={item} onClick={() => setSearch(true)}>

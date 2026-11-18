@@ -13,7 +13,7 @@ export default function Sidebar() {
   const tags = allTags();
   const max = tags[0]?.count ?? 1;
   return (
-    <CreamFrame as="aside" label="ستون کناری" className="overflow-hidden">
+    <CreamFrame as="aside" label="ستون کناری" className="glass-side overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-[#bcb399] px-3 py-2.5 text-[10px] font-bold uppercase leading-tight text-ink">
         <a href={asset('/feed.xml')} className="flex items-center gap-1.5 hover:underline">
           <span className="rounded bg-[#e0892f] p-1 text-white">
@@ -54,7 +54,7 @@ export default function Sidebar() {
                 href={`/category/${c.id}/`}
                 title={c.name}
                 aria-label={c.name}
-                className="flex aspect-square items-center justify-center rounded-[3px] border border-[#9a8f6e] bg-gradient-to-b from-[#d6c79f] to-[#b9a777] text-[#4a4026] shadow-[inset_0_1px_0_rgba(255,255,255,.5)] hover:from-[#e2d6b3]"
+                className="glass-tile flex aspect-square items-center justify-center rounded-[5px]"
               >
                 <CategoryIcon name={c.icon} size={14} />
               </Link>

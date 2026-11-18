@@ -136,14 +136,50 @@ html[lang='fa'] body * {
   }
 
   /* Beveled olive nav bar with rounded ends. */
-  .navbar {
-    background: linear-gradient(180deg, #77744f 0%, var(--olive) 45%, var(--olive-dark) 100%);
-    border: 1px solid #23221a;
-    border-radius: 9px;
+  /* Glass olive bar with a glossy glaze (navbar, mobile bar). */
+  .navbar,
+  .glass-olive {
+    position: relative;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(255, 255, 255, 0.04) 48%,
+        transparent 52%
+      ),
+      linear-gradient(135deg, rgba(150, 146, 92, 0.7), rgba(85, 82, 48, 0.62) 50%, rgba(46, 72, 58, 0.66));
+    backdrop-filter: blur(14px) saturate(170%);
+    -webkit-backdrop-filter: blur(14px) saturate(170%);
+    border: 1px solid rgba(235, 230, 190, 0.38);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.35),
-      0 4px 12px rgba(0, 0, 0, 0.6);
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+      0 6px 20px rgba(0, 0, 0, 0.5),
+      0 0 22px rgba(200, 190, 110, 0.12);
+  }
+  .navbar {
+    border-radius: 9px;
+  }
+  /* Frosted glass sidebar. */
+  .glass-side {
+    background: linear-gradient(160deg, rgba(255, 252, 240, 0.62), rgba(225, 215, 185, 0.48)) !important;
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  }
+  .glass-tile {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(190, 175, 120, 0.4));
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 2px 6px rgba(0, 0, 0, 0.18);
+    color: #4a4026;
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease;
+  }
+  .glass-tile:hover {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.7), rgba(230, 60, 100, 0.35));
+    transform: translateY(-1px);
   }
   .nav-link {
     font-family: var(--font-fa), var(--font-body), system-ui, sans-serif;
