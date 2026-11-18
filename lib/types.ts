@@ -120,7 +120,11 @@ export interface Order {
   ownerEmail?: string;
   createdAt: string;
   licenseKeys: string[];
+  /** Payment state from the server; downloads open only once an admin marks the order paid. */
+  status?: OrderStatus;
 }
+
+export type OrderStatus = 'pending' | 'paid' | 'cancelled';
 
 export interface Review {
   id: string;

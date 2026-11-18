@@ -17,6 +17,8 @@ import { useAdminCatalog } from '@/store/admin-catalog';
 import { useLibrary } from '@/store/library';
 import { useUI } from '@/store/ui';
 import { useRequireLogin } from '@/components/useRequireLogin';
+import TelegramIcon from '@/components/TelegramIcon';
+import { telegramOrderLink } from '@/lib/telegram';
 
 const imagesFor = (kind: 'product' | 'bundle', id: string): string[] =>
   kind === 'product'
@@ -109,7 +111,14 @@ export default function LibraryView() {
               <li key={o.id} className="rounded-md border border-[#a49b82] bg-paper-light/50">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#bcb399] px-3 py-2 text-[12px] text-ink">
                   <span>
-                    Order <strong>{o.id}</strong> · {formatDate(o.createdAt)} · {money2(o.total)}
+                    Order <strong>{o.id}</strong> · {formatDate(o.createdAt)} · {money2(o.total)} ·{' '}
+                    <strong data-testid="order-status">
+                      {o.status === 'paid'
+                        ? 'Paid'
+                        : o.status === 'cancelled'
+                          ? 'Cancelled'
+                          : 'Awaiting payment'}
+                    </strong>
                   </span>
                   <Link href={`/library/invoice/?order=${encodeURIComponent(o.id)}`} className="link">
                     View invoice
@@ -150,21 +159,41 @@ export default function LibraryView() {
                             </button>
                           </p>
                         </div>
-                        <div className="text-right">
-                          <button
-                            type="button"
-                            className="btn"
-                            onClick={() => download(o.id, o.name, i)}
-                            disabled={preparing === key}
-                            aria-live="polite"
-                          >
-                            <DownloadIcon size={13} />{' '}
-                            {preparing === key ? 'Preparing…' : i.downloads ? 'Download again' : 'Download'}
-                          </button>
-                          <p className="mt-1 text-[11px] text-ink-muted">
-                            Downloaded {i.downloads} {i.downloads === 1 ? 'time' : 'times'}
-                          </p>
-                        </div>
+                        {o.status !== 'paid' ? (
+                          <div className="text-right text-[11px] text-ink-muted">
+                            {o.status === 'cancelled' ? (
+                              'Cancelled'
+                            ) : (
+                              <>
+                                <a
+                                  href={telegramOrderLink(o)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn"
+                                >
+                                  <TelegramIcon size={13} /> Pay on Telegram
+                                </a>
+                                <p className="mt-1">Download opens after payment</p>
+                              </>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="text-right">
+                            <button
+                              type="button"
+                              className="btn"
+                              onClick={() => download(o.id, o.name, i)}
+                              disabled={preparing === key}
+                              aria-live="polite"
+                            >
+                              <DownloadIcon size={13} />{' '}
+                              {preparing === key ? 'Preparing…' : i.downloads ? 'Download again' : 'Download'}
+                            </button>
+                            <p className="mt-1 text-[11px] text-ink-muted">
+                              Downloaded {i.downloads} {i.downloads === 1 ? 'time' : 'times'}
+                            </p>
+                          </div>
+                        )}
                       </li>
                     );
                   })}

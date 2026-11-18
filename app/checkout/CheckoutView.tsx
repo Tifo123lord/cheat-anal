@@ -6,25 +6,20 @@ import { useEffect, useState } from 'react';
 import CartSummary from '@/components/CartSummary';
 import CouponForm from '@/components/CouponForm';
 import EmptyState from '@/components/EmptyState';
-import { LockIcon } from '@/components/Icons';
 import { Container } from '@/components/Layout';
 import { cartRows, totalsFor } from '@/lib/cart-view';
 import { money } from '@/lib/format';
 import { licenseKey, orderNumber } from '@/lib/keys';
 import type { Order } from '@/lib/types';
-import { isEmail, luhn, validCvc, validExpiry, type Errors } from '@/lib/validation';
+import { telegramOrderLink, telegramProfile, TELEGRAM_USERNAME } from '@/lib/telegram';
+import { isEmail, type Errors } from '@/lib/validation';
+import TelegramIcon from '@/components/TelegramIcon';
 import { useRequireLogin } from '@/components/useRequireLogin';
 import { useCart } from '@/store/cart';
 import { useHydrated } from '@/store/hydration';
 import { useLibrary } from '@/store/library';
 
-type Field = 'name' | 'email' | 'card' | 'expiry' | 'cvc' | 'country' | 'terms';
-
-const fmtCard = (v: string): string =>
-  v
-    .replace(/\D/g, '')
-    .slice(0, 19)
-    .replace(/(\d{4})(?=\d)/g, '$1 ');
+type Field = 'name' | 'email' | 'terms';
 
 export default function CheckoutView() {
   const router = useRouter();
@@ -37,15 +32,7 @@ export default function CheckoutView() {
   const rows = cartRows(lines);
   const totals = totalsFor(lines, coupon);
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    card: '',
-    expiry: '',
-    cvc: '',
-    country: 'United States',
-    terms: false,
-  });
+  const [form, setForm] = useState({ name: '', email: '', terms: false });
   const [errors, setErrors] = useState<Errors<Field>>({});
   const [busy, setBusy] = useState(false);
   const [placed, setPlaced] = useState(false);
@@ -58,12 +45,8 @@ export default function CheckoutView() {
 
   const validate = (): Errors<Field> => {
     const e: Errors<Field> = {};
-    if (form.name.trim().length < 2) e.name = 'Enter the name on the card.';
-    if (!isEmail(form.email)) e.email = 'Enter a valid email for your receipt.';
-    if (!luhn(form.card)) e.card = 'This card number is not valid (demo: 4242 4242 4242 4242).';
-    if (!validExpiry(form.expiry)) e.expiry = 'Use MM/YY, not in the past.';
-    if (!validCvc(form.cvc)) e.cvc = '3 or 4 digits.';
-    if (!form.country) e.country = 'Choose a country.';
+    if (form.name.trim().length < 2) e.name = 'Enter your name.';
+    if (!isEmail(form.email)) e.email = 'Enter a valid email.';
     if (!form.terms) e.terms = 'Please accept the licence terms.';
     return e;
   };
@@ -78,43 +61,51 @@ export default function CheckoutView() {
       return;
     }
     setBusy(true);
-    window.setTimeout(() => {
-      const id = orderNumber();
-      const items = rows.map((r) => ({
-        kind: r.line.kind,
-        id: r.line.id,
-        title: r.title,
-        license: r.line.license,
-        price: r.price,
-        licenseKey: licenseKey(id, r.line.id, r.line.license),
-        downloads: 0,
-      }));
-      const order: Order = {
-        id,
-        items,
-        subtotal: totals.subtotal,
-        discount: totals.discount,
-        tax: totals.tax,
-        total: totals.total,
-        coupon: totals.coupon?.code,
-        email: form.email.trim(),
-        name: form.name.trim(),
-        ownerEmail: user?.email,
-        createdAt: new Date().toISOString(),
-        licenseKeys: items.map((i) => i.licenseKey),
-      };
-      addOrder(order).then(
-        () => {
-          setPlaced(true);
-          clear();
-          router.push(`/checkout/success/?order=${encodeURIComponent(id)}`);
-        },
-        (ex: unknown) => {
-          setBusy(false);
-          setErrors({ terms: `Could not save the order: ${ex instanceof Error ? ex.message : 'server error'}.` });
-        },
-      );
-    }, 900);
+    // Opened now, inside the click, so the browser does not block it; pointed at Telegram once the order is saved.
+    const tab = window.open('', '_blank');
+    const id = orderNumber();
+    const items = rows.map((r) => ({
+      kind: r.line.kind,
+      id: r.line.id,
+      title: r.title,
+      license: r.line.license,
+      price: r.price,
+      licenseKey: licenseKey(id, r.line.id, r.line.license),
+      downloads: 0,
+    }));
+    const order: Order = {
+      id,
+      items,
+      subtotal: totals.subtotal,
+      discount: totals.discount,
+      tax: totals.tax,
+      total: totals.total,
+      coupon: totals.coupon?.code,
+      email: form.email.trim(),
+      name: form.name.trim(),
+      ownerEmail: user?.email,
+      createdAt: new Date().toISOString(),
+      licenseKeys: items.map((i) => i.licenseKey),
+      status: 'pending',
+    };
+    addOrder(order).then(
+      () => {
+        if (tab) {
+          tab.opener = null;
+          tab.location.href = telegramOrderLink(order);
+        }
+        setPlaced(true);
+        clear();
+        router.push(`/checkout/success/?order=${encodeURIComponent(id)}`);
+      },
+      (ex: unknown) => {
+        tab?.close();
+        setBusy(false);
+        setErrors({
+          terms: `Could not save the order: ${ex instanceof Error ? ex.message : 'server error'}.`,
+        });
+      },
+    );
   };
 
   const err = (k: Field) =>
@@ -161,19 +152,22 @@ export default function CheckoutView() {
           <h1 id="co-h" className="page-title">
             Checkout
           </h1>
-          <p className="mb-3 flex items-center gap-1 text-[12px] text-ink-muted">
-            <LockIcon size={12} /> Demo checkout: no real payment is taken. Use 4242 4242 4242 4242, any
-            future date and any CVC.
+          <p className="mb-3 text-[12px] text-ink">
+            Pay on Telegram: place the order, send the ready-made message to{' '}
+            <a href={telegramProfile()} className="link" target="_blank" rel="noopener noreferrer">
+              @{TELEGRAM_USERNAME}
+            </a>{' '}
+            and your downloads open in My downloads as soon as the payment is confirmed.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="co-name" className="label">
-                Name on card
+                Your name
               </label>
               <input
                 id="co-name"
                 className="field"
-                autoComplete="cc-name"
+                autoComplete="name"
                 value={form.name}
                 onChange={(e) => set('name', e.target.value)}
                 {...aria('name')}
@@ -182,7 +176,7 @@ export default function CheckoutView() {
             </div>
             <div>
               <label htmlFor="co-email" className="label">
-                Email for receipt
+                Email
               </label>
               <input
                 id="co-email"
@@ -194,84 +188,6 @@ export default function CheckoutView() {
                 {...aria('email')}
               />
               {err('email')}
-            </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="co-card" className="label">
-                Card number
-              </label>
-              <input
-                id="co-card"
-                className="field tracking-wider"
-                inputMode="numeric"
-                autoComplete="cc-number"
-                placeholder="1234 1234 1234 1234"
-                value={form.card}
-                onChange={(e) => set('card', fmtCard(e.target.value))}
-                {...aria('card')}
-              />
-              {err('card')}
-            </div>
-            <div>
-              <label htmlFor="co-expiry" className="label">
-                Expiry (MM/YY)
-              </label>
-              <input
-                id="co-expiry"
-                className="field"
-                inputMode="numeric"
-                autoComplete="cc-exp"
-                placeholder="08/29"
-                value={form.expiry}
-                onChange={(e) => {
-                  const d = e.target.value.replace(/\D/g, '').slice(0, 4);
-                  set('expiry', d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d);
-                }}
-                {...aria('expiry')}
-              />
-              {err('expiry')}
-            </div>
-            <div>
-              <label htmlFor="co-cvc" className="label">
-                CVC
-              </label>
-              <input
-                id="co-cvc"
-                className="field"
-                inputMode="numeric"
-                autoComplete="cc-csc"
-                placeholder="123"
-                value={form.cvc}
-                onChange={(e) => set('cvc', e.target.value.replace(/\D/g, '').slice(0, 4))}
-                {...aria('cvc')}
-              />
-              {err('cvc')}
-            </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="co-country" className="label">
-                Billing country
-              </label>
-              <select
-                id="co-country"
-                className="field"
-                value={form.country}
-                onChange={(e) => set('country', e.target.value)}
-                {...aria('country')}
-              >
-                {[
-                  'United States',
-                  'Canada',
-                  'United Kingdom',
-                  'Germany',
-                  'France',
-                  'Netherlands',
-                  'Australia',
-                  'Japan',
-                  'Other',
-                ].map((c) => (
-                  <option key={c}>{c}</option>
-                ))}
-              </select>
-              {err('country')}
             </div>
             <div className="sm:col-span-2">
               <label className="flex items-start gap-2 text-[12px] text-ink">
@@ -299,7 +215,11 @@ export default function CheckoutView() {
             </div>
           </div>
           <button type="submit" className="btn mt-4 w-full !py-2.5 !text-[14px]" disabled={busy || !hydrated}>
-            {busy ? 'Processing…' : `Pay ${money(totals.total)}`}
+            <TelegramIcon size={15} />{' '}
+            {busy ? 'Opening Telegram…' : `Buy on Telegram · ${money(totals.total)}`}
+          </button>
+          <button type="button" className="btn-ghost mt-2 w-full" disabled title="Coming soon">
+            Online card payment (coming soon)
           </button>
           {Object.keys(errors).length > 0 && (
             <p className="error-text" role="alert">

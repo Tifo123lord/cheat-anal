@@ -33,14 +33,15 @@ export const useLibrary = create<LibraryState>()(
           return;
         }
         const rows = must(
-          await sb().from('orders').select('data').eq('owner', uid).order('created_at', { ascending: false }),
-        ) as { data: Order }[];
-        set({ orders: rows.map((r) => r.data) });
+          await sb().from('orders').select('data, status').eq('owner', uid).order('created_at', { ascending: false }),
+        ) as { data: Order; status: Order['status'] }[];
+        set({ orders: rows.map((r) => ({ ...r.data, status: r.status })) });
       },
       clearOrders: () => set({ orders: [] }),
       addOrder: async (o) => {
-        must(await sb().from('orders').insert({ id: o.id, data: o, product_ids: productIds(o) }));
-        set((s) => ({ orders: [o, ...s.orders] }));
+        const order: Order = { ...o, status: 'pending' };
+        must(await sb().from('orders').insert({ id: o.id, data: order, product_ids: productIds(o), method: 'telegram' }));
+        set((s) => ({ orders: [order, ...s.orders] }));
       },
       countDownload: (orderId, itemId) => {
         set((s) => ({

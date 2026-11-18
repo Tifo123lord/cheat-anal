@@ -6,11 +6,13 @@ import { Container } from '@/components/Layout';
 import { useRequireLogin } from '@/components/useRequireLogin';
 import { useHydrated } from '@/store/hydration';
 import AdminPassword from './AdminPassword';
+import OrdersQueue from './OrdersQueue';
 import ProductManager from './ProductManager';
 import ReviewQueue from './ReviewQueue';
 
-type Tab = 'products' | 'queue' | 'password';
+type Tab = 'orders' | 'products' | 'queue' | 'password';
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'orders', label: 'Orders' },
   { id: 'products', label: 'Products' },
   { id: 'queue', label: 'Review queue' },
   { id: 'password', label: 'Admin password' },
@@ -19,7 +21,7 @@ const TABS: { id: Tab; label: string }[] = [
 export default function AdminView() {
   const hydrated = useHydrated();
   const { user, allowed } = useRequireLogin('admin');
-  const [tab, setTab] = useState<Tab>('products');
+  const [tab, setTab] = useState<Tab>('orders');
 
   if (!hydrated || !user) {
     return (
@@ -56,8 +58,7 @@ export default function AdminView() {
           Admin panel
         </h1>
         <p className="text-[12px] text-ink-muted">
-          Signed in as {user.email}. Products and files are stored on the server, so every visitor sees
-          them.
+          Signed in as {user.email}. Products and files are stored on the server, so every visitor sees them.
         </p>
         {user.defaultPassword && (
           <div
@@ -90,6 +91,7 @@ export default function AdminView() {
           ))}
         </div>
         <div role="tabpanel" id={`adm-panel-${tab}`} aria-labelledby={`adm-tab-${tab}`} className="mt-4">
+          {tab === 'orders' && <OrdersQueue />}
           {tab === 'products' && <ProductManager />}
           {tab === 'queue' && <ReviewQueue />}
           {tab === 'password' && <AdminPassword />}

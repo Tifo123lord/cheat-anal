@@ -96,6 +96,32 @@ create policy orders_owner_insert on public.orders for insert with check (owner 
 drop policy if exists orders_owner_update on public.orders;
 create policy orders_owner_update on public.orders for update using (owner = auth.uid()) with check (owner = auth.uid());
 
+-- Payment status. Buyers' orders start as pending; only an admin marks them paid (e.g. after a Telegram payment).
+alter table public.orders add column if not exists status text not null default 'pending';
+alter table public.orders add column if not exists method text not null default 'telegram';
+do $$ begin
+  alter table public.orders add constraint orders_status_chk check (status in ('pending','paid','cancelled'));
+exception when duplicate_object then null; end $$;
+drop policy if exists orders_admin_update on public.orders;
+create policy orders_admin_update on public.orders for update using (public.is_admin()) with check (public.is_admin());
+
+create or replace function public.guard_order() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.is_admin() or auth.uid() is null then return new; end if;
+  if tg_op = 'INSERT' then
+    new.status := 'pending';
+  else
+    new.status := old.status;
+    new.product_ids := old.product_ids;
+    new.owner := old.owner;
+  end if;
+  return new;
+end $$;
+drop trigger if exists orders_guard on public.orders;
+create trigger orders_guard before insert or update on public.orders
+  for each row execute function public.guard_order();
+
 create table if not exists public.reviews (
   id text primary key,
   product_id text not null,
@@ -127,7 +153,7 @@ language sql stable security definer set search_path = public as $$
     select 1 from public.products p
     where p.file_path = object_name and (
       (p.published and coalesce((p.product->>'salePrice')::numeric, (p.product->>'price')::numeric) = 0)
-      or exists (select 1 from public.orders o where o.owner = auth.uid() and p.id = any(o.product_ids))
+      or exists (select 1 from public.orders o where o.owner = auth.uid() and o.status = 'paid' and p.id = any(o.product_ids))
     )
   );
 $$;

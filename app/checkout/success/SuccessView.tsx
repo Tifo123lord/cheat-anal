@@ -10,6 +10,8 @@ import { downloadDummyZip } from '@/lib/download';
 import { money2 } from '@/lib/format';
 import { useHydrated } from '@/store/hydration';
 import { useLibrary } from '@/store/library';
+import TelegramIcon from '@/components/TelegramIcon';
+import { telegramOrderLink, TELEGRAM_USERNAME } from '@/lib/telegram';
 
 export default function SuccessView() {
   const params = useSearchParams();
@@ -31,6 +33,35 @@ export default function SuccessView() {
             </Link>
             .
           </EmptyState>
+        ) : order.status !== 'paid' ? (
+          <div data-testid="order-pending">
+            <h1 className="page-title">Order placed: one step left</h1>
+            <p className="text-[13px] text-ink">
+              Order number <strong data-testid="order-number">{order.id}</strong> · {money2(order.total)}
+            </p>
+            <p className="mt-2 text-[13px] text-ink">
+              {order.status === 'cancelled'
+                ? 'This order was cancelled.'
+                : `Send the order message to @${TELEGRAM_USERNAME} on Telegram and pay there. As soon as the payment is confirmed, your files open in My downloads.`}
+            </p>
+            <ul className="mt-3 text-[12px] text-ink">
+              {order.items.map((i) => (
+                <li key={i.id}>
+                  {i.title} <span className="text-ink-muted">({i.license})</span> · {money2(i.price)}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {order.status !== 'cancelled' && (
+                <a href={telegramOrderLink(order)} target="_blank" rel="noopener noreferrer" className="btn">
+                  <TelegramIcon size={14} /> Open Telegram chat
+                </a>
+              )}
+              <Link href="/library/" className="btn-olive">
+                Go to my downloads
+              </Link>
+            </div>
+          </div>
         ) : (
           <>
             <div className="flex items-center gap-3">
