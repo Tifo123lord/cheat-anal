@@ -14,14 +14,29 @@ language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.profiles where id = auth.uid() and role = 'admin');
 $$;
 
+-- Emails that become admin on sign-up. No policies: invisible to the API, editable only from the SQL editor.
+create table if not exists public.admin_emails (email text primary key);
+alter table public.admin_emails enable row level security;
+revoke all on public.admin_emails from anon, authenticated;
+-- Add admins here: insert into public.admin_emails (email) values ('you@example.com') on conflict do nothing;
+
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  insert into public.profiles (id, email, name)
-  values (new.id, lower(new.email), coalesce(new.raw_user_meta_data->>'name', ''))
+  insert into public.profiles (id, email, name, role)
+  values (
+    new.id,
+    lower(new.email),
+    coalesce(new.raw_user_meta_data->>'name', ''),
+    case when exists (select 1 from public.admin_emails a where a.email = lower(new.email)) then 'admin' else 'user' end
+  )
   on conflict (id) do nothing;
   return new;
 end $$;
+
+-- Promote an already-registered admin email, too.
+update public.profiles set role = 'admin'
+  where email in (select email from public.admin_emails) and role <> 'admin';
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created after insert on auth.users
