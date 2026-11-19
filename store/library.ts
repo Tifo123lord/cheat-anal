@@ -17,7 +17,9 @@ interface LibraryState {
   countFree: (productId: string) => void;
 }
 
-const productIds = (o: Order): string[] => [...new Set(o.items.filter((i) => i.kind === 'product').map((i) => i.id))];
+const productIds = (o: Order): string[] => [
+  ...new Set(o.items.filter((i) => i.kind === 'product').map((i) => i.id)),
+];
 
 export const useLibrary = create<LibraryState>()(
   persist(
@@ -33,14 +35,22 @@ export const useLibrary = create<LibraryState>()(
           return;
         }
         const rows = must(
-          await sb().from('orders').select('data, status').eq('owner', uid).order('created_at', { ascending: false }),
-        ) as { data: Order; status: Order['status'] }[];
-        set({ orders: rows.map((r) => ({ ...r.data, status: r.status })) });
+          await sb()
+            .from('orders')
+            .select('data, status, method')
+            .eq('owner', uid)
+            .order('created_at', { ascending: false }),
+        ) as { data: Order; status: Order['status']; method: Order['method'] | null }[];
+        set({ orders: rows.map((r) => ({ ...r.data, status: r.status, method: r.method ?? 'telegram' })) });
       },
       clearOrders: () => set({ orders: [] }),
       addOrder: async (o) => {
         const order: Order = { ...o, status: 'pending' };
-        must(await sb().from('orders').insert({ id: o.id, data: order, product_ids: productIds(o), method: 'telegram' }));
+        must(
+          await sb()
+            .from('orders')
+            .insert({ id: o.id, data: order, product_ids: productIds(o), method: 'telegram' }),
+        );
         set((s) => ({ orders: [order, ...s.orders] }));
       },
       countDownload: (orderId, itemId) => {
@@ -66,7 +76,8 @@ export const useLibrary = create<LibraryState>()(
       storage: browserStorage,
       skipHydration: true,
       // Orders come from the server; only the free-files unlock stays in this browser.
-      partialize: (s) => ({ freeEmail: s.freeEmail, freeDownloads: s.freeDownloads }) as unknown as LibraryState,
+      partialize: (s) =>
+        ({ freeEmail: s.freeEmail, freeDownloads: s.freeDownloads }) as unknown as LibraryState,
     },
   ),
 );

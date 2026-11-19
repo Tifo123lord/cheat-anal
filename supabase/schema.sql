@@ -169,3 +169,106 @@ create policy "files admin write" on storage.objects for all
 drop policy if exists "files download" on storage.objects;
 create policy "files download" on storage.objects for select
   using (bucket_id = 'product-files' and public.can_download(name));
+
+-- ── Download unlocks & file updates ─────────────────────────────────────────
+-- Paid orders may also be granted by hand from the admin panel (method 'manual').
+do $$ begin
+  alter table public.orders add constraint orders_method_chk check (method in ('telegram','manual'));
+exception when duplicate_object then null; end $$;
+
+-- When the downloadable file last changed. Buyers always download products.file_path (the current file),
+-- never a path stored in the order, so replacing the file updates every buyer's download.
+alter table public.products add column if not exists file_updated_at timestamptz;
+update public.products set file_updated_at = created_at where file_path is not null and file_updated_at is null;
+
+create or replace function public.stamp_file_update() returns trigger
+language plpgsql set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    if new.file_path is not null and new.file_updated_at is null then new.file_updated_at := now(); end if;
+  elsif new.file_path is distinct from old.file_path then
+    new.file_updated_at := case when new.file_path is null then null else now() end;
+  else
+    new.file_updated_at := old.file_updated_at;
+  end if;
+  return new;
+end $$;
+drop trigger if exists products_stamp_file on public.products;
+create trigger products_stamp_file before insert or update on public.products
+  for each row execute function public.stamp_file_update();
+
+-- Buyers keep access to a product's current file even after it is unpublished.
+drop policy if exists products_buyer_read on public.products;
+create policy products_buyer_read on public.products for select using (
+  exists (select 1 from public.orders o where o.owner = auth.uid() and o.status = 'paid' and products.id = any(o.product_ids))
+);
+
+-- Admin: unlock a product's download for a registered user by email. Creates a paid 'manual' order.
+create or replace function public.admin_grant_download(p_email text, p_product_id text)
+returns jsonb
+language plpgsql volatile security definer set search_path = public, auth as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_uid uuid;
+  v_name text;
+  v_product jsonb;
+  v_license text;
+  v_id text;
+  v_key text;
+  v_now timestamptz := now();
+  v_alpha constant text := 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  v_data jsonb;
+  i int;
+begin
+  if not public.is_admin() then
+    raise exception 'فقط مدیرها می‌توانند دانلود را باز کنند.' using errcode = '42501';
+  end if;
+  if v_email = '' then
+    raise exception 'ایمیل کاربر را وارد کن.' using errcode = '22023';
+  end if;
+  select u.id into v_uid from auth.users u where lower(u.email) = v_email limit 1;
+  if v_uid is null then
+    raise exception 'کاربری با ایمیل % پیدا نشد. اول باید در سایت ثبت‌نام کند.', v_email using errcode = 'P0002';
+  end if;
+  select p.product into v_product from public.products p where p.id = p_product_id;
+  if v_product is null then
+    raise exception 'این محصول پیدا نشد.' using errcode = 'P0002';
+  end if;
+  if exists (select 1 from public.orders o where o.owner = v_uid and o.status = 'paid' and p_product_id = any(o.product_ids)) then
+    raise exception 'دانلود این فایل برای این کاربر از قبل باز است.' using errcode = '23505';
+  end if;
+  select coalesce(pr.name, '') into v_name from public.profiles pr where pr.id = v_uid;
+  v_license := coalesce(v_product->'licenses'->0->>'type', 'Personal');
+
+  -- Same id format as the site's checkout: LP-YYYYMMDD-NNNNNN (UTC date).
+  loop
+    v_id := 'LP-' || to_char(v_now at time zone 'utc', 'YYYYMMDD') || '-' || lpad(floor(random() * 1000000)::int::text, 6, '0');
+    exit when not exists (select 1 from public.orders where id = v_id);
+  end loop;
+  v_key := 'LP';
+  for g in 1..4 loop
+    v_key := v_key || '-';
+    for i in 1..4 loop
+      v_key := v_key || substr(v_alpha, 1 + floor(random() * length(v_alpha))::int, 1);
+    end loop;
+  end loop;
+
+  v_data := jsonb_build_object(
+    'id', v_id,
+    'items', jsonb_build_array(jsonb_build_object(
+      'kind', 'product', 'id', p_product_id, 'title', coalesce(v_product->>'title', p_product_id),
+      'license', v_license, 'price', 0, 'licenseKey', v_key, 'downloads', 0)),
+    'subtotal', 0, 'discount', 0, 'tax', 0, 'total', 0,
+    'email', v_email, 'name', coalesce(nullif(v_name, ''), split_part(v_email, '@', 1)),
+    'ownerEmail', v_email,
+    'createdAt', to_char(v_now at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+    'licenseKeys', jsonb_build_array(v_key),
+    'status', 'paid',
+    'method', 'manual'
+  );
+  insert into public.orders (id, owner, data, product_ids, status, method, created_at)
+  values (v_id, v_uid, v_data, array[p_product_id], 'paid', 'manual', v_now);
+  return v_data;
+end $$;
+revoke all on function public.admin_grant_download(text, text) from public, anon;
+grant execute on function public.admin_grant_download(text, text) to authenticated;

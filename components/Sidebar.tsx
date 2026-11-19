@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { allTags, categories, topAuthors } from '@/lib/catalog';
+import { categories, tagCloud, topAuthors } from '@/lib/catalog';
 import { asset } from '@/lib/asset';
 import { compact } from '@/lib/format';
 import Avatar from './Avatar';
 import CreamFrame from './CreamFrame';
 import { CameraIcon, CategoryIcon, ChatIcon, RssIcon, VideoIcon } from './Icons';
 import NewsletterForm from './NewsletterForm';
-import PromoBanner from './PromoBanner';
+import LatestUpdates from './LatestUpdates';
 import SidebarWidget from './SidebarWidget';
 
-export default function Sidebar() {
-  const tags = allTags();
-  const max = tags[0]?.count ?? 1;
+export default function Sidebar({ updates = true }: { updates?: boolean }) {
+  const tags = tagCloud().slice(0, 34);
+  const max = Math.max(1, ...tags.map((t) => t.count));
   return (
     <CreamFrame as="aside" label="ستون کناری" className="glass-side overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-[#bcb399] px-3 py-2.5 text-[10px] font-bold uppercase leading-tight text-ink">
@@ -63,11 +63,11 @@ export default function Sidebar() {
         </ul>
       </nav>
 
-      <div className="space-y-3 border-b border-[#bcb399] px-3 py-3">
-        <PromoBanner kind="packly" />
-        <PromoBanner kind="birdsong" />
-        <PromoBanner kind="navkit" />
-      </div>
+      {updates && (
+        <SidebarWidget title="آخرین به‌روزرسانی‌ها" id="sb-updates">
+          <LatestUpdates compact />
+        </SidebarWidget>
+      )}
 
       <SidebarWidget title="خبرنامه" id="sb-news">
         <NewsletterForm />
@@ -89,29 +89,22 @@ export default function Sidebar() {
         </ol>
       </SidebarWidget>
 
-      {tags.length > 0 && (
-        <SidebarWidget title="برچسب‌ها" id="sb-tags">
-          <ul className="flex flex-wrap gap-x-2 gap-y-1">
-            {tags.slice(0, 22).map((t) => (
-              <li key={t.tag}>
-                <Link
-                  href={`/shop/?q=${encodeURIComponent(t.tag)}`}
-                  className="text-[color:var(--link-strong)] hover:underline"
-                  style={{ fontSize: `${11 + Math.round((t.count / max) * 5)}px` }}
-                >
-                  {t.tag}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </SidebarWidget>
-      )}
-
-      <p className="px-3 pb-4 pt-3 text-center text-[11px] font-bold">
-        <Link href="/sell/#advertise" className="hover:underline">
-          تبلیغ در Cheat &amp; Anal
-        </Link>
-      </p>
+      <SidebarWidget title="برچسب‌ها و بازی‌ها" id="sb-tags">
+        <ul className="flex flex-wrap gap-x-2 gap-y-1" dir="ltr">
+          {tags.map((t) => (
+            <li key={`${t.game ?? 'tag'}-${t.tag}`}>
+              <Link
+                href={t.href}
+                className="text-[color:var(--link-strong)] hover:underline"
+                style={{ fontSize: `${11 + Math.round((t.count / max) * 5)}px` }}
+                data-game={t.game}
+              >
+                {t.tag}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </SidebarWidget>
     </CreamFrame>
   );
 }

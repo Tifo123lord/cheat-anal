@@ -17,6 +17,7 @@ import {
   type SortKey,
 } from '@/lib/filters';
 import { plural } from '@/lib/format';
+import { getGame } from '@/lib/games';
 import { licenseLabel } from '@/lib/i18n';
 import EmptyState from './EmptyState';
 import FiltersPanel from './FiltersPanel';
@@ -68,6 +69,10 @@ export default function ShopView({
     ...filters.categories.map((c) => ({
       label: getCategory(c)?.name ?? c,
       clear: { categories: filters.categories.filter((x) => x !== c) },
+    })),
+    ...filters.games.map((g) => ({
+      label: getGame(g)?.name ?? g,
+      clear: { games: filters.games.filter((x) => x !== g) },
     })),
     ...filters.fileTypes.map((t) => ({
       label: t,

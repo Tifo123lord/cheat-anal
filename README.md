@@ -68,7 +68,7 @@ app/                     App Router pages (all statically exported)
   error.tsx, loading.tsx Error boundary and loading skeleton
   feed.xml/, sitemap.ts, robots.ts
 components/              CreamFrame, SiteHeader (NavBar + drawer), SearchBox, FeaturedSlider,
-                         ProductCard, LeafRating, Badge, PromoBanner, Sidebar, SidebarWidget,
+                         ProductCard, LeafRating, Badge, LatestUpdates, Sidebar, SidebarWidget,
                          FiltersPanel, Modal, QuickView, Aurora, Logo, Footer, MobileBar, ...
 lib/
   art.ts                 Procedural SVG previews (browser frames, type posters, icon sheets, ...)

@@ -4,16 +4,13 @@ import { useEffect, useState } from 'react';
 import EmptyState from '@/components/EmptyState';
 import { formatDate, money2 } from '@/lib/format';
 import { licenseLabel } from '@/lib/i18n';
-import type { OrderStatus } from '@/lib/types';
+import { LOCK_LABEL, lockedStatus, ORDER_STATUS_LABEL as LABEL, UNLOCK_LABEL } from '@/lib/order-access';
+import type { Order, OrderStatus } from '@/lib/types';
 import { useAdminOrders } from '@/store/admin-orders';
 import { useUI } from '@/store/ui';
+import GrantDownload from './GrantDownload';
 
 const TABS: OrderStatus[] = ['pending', 'paid', 'cancelled'];
-const LABEL: Record<OrderStatus, string> = {
-  pending: 'در انتظار پرداخت',
-  paid: 'پرداخت‌شده',
-  cancelled: 'لغوشده',
-};
 
 export default function OrdersQueue() {
   const { orders, loading, error, load, setStatus } = useAdminOrders();
@@ -33,14 +30,17 @@ export default function OrdersQueue() {
       (!q || o.id.toLowerCase().includes(q) || o.email.toLowerCase().includes(q)),
   );
 
-  const change = async (id: string, status: OrderStatus) => {
+  const change = async (o: Order, status: OrderStatus) => {
+    const id = o.id;
     setBusy(id);
     try {
       await setStatus(id, status);
       toast(
         status === 'paid'
-          ? `سفارش ${id} پرداخت‌شده علامت خورد و دانلودها باز شد`
-          : `سفارش ${id}: ${LABEL[status]}`,
+          ? `دانلود سفارش ${id} باز شد`
+          : o.status === 'paid'
+            ? `دانلود سفارش ${id} قفل شد (${LABEL[status]})`
+            : `سفارش ${id}: ${LABEL[status]}`,
       );
     } catch (e) {
       toast(`به‌روزرسانی ${id} انجام نشد: ${e instanceof Error ? e.message : 'خطای سرور'}`);
@@ -60,9 +60,10 @@ export default function OrdersQueue() {
         </button>
       </div>
       <p className="text-[12px] text-ink-muted">
-        خریدارها در تلگرام به تو پرداخت می‌کنند. وقتی پول رسید، شمارهٔ سفارششان را اینجا پیدا کن و آن را
-        پرداخت‌شده علامت بزن.
+        خریدارها در تلگرام به تو پرداخت می‌کنند. وقتی پول رسید، شمارهٔ سفارششان را اینجا پیدا کن و «
+        {UNLOCK_LABEL}» را بزن. اگر اشتباه شد، با «{LOCK_LABEL}» دوباره قفلش کن.
       </p>
+      <GrantDownload onGranted={() => setTab('paid')} />
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {TABS.map((t) => (
           <button
@@ -105,7 +106,17 @@ export default function OrdersQueue() {
                 <div className="min-w-0">
                   <p className="text-[13px] font-bold">
                     <bdi data-testid="admin-order-id">{o.id}</bdi> · {money2(o.total)}
+                    {o.method === 'manual' && (
+                      <span className="ms-1.5 rounded bg-[#e6dcc0] px-1.5 py-0.5 text-[10px] font-normal">
+                        دستی
+                      </span>
+                    )}
                   </p>
+                  {o.status === 'paid' && (
+                    <p className="text-[11px] font-bold text-olive-dark" data-testid="admin-order-open">
+                      {LABEL.paid}
+                    </p>
+                  )}
                   <p className="text-[11px] text-ink-muted">
                     <bdi>{o.name}</bdi> · <bdi>{o.email}</bdi> · {formatDate(o.createdAt)}
                   </p>
@@ -125,9 +136,9 @@ export default function OrdersQueue() {
                       type="button"
                       className="btn"
                       disabled={busy === o.id}
-                      onClick={() => void change(o.id, 'paid')}
+                      onClick={() => void change(o, 'paid')}
                     >
-                      پرداخت‌شده
+                      {UNLOCK_LABEL}
                     </button>
                   )}
                   {o.status === 'pending' && (
@@ -135,7 +146,7 @@ export default function OrdersQueue() {
                       type="button"
                       className="btn-ghost !border-sale !text-[#9e2f19]"
                       disabled={busy === o.id}
-                      onClick={() => void change(o.id, 'cancelled')}
+                      onClick={() => void change(o, 'cancelled')}
                     >
                       لغو
                     </button>
@@ -143,11 +154,11 @@ export default function OrdersQueue() {
                   {o.status === 'paid' && (
                     <button
                       type="button"
-                      className="btn-ghost"
+                      className="btn-ghost !border-sale !text-[#9e2f19]"
                       disabled={busy === o.id}
-                      onClick={() => void change(o.id, 'pending')}
+                      onClick={() => void change(o, lockedStatus(o))}
                     >
-                      برگرداندن
+                      {LOCK_LABEL}
                     </button>
                   )}
                 </div>

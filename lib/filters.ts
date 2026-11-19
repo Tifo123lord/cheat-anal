@@ -1,4 +1,5 @@
 import { normalizeChip } from './file-types';
+import { gameFor, productGames } from './games';
 import type { LicenseType, Product } from './types';
 
 export type SortKey = 'newest' | 'price-asc' | 'price-desc' | 'popular' | 'rating';
@@ -14,6 +15,8 @@ export const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 export interface Filters {
   q: string;
   categories: string[];
+  /** Game ids (lib/games.ts); a product matches through its game tags. */
+  games: string[];
   fileTypes: string[];
   compatibility: string[];
   licenses: LicenseType[];
@@ -27,6 +30,7 @@ export interface Filters {
 export const DEFAULT_FILTERS: Filters = {
   q: '',
   categories: [],
+  games: [],
   fileTypes: [],
   compatibility: [],
   licenses: [],
@@ -63,6 +67,13 @@ export function parseFilters(params: ParamsLike): Filters {
   return {
     q: (params.get('q') ?? '').slice(0, 80),
     categories: list(params.get('category')),
+    games: [
+      ...new Set(
+        list(params.get('game'))
+          .map((g) => gameFor(g)?.id ?? '')
+          .filter(Boolean),
+      ),
+    ],
     fileTypes: [...new Set(list(params.get('type')).map(normalizeChip).filter(Boolean))],
     compatibility: list(params.get('compat')),
     licenses: list(params.get('license')).filter(isLicense),
@@ -78,6 +89,7 @@ export function filtersToQuery(f: Filters): string {
   const p = new URLSearchParams();
   if (f.q) p.set('q', f.q);
   if (f.categories.length) p.set('category', f.categories.join(','));
+  if (f.games.length) p.set('game', f.games.join(','));
   if (f.fileTypes.length) p.set('type', f.fileTypes.join(','));
   if (f.compatibility.length) p.set('compat', f.compatibility.join(','));
   if (f.licenses.length) p.set('license', f.licenses.join(','));
@@ -108,6 +120,7 @@ export function applyFilters(
   return items.filter((p) => {
     if (f.q && !matchesQuery(p, f.q, authorName(p.authorId))) return false;
     if (f.categories.length && !f.categories.includes(p.category)) return false;
+    if (f.games.length && !productGames(p).some((g) => f.games.includes(g))) return false;
     if (f.fileTypes.length && !p.fileTypes.some((t) => f.fileTypes.includes(t.toUpperCase()))) return false;
     if (f.compatibility.length && !p.compatibility.some((c) => f.compatibility.includes(c))) return false;
     if (f.licenses.length && !f.licenses.every((l) => p.licenses.some((x) => x.type === l))) return false;
@@ -149,6 +162,7 @@ export function paginate<T>(
 export function activeFilterCount(f: Filters): number {
   return (
     f.categories.length +
+    f.games.length +
     f.fileTypes.length +
     f.compatibility.length +
     f.licenses.length +

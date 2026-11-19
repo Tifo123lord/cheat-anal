@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { CategoryIcon } from '@/components/Icons';
 import { TwoColumn } from '@/components/Layout';
 import { categories, categoryEmptyText, getCategory } from '@/lib/catalog';
+import { GAMES } from '@/lib/games';
 import CategoryProducts from './CategoryProducts';
 
 export const dynamicParams = false;
@@ -47,6 +48,23 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
             </p>
           </div>
         </div>
+        {category.id === 'cheats' && (
+          <nav aria-label="بازی‌ها" className="mt-3 border-t border-[#bcb399] pt-2" data-testid="cheat-games">
+            <p className="text-[12px] font-bold text-ink">بر اساس بازی</p>
+            <ul className="mt-1 flex flex-wrap gap-1.5" dir="ltr">
+              {GAMES.map((g) => (
+                <li key={g.id}>
+                  <Link
+                    href={`/shop/?category=cheats&game=${encodeURIComponent(g.id)}`}
+                    className="chip !px-2 !py-0.5 !text-[11px]"
+                  >
+                    {g.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
       <CategoryProducts categoryId={category.id} emptyTitle={categoryEmptyText(category)} />
     </TwoColumn>

@@ -22,6 +22,8 @@ import {
 import { blobKey, deleteBlobs, putBlob, storageHeadroom } from '@/lib/blobstore';
 import { allFileTypes, categories, getCategory } from '@/lib/catalog';
 import { addChips, chipFromFileName, parseChips } from '@/lib/file-types';
+import { formatDate } from '@/lib/format';
+import { GAME_TAGS, hasTag, toggleTag } from '@/lib/games';
 import { prepareImage } from '@/lib/images';
 import { licenseLabel } from '@/lib/i18n';
 import { LICENSE_TYPES, type LicenseType } from '@/lib/types';
@@ -199,7 +201,13 @@ export default function ProductForm({ editing, onDone }: Props) {
         const key = blobKey('file');
         await putBlob(key, file);
         created.push(key);
-        stored = { key, name: file.name, size: file.size, type: downloadMime(file.type) };
+        stored = {
+          key,
+          name: file.name,
+          size: file.size,
+          type: downloadMime(file.type),
+          updatedAt: new Date().toISOString(),
+        };
       }
       const uploaded: string[] = [];
       for (const img of readyImages) {
@@ -219,7 +227,7 @@ export default function ProductForm({ editing, onDone }: Props) {
         existing: editing?.product,
       });
       await save({ product, published, featured, file: stored });
-      // Clean up blobs this edit replaced.
+      // The new file is uploaded and the product row points at it; only now remove the replaced blobs.
       const stale = [
         ...(file && existingFile ? [existingFile.key] : []),
         ...(editing?.product.images ?? [])
@@ -342,10 +350,35 @@ export default function ProductForm({ editing, onDone }: Props) {
         <input
           className="field"
           value={tags}
-          placeholder="landing, dark, html"
+          placeholder="CS2, aimbot, config"
+          dir="ltr"
           onChange={(e) => setTags(e.target.value)}
           {...aria('tags')}
         />
+        <p className="mt-1 text-[11px] text-ink-muted" id={`${id}-games-hint`}>
+          برچسب بازی (برای چیت‌ها) را با یک کلیک اضافه یا حذف کن:
+        </p>
+        <ul
+          className="mt-1 flex flex-wrap gap-1"
+          aria-describedby={`${id}-games-hint`}
+          data-testid="game-tag-suggestions"
+        >
+          {GAME_TAGS.map((g) => {
+            const on = hasTag(tags, g);
+            return (
+              <li key={g}>
+                <button
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setTags((t) => toggleTag(t, g))}
+                  className={`chip !px-2 !py-0.5 !text-[11px] ${on ? '!border-leaf-dark !bg-leaf !text-white' : ''}`}
+                >
+                  <bdi dir="ltr">{g}</bdi>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <div>
         <label htmlFor={`${id}-fileTypes`} className="label">
@@ -482,13 +515,23 @@ export default function ProductForm({ editing, onDone }: Props) {
         <p className="mt-1 text-[11px] text-ink-muted">فایل دقیقاً همان‌طور که هست ذخیره می‌شود.</p>
         {err('file')}
         {file ? (
-          <p className="mt-1 text-[11px] text-ink" data-testid="file-info">
-            <bdi>{file.name}</bdi> · {formatBytes(file.size)}
-          </p>
+          <>
+            <p className="mt-1 text-[11px] text-ink" data-testid="file-info">
+              <bdi>{file.name}</bdi> · {formatBytes(file.size)}
+            </p>
+            {existingFile && (
+              <p className="mt-1 text-[11px] text-ink" data-testid="file-replace-note">
+                با ذخیره، این فایل جای «<bdi>{existingFile.name}</bdi>» را می‌گیرد و همهٔ خریدارها از این به
+                بعد نسخهٔ جدید را دانلود می‌کنند.
+              </p>
+            )}
+          </>
         ) : (
           existingFile && (
             <p className="mt-1 text-[11px] text-ink-muted" data-testid="file-info">
               فایل فعلی: <bdi>{existingFile.name}</bdi> · {formatBytes(existingFile.size)}
+              {existingFile.updatedAt && <> · به‌روزرسانی: {formatDate(existingFile.updatedAt)}</>}. برای
+              به‌روزرسانی فایل خریدارها، فایل جدید را انتخاب کن.
             </p>
           )
         )}

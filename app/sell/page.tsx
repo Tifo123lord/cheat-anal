@@ -50,23 +50,6 @@ export default function SellPage() {
             رفتن به داشبورد سازنده
           </Link>
         </div>
-        <section
-          id="advertise"
-          className="mt-6 rounded-md border border-[#a49b82] p-3"
-          aria-labelledby="adv-h"
-        >
-          <h2 id="adv-h" className="font-display text-[16px] font-bold text-ink">
-            تبلیغ در Cheat &amp; Anal
-          </h2>
-          <p className="text-[13px] text-ink">
-            جایگاه‌های ستون کناری در همهٔ صفحه‌ها به چشم طراحان و برنامه‌نویسان می‌آیند. در این نسخهٔ نمایشی
-            فقط تبلیغات خودمان نمایش داده می‌شود؛ از طریق{' '}
-            <Link href="/info/contact/" className="link">
-              صفحهٔ تماس
-            </Link>{' '}
-            برایمان بنویس.
-          </p>
-        </section>
       </article>
     </TwoColumn>
   );

@@ -215,11 +215,17 @@ describe('empty states render', () => {
     expect(list).toContain('0 فایل');
   });
 
-  it('the sidebar has no sales counts and hides the empty tag cloud', () => {
+  it('the sidebar has no sales counts or ads, lists game tags and the latest updates', () => {
     const html = render(h(Sidebar));
     expect(html).not.toMatch(/\d+ فروش/);
-    expect(html).not.toContain('sb-tags');
+    expect(html).not.toMatch(/Packly|Birdsong|NavKit|تبلیغ/);
     expect(html).toContain('سازنده‌ها');
+    expect(html).toContain('sb-tags');
+    expect(html).toMatch(/href="\/shop\/?\?game=cs2"/);
+    expect(html).toContain('>FiveM<');
+    expect(html).toContain('آخرین به‌روزرسانی‌ها');
+    expect(html).toContain('data-testid="updates-empty"');
+    expect(render(h(Sidebar, { updates: false }))).not.toContain('آخرین به‌روزرسانی‌ها');
   });
 
   it('the placeholder product page renders "File not found"; old seeded slugs are gone', () => {

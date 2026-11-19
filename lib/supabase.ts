@@ -1,8 +1,10 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 /** Project URL and publishable key: both are public by design (row-level security guards the data). */
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://ihxjvfoqlgmodlwbomrh.supabase.co';
-export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY ?? 'sb_publishable_-_leaMiVuBo55vxFrZERSA_naQ56KzJ';
+export const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://ihxjvfoqlgmodlwbomrh.supabase.co';
+export const SUPABASE_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_KEY ?? 'sb_publishable_-_leaMiVuBo55vxFrZERSA_naQ56KzJ';
 
 export const IMAGE_BUCKET = 'product-images';
 export const FILE_BUCKET = 'product-files';
@@ -13,7 +15,11 @@ let client: SupabaseClient | null = null;
 export function sb(): SupabaseClient {
   if (!client)
     client = createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: { persistSession: typeof window !== 'undefined', autoRefreshToken: true, storageKey: 'cheat-anal-auth' },
+      auth: {
+        persistSession: typeof window !== 'undefined',
+        autoRefreshToken: true,
+        storageKey: 'cheat-anal-auth',
+      },
     });
   return client;
 }

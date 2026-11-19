@@ -13,6 +13,7 @@ import { getBlob } from '@/lib/blobstore';
 import { downloadDummyZip, saveBlob } from '@/lib/download';
 import { formatDate, money2 } from '@/lib/format';
 import { licenseLabel } from '@/lib/i18n';
+import { isNewVersion } from '@/lib/order-access';
 import { useHydrated } from '@/store/hydration';
 import { useAdminCatalog } from '@/store/admin-catalog';
 import { useLibrary } from '@/store/library';
@@ -41,7 +42,7 @@ export default function LibraryView() {
     setPreparing(key);
     const rec = item.kind === 'product' ? records.find((r) => r.product.id === item.id) : undefined;
     if (rec?.file) {
-      // Admin-uploaded file: hand back the exact bytes from IndexedDB under the original file name.
+      // Always the product's current file (products.file_path), so a replaced file reaches every buyer.
       const file = rec.file;
       getBlob(file.key)
         .then((blob) => {
@@ -115,7 +116,9 @@ export default function LibraryView() {
                     {money2(o.total)} ·{' '}
                     <strong data-testid="order-status">
                       {o.status === 'paid'
-                        ? 'پرداخت‌شده'
+                        ? o.method === 'manual'
+                          ? 'دانلود باز است'
+                          : 'پرداخت‌شده'
                         : o.status === 'cancelled'
                           ? 'لغوشده'
                           : 'در انتظار پرداخت'}
@@ -133,6 +136,14 @@ export default function LibraryView() {
                 <ul className="divide-y divide-[#c9c0a6]">
                   {o.items.map((i) => {
                     const key = `${o.id}-${i.id}`;
+                    const current =
+                      i.kind === 'product' ? records.find((r) => r.product.id === i.id)?.file : undefined;
+                    const updated =
+                      o.status === 'paid' &&
+                      current?.updatedAt &&
+                      isNewVersion(current.updatedAt, o.createdAt)
+                        ? current.updatedAt
+                        : null;
                     return (
                       <li key={i.id} className="flex flex-wrap items-center gap-3 p-3 sm:flex-nowrap">
                         <span className="inset-img block w-[84px] shrink-0 overflow-hidden">
@@ -147,6 +158,17 @@ export default function LibraryView() {
                             {i.title}
                           </p>
                           <p className="text-[11px] text-ink-muted">لایسنس {licenseLabel(i.license)}</p>
+                          {updated && (
+                            <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[11px] text-ink">
+                              <span
+                                className="rounded bg-olive px-1.5 py-0.5 text-[10px] font-bold text-white"
+                                data-testid="new-version"
+                              >
+                                نسخهٔ جدید
+                              </span>
+                              <span className="text-ink-muted">به‌روزرسانی: {formatDate(updated)}</span>
+                            </p>
+                          )}
                           <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[11px] text-ink">
                             <span className="sr-only">کلید لایسنس</span>
                             <code className="rounded bg-[#efe9da] px-1.5 py-0.5 font-mono" dir="ltr">

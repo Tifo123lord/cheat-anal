@@ -21,12 +21,23 @@ interface Row {
   file_type: string | null;
 }
 
-export const rowToRecord = (r: Row): AdminRecord => ({
+/** A row as read back: the server stamps file_updated_at itself whenever file_path changes. */
+interface ReadRow extends Row {
+  file_updated_at?: string | null;
+}
+
+export const rowToRecord = (r: ReadRow): AdminRecord => ({
   product: r.product,
   published: r.published,
   featured: r.featured,
   file: r.file_path
-    ? { key: r.file_path, name: r.file_name ?? 'file', size: r.file_size ?? 0, type: r.file_type ?? '' }
+    ? {
+        key: r.file_path,
+        name: r.file_name ?? 'file',
+        size: r.file_size ?? 0,
+        type: r.file_type ?? '',
+        ...(r.file_updated_at ? { updatedAt: r.file_updated_at } : {}),
+      }
     : null,
 });
 
@@ -56,13 +67,17 @@ export const useAdminCatalog = create<AdminCatalogState>()((set) => ({
   records: [],
   loaded: false,
   load: async () => {
-    const rows = must(await sb().from('products').select('*').order('created_at', { ascending: false })) as Row[];
+    const rows = must(
+      await sb().from('products').select('*').order('created_at', { ascending: false }),
+    ) as ReadRow[];
     set({ records: rows.map(rowToRecord), loaded: true });
   },
   save: async (r) => {
     const row = { ...recordToRow(r), updated_at: new Date().toISOString() };
-    must(await sb().from('products').upsert(row));
-    set((s) => ({ records: upsertRecord(s.records, r) }));
+    // Read the row back so the record carries the server's file_updated_at stamp.
+    const saved = must(await sb().from('products').upsert(row).select('*').single()) as ReadRow;
+    const rec = rowToRecord(saved);
+    set((s) => ({ records: upsertRecord(s.records, rec) }));
   },
   remove: async (id) => {
     must(await sb().from('products').delete().eq('id', id));

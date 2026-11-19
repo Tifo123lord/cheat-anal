@@ -30,11 +30,11 @@ export async function loadServerData(): Promise<void> {
     .getState()
     .init()
     .catch(() => undefined);
-  await Promise.all([
-    useAdminCatalog.getState().load(),
-    useReviews.getState().load(),
-    useLibrary.getState().load(),
-  ].map((p) => p.catch(() => undefined)));
+  await Promise.all(
+    [useAdminCatalog.getState().load(), useReviews.getState().load(), useLibrary.getState().load()].map((p) =>
+      p.catch(() => undefined),
+    ),
+  );
 }
 
 let watching = false;
@@ -53,7 +53,11 @@ export async function rehydrateAll(): Promise<void> {
       if (uid === lastUid) return;
       lastUid = uid;
       if (!uid) useLibrary.getState().clearOrders();
-      void Promise.all([useAdminCatalog.getState().load(), useLibrary.getState().load()].map((p) => p.catch(() => undefined)));
+      void Promise.all(
+        [useAdminCatalog.getState().load(), useLibrary.getState().load()].map((p) =>
+          p.catch(() => undefined),
+        ),
+      );
     });
   }
 }

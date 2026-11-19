@@ -24,6 +24,8 @@ export interface StoredFile {
   name: string;
   size: number;
   type: string;
+  /** When this file was uploaded (the server stamps products.file_updated_at when the file changes). */
+  updatedAt?: string;
 }
 
 export interface AdminRecord {

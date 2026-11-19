@@ -4,6 +4,7 @@ import categoriesJson from '@/data/categories.json';
 import bundlesJson from '@/data/bundles.json';
 import postsJson from '@/data/posts.json';
 import { fileTypeOptions } from './file-types';
+import { GAMES, gameFor, gameHref, productGames } from './games';
 import type { Author, Bundle, Category, Post, Product } from './types';
 
 export const products = productsJson as Product[];
@@ -100,6 +101,28 @@ export const allTags = (): { tag: string; count: number }[] => {
   const m = new Map<string, number>();
   allProducts().forEach((p) => p.tags.forEach((t) => m.set(t, (m.get(t) ?? 0) + 1)));
   return [...m.entries()].map(([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count);
+};
+export interface CloudTag {
+  tag: string;
+  count: number;
+  href: string;
+  /** Set for game tags (lib/games.ts), which are listed even before any product uses them. */
+  game?: string;
+}
+
+/** Sidebar tag cloud: every game tag (linked to the game filter), then other product tags by use. */
+export const tagCloud = (): CloudTag[] => {
+  const list = allProducts();
+  const games: CloudTag[] = GAMES.map((g) => ({
+    tag: g.name,
+    count: list.filter((p) => productGames(p).includes(g.id)).length,
+    href: gameHref(g.id),
+    game: g.id,
+  }));
+  const other: CloudTag[] = allTags()
+    .filter((t) => !gameFor(t.tag))
+    .map((t) => ({ ...t, href: `/shop/?q=${encodeURIComponent(t.tag)}` }));
+  return [...games, ...other];
 };
 /** Top of the price filter: the dearest listed file, or 100 when there are no files yet. */
 export const maxPrice = (): number => {

@@ -2,6 +2,7 @@
 
 import { allCompatibility, allFileTypes, categories, maxPrice } from '@/lib/catalog';
 import { DEFAULT_FILTERS, type Filters } from '@/lib/filters';
+import { GAMES } from '@/lib/games';
 import { licenseLabel } from '@/lib/i18n';
 import { LICENSE_TYPES, type LicenseType } from '@/lib/types';
 import { LeafRow } from './LeafRating';
@@ -43,6 +44,25 @@ export default function FiltersPanel({ filters: f, onChange, idPrefix }: Props) 
                   onChange={() => set({ categories: toggle(f.categories, c.id) })}
                 />
                 {c.name}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </Group>
+      <Group title="بازی">
+        <ul className="flex flex-wrap gap-1.5" data-testid="game-filters">
+          {GAMES.map((g) => (
+            <li key={g.id}>
+              <label
+                className={`chip cursor-pointer !px-2 !py-0.5 !text-[11px] ${f.games.includes(g.id) ? '!border-leaf-dark !bg-leaf !text-white' : ''}`}
+              >
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={f.games.includes(g.id)}
+                  onChange={() => set({ games: toggle(f.games, g.id) })}
+                />
+                <bdi dir="ltr">{g.name}</bdi>
               </label>
             </li>
           ))}
